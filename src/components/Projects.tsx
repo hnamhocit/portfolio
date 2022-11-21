@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Card from './Card'
 
 export default function Projects() {
 	const projects = [
@@ -27,20 +28,22 @@ export default function Projects() {
 		<div className='grid md:grid-cols-3 items-center justify-items-center gap-5'>
 			{projects.map((project) => (
 				<Link href={project.href} key={project.href}>
-					<div className='relative w-[300px] h-[160px]'>
-						<Image
-							src={project.photoURL}
-							alt={project.name}
-							fill
-							className='object-cover rounded-md border'
-						/>
-					</div>
-					<div className='text-center mt-3'>
-						<h4 className='text-xl font-semibold capitalize'>
-							{project.name}
-						</h4>
-						<p>{project.description}</p>
-					</div>
+					<Card className='py-7 px-3'>
+						<div className='relative w-[300px] h-[160px]'>
+							<Image
+								src={project.photoURL}
+								alt={project.name}
+								fill
+								className='object-cover rounded-md border'
+							/>
+						</div>
+						<div className='text-center mt-3'>
+							<h4 className='text-xl font-semibold capitalize'>
+								{project.name}
+							</h4>
+							<p>{project.description}</p>
+						</div>
+					</Card>
 				</Link>
 			))}
 		</div>

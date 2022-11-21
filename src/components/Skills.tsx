@@ -93,7 +93,7 @@ export default function Skills() {
 					href={skill.href}
 					target='_blank'
 					rel='noreferrer'
-					className='block p-3 border-2 hover:shadow-xl hover:border-orange-500 hover:scale-125 rounded-md transition'>
+					className='block p-3 hover:shadow-xl hover:scale-125 rounded-md transition'>
 					<Image
 						src={skill.src}
 						alt={skill.alt}

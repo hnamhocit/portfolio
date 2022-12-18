@@ -1,4 +1,6 @@
 import '../sass/globals.scss'
+import 'animate.css'
+
 import { AppProps } from 'next/app'
 import { NextSeo } from 'next-seo'
 
@@ -31,6 +33,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 					cardType: 'summary_large_image',
 				}}
 			/>
+
 			<Component {...pageProps} />
 		</>
 	)

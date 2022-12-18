@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,34 +6,26 @@
 
 @layer base {
 	html {
-		font-family: 'Nunito', sans-serif;
+		font-family: 'Roboto', sans-serif;
 		scroll-behavior: smooth;
+		font-weight: 400;
 	}
 }
 
 @layer components {
-	.section {
-		@apply mb-10;
+	.container {
+		@apply max-w-5xl mx-auto px-4 md:px-7;
 	}
 
 	.section-head {
-		@apply text-3xl font-bold text-center mb-5;
+		@apply flex items-center gap-7;
 	}
 
-	.form-group {
-		@apply mb-3;
+	.section-head-title {
+		@apply shrink-0 text-3xl font-bold text-white;
 	}
 
-	.form-label {
-		@apply text-gray-600;
-	}
-
-	.form-control {
-		@apply block py-2 px-3 resize-none border-2 focus:border-orange-500 rounded-md outline-none transition;
-	}
-
-	.primary-btn {
-		@apply block w-fit py-3 px-5 border-2 font-semibold rounded-md shadow-md
-		text-orange-500 border-orange-500 hover:bg-orange-500 hover:text-white hover:shadow-lg hover:shadow-orange-500/50 transition;
+	.section-divider {
+		@apply flex-1 divider;
 	}
 }

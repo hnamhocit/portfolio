@@ -1,33 +1,22 @@
 import Header from '../components/Header'
-import Introduction from '../components/Introduction'
+import Hero from '../components/Hero'
+import About from '../components/About'
+import Contact from '../components/Contact'
 import Projects from '../components/Projects'
-import Skills from '../components/Skills'
-import Section from '../components/Section'
+import Support from '../components/Support'
 
 export default function Home() {
-	const pages = [
-		{
-			id: 'skills',
-			title: 'Skills',
-			component: <Skills />,
-		},
-		{
-			id: 'projects',
-			title: 'Projects',
-			component: <Projects />,
-		},
-	]
-
 	return (
-		<div className='w-screen md:max-w-5xl mx-auto px-4'>
-			<Header pages={pages} />
-			<Introduction />
+		<>
+			<Header />
 
-			{pages.map((page) => (
-				<Section key={page.title} id={page.id} title={page.title}>
-					{page.component}
-				</Section>
-			))}
-		</div>
+			<div className='container'>
+				<Hero />
+				<About />
+				<Projects />
+				<Contact />
+				<Support />
+			</div>
+		</>
 	)
 }

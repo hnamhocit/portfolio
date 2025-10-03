@@ -1,16 +1,25 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header";
+import ExperienceSection from "../components/ExperienceSection";
+import Footer from "../components/Footer";
+import TechStacksSection from "../components/TechStacksSection";
+import ProjectsSection from "../components/ProjectsSection";
+import Hero from "../components/Hero";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+    <Header client:visible />
+
+    <div class="flex flex-col gap-24 py-12 max-w-2xl mx-auto px-4">
+        <Hero client:load />
+
+        <TechStacksSection client:load />
+
+        <ProjectsSection client:load />
+
+        <ExperienceSection client:load />
+    </div>
+
+    <Footer />
+</BaseLayout>

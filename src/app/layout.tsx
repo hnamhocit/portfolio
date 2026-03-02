@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 		siteName: 'hnamhocit Portfolio', // Đổi tên site
 		images: [
 			{
-				url: '/og-image.jpg',
+				url: '/og-image.png',
 				width: 1200,
 				height: 630,
 				alt: 'hnamhocit - Nguyen Hoang Nam Portfolio Preview', // Alt ảnh cũng phải có từ khóa
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 		title: 'hnamhocit | Nguyen Hoang Nam',
 		description:
 			'Portfolio of hnamhocit. Building robust systems and scalable web applications.',
-		images: ['https://hnamhocit.vercel.app/og-image.png'],
+		images: ['/og-image.png'],
 	},
 }
 

@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 		title: 'hnamhocit | Nguyen Hoang Nam',
 		description:
 			'Portfolio of hnamhocit. Building robust systems and scalable web applications.',
-		images: ['/og-image.png'],
+		images: ['https://hnamhocit.vercel.app/og-image.png'],
 	},
 }
 

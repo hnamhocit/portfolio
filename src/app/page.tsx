@@ -17,6 +17,7 @@ import {
 	XIcon,
 } from 'lucide-react'
 import { motion, useMotionValue, useSpring, Variant } from 'motion/react'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 // --- Cấu hình Animations ---
@@ -151,48 +152,14 @@ export default function Portfolio() {
 				className='fixed top-0 w-full backdrop-blur-md bg-[#050505]/85 border-b border-neutral-800/60 z-50'>
 				<div className='max-w-5xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between'>
 					<div className='flex items-center gap-3 relative z-10'>
-						<svg
-							width='32'
-							height='32'
-							viewBox='0 0 40 40'
-							fill='none'
-							xmlns='http://www.w3.org/2000/svg'
-							className='group-hover:scale-110 transition-transform duration-300 shrink-0 md:w-10 md:h-10'>
-							<rect
-								width='40'
-								height='40'
-								rx='10'
-								className='fill-neutral-900 stroke-neutral-800'
-								strokeWidth='2'
-							/>
-							<path
-								d='M14 20L19 15M14 20L19 25'
-								stroke='#3B82F6'
-								strokeWidth='2.5'
-								strokeLinecap='round'
-								strokeLinejoin='round'
-							/>
-							<path
-								d='M26 20L21 15M26 20L21 25'
-								stroke='#10B981'
-								strokeWidth='2.5'
-								strokeLinecap='round'
-								strokeLinejoin='round'
-							/>
-							<path
-								d='M22 12L18 28'
-								stroke='#6B7280'
-								strokeWidth='2'
-								strokeLinecap='round'
-							/>
-							<circle
-								cx='26'
-								cy='28'
-								r='1.5'
-								fill='#3B82F6'
-								className='animate-pulse'
-							/>
-						</svg>
+						<Image
+							src='/icon.svg'
+							alt='hnamhocit logo'
+							width={32}
+							height={32}
+							className='group-hover:scale-110 transition-transform duration-300 shrink-0 md:w-10 md:h-10'
+						/>
+
 						<span className='text-lg md:text-xl font-bold text-white tracking-tighter cursor-pointer'>
 							hnam<span className='text-blue-500'>hocit</span>
 							<span className='text-neutral-500 animate-pulse'>

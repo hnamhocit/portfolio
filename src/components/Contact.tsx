@@ -69,9 +69,13 @@ export function Contact() {
         <div className="contact-footer mt-32 pt-8 border-t border-neutral-800/50 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-neutral-500 font-mono text-sm">© {new Date().getFullYear()} Nam. Đã đăng ký Bản quyền.</p>
           <div className="flex gap-6">
-            {['Twitter', 'GitHub', 'LinkedIn', 'Dribbble'].map((social) => (
-              <a key={social} href="#" className="text-neutral-500 hover:text-fuchsia-400 transition-colors hover:-translate-y-1 transform duration-300">
-                {social}
+            {[
+              { name: 'Facebook', url: 'https://facebook.com/hnamhocit' },
+              { name: 'GitHub', url: 'https://github.com/hnamhocit' },
+              { name: 'LinkedIn', url: 'https://linkedin.com/in/hnamhocit' }
+            ].map((social) => (
+              <a key={social.name} href={social.url} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-fuchsia-400 transition-colors hover:-translate-y-1 transform duration-300">
+                {social.name}
               </a>
             ))}
           </div>

@@ -56,13 +56,13 @@ export function Hero() {
           </Button>
           
           <div className="flex gap-3 ml-2">
-            <a href="#" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
+            <a href="https://github.com/hnamhocit" target="_blank" rel="noreferrer" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
               <Code2 className="h-5 w-5" />
             </a>
-            <a href="#" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
+            <a href="https://linkedin.com/in/hnamhocit" target="_blank" rel="noreferrer" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
               <Briefcase className="h-5 w-5" />
             </a>
-            <a href="#" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
+            <a href="https://facebook.com/hnamhocit" target="_blank" rel="noreferrer" className="p-3 rounded-md bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:text-purple-400 hover:border-purple-500/50 transition-all text-neutral-400 backdrop-blur-xl">
               <Mail className="h-5 w-5" />
             </a>
           </div>

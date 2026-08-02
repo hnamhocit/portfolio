@@ -36,14 +36,14 @@ export function Hero() {
           Đang tìm kiếm cơ hội mới
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-4 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
           Chào bạn, tôi là <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400">hnamhocit</span>
         </h1>
-        <h2 className="text-2xl md:text-4xl font-semibold text-neutral-300 mb-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
+        <h2 className="text-xl sm:text-2xl md:text-4xl font-semibold text-neutral-300 mb-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
           Kỹ sư Fullstack / Hệ thống
         </h2>
         
-        <p className="text-lg md:text-xl text-neutral-400 mb-12 max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-neutral-400 mb-10 md:mb-12 max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 leading-relaxed px-2">
           Xây dựng hạ tầng mạnh mẽ, mở rộng linh hoạt và các ứng dụng đa nền tảng mượt mà. Biến những bài toán kiến trúc phức tạp thành các giải pháp tinh tế và tối ưu hiệu năng.
         </p>
         

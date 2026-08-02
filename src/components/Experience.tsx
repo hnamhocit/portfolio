@@ -97,17 +97,15 @@ export function Experience() {
   }, []);
 
   return (
-    <section id="experience" ref={containerRef} className="py-32 bg-[#050505] relative border-t border-neutral-900 overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-indigo-900/10 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 -translate-x-1/2"></div>
-      
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <div className="mb-24 relative">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white font-heading">
-            Kinh nghiệm & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500">Học vấn</span>
-          </h2>
-          <p className="text-neutral-400 text-lg">Hành trình sự nghiệp và nền tảng học thuật của tôi.</p>
-        </div>
+    <section id="experience" ref={containerRef} className="py-20 md:py-32 bg-[#02000a] relative border-t border-neutral-900 overflow-hidden">
+      {/* Aurora Background Effects */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="max-w-4xl mx-auto px-4 md:px-6 relative z-10">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 md:mb-24 text-white text-center font-heading">
+          Hành trình <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">Nghề nghiệp</span>
+        </h2>
         
         <div className="relative ml-4 md:ml-8 pb-12">
           {/* Background Track Line */}
@@ -120,19 +118,19 @@ export function Experience() {
           ></div>
 
           {timeline.map((item, index) => (
-            <div key={index} className="timeline-item mb-20 relative pl-16 md:pl-24 group">
+            <div key={index} className="timeline-item mb-16 md:mb-20 relative pl-12 md:pl-24 group">
               
               {/* Timeline Icon / Dot Wrapper (to prevent GSAP from overwriting transform) */}
-              <div className="absolute left-0 top-1 -translate-x-1/2 z-10">
-                <div className="timeline-dot bg-[#0a0a0a] p-3 border-2 border-neutral-700 rounded-xl text-neutral-400 group-hover:border-purple-500 group-hover:text-purple-400 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all duration-500 overflow-hidden">
+              <div className="absolute left-0 top-0.5 md:top-1 -translate-x-1/2 z-10">
+                <div className="timeline-dot bg-[#0a0a0a] p-2 md:p-3 border-[1.5px] md:border-2 border-neutral-700 rounded-xl text-neutral-400 group-hover:border-purple-500 group-hover:text-purple-400 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all duration-500 overflow-hidden">
                   <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  {item.type === 'work' ? <Briefcase className="w-5 h-5 relative z-10" /> : <GraduationCap className="w-5 h-5 relative z-10" />}
+                  {item.type === 'work' ? <Briefcase className="w-4 h-4 md:w-5 md:h-5 relative z-10" /> : <GraduationCap className="w-4 h-4 md:w-5 md:h-5 relative z-10" />}
                 </div>
               </div>
               
               {/* Content Card */}
-              <div className="timeline-content bg-neutral-900/30 border border-neutral-800/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:bg-neutral-900/60 transition-colors shadow-xl">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-6">
+              <div className="timeline-content bg-[#050505]/80 backdrop-blur-xl p-5 md:p-8 rounded-2xl border border-neutral-800/80 hover:border-purple-500/30 transition-colors duration-500 shadow-xl group-hover:shadow-[0_0_40px_rgba(168,85,247,0.05)]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 md:mb-6 gap-2">
                   <h3 className="text-2xl font-bold text-white font-heading">{item.role}</h3>
                   <span className="text-purple-400 font-mono text-sm hidden md:block opacity-50">—</span>
                   <span className="text-lg font-medium text-neutral-300 flex items-center gap-2">

@@ -14,7 +14,7 @@ export function AboutStory() {
   const age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
   return (
-    <section id="story" className="py-24 bg-[#030014] relative z-10 border-t border-purple-500/10 shadow-[0_-30px_60px_-15px_rgba(0,0,0,0.8)] font-sans">
+    <section id="story" className="py-16 md:py-24 bg-[#030014] relative z-10 border-t border-purple-500/10 shadow-[0_-30px_60px_-15px_rgba(0,0,0,0.8)] font-sans">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Scattered Aurora Blobs across the entire section height */}
         <div className="absolute top-[5%] left-[5%] w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] aurora-gradient-1 aurora-blob-1"></div>
@@ -40,12 +40,12 @@ export function AboutStory() {
               />
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6 tracking-tight">Ng Hoang Nam (hnamhocit)</h2>
-            <div className="flex flex-col gap-4">
-              <p className="text-xl md:text-2xl text-neutral-300 font-medium font-heading">
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 md:mb-6 tracking-tight">Ng Hoang Nam (hnamhocit)</h2>
+            <div className="flex flex-col gap-3 md:gap-4 px-2">
+              <p className="text-lg md:text-2xl text-neutral-300 font-medium font-heading">
                 少年 他们都不看好你 但认输不是你的性格
               </p>
-              <p className="text-lg md:text-xl text-neutral-500 italic">
+              <p className="text-base md:text-xl text-neutral-500 italic">
                 "Thiếu niên, họ đều không đánh giá cao cậu, nhưng nhận thua không phải là tính cách của cậu."
               </p>
             </div>

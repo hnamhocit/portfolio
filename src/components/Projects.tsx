@@ -115,7 +115,7 @@ export function Projects() {
   }, []);
 
   return (
-    <section id="projects" ref={containerRef} className="py-32 bg-[#050505] relative border-t border-neutral-900">
+    <section id="projects" ref={containerRef} className="py-20 md:py-32 bg-[#050505] relative border-t border-neutral-900 overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-indigo-900/10 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -129,12 +129,12 @@ export function Projects() {
         </p>
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="flex flex-col gap-40">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex flex-col gap-24 md:gap-40">
           {projects.map((project, i) => (
             <div key={i} className="project-panel w-full">
               
-              <div className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center w-full`}>
+              <div className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-20 items-center w-full`}>
                 {/* Image Column */}
                 <div className="w-full lg:w-1/2 relative group">
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl opacity-20 group-hover:opacity-40 transition duration-500 blur"></div>

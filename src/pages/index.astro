@@ -1,17 +1,30 @@
 ---
-
+import { Hero } from '@/components/Hero';
+import { AboutStory } from '@/components/AboutStory';
+import { Projects } from '@/components/Projects';
+import { TechStack } from '@/components/TechStack';
+import { Experience } from '@/components/Experience';
+import { Contact } from '@/components/Contact';
+import '@/styles/global.css';
 ---
 
-<html lang="en">
+<html lang="vi" class="scroll-smooth dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Nam - Fullstack & Systems Engineer</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body class="bg-[#030014] text-neutral-200 antialiased font-sans selection:bg-purple-500/30 selection:text-purple-200">
+		<main class="min-h-screen">
+			<Hero client:only="react" />
+			<AboutStory client:visible />
+			<Projects client:visible />
+			<TechStack client:visible />
+			<Experience client:visible />
+			<Contact client:visible />
+		</main>
 	</body>
 </html>

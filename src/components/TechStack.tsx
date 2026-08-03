@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLanguage } from '@/store/useLanguage';
+import { translations } from '@/i18n/translations';
 
 const orbit1 = [
   { name: "Rust", svg: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg", invert: true },
@@ -64,15 +66,18 @@ const OrbitRing = ({ size, items, ringClass, iconClass }: any) => {
 };
 
 export function TechStack() {
+  const { lang } = useLanguage();
+  const t = translations[lang].tech;
+
   return (
     <section id="tech" className="py-20 md:py-32 bg-[#030014] relative border-t border-neutral-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="mb-16 md:mb-20 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-white font-heading">
-            Năng lực <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Cốt lõi</span>
+            {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">{t.highlight}</span>
           </h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto">
-            Hộp đồ nghề kỹ sư của tôi. Thay vì chỉ học cú pháp, tôi tập trung hiểu sâu về bản chất và kiến trúc để luôn chọn đúng công cụ cho từng bài toán.
+            {t.desc}
           </p>
         </div>
         

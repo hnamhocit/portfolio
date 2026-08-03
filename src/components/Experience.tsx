@@ -1,49 +1,17 @@
 import React, { useEffect, useRef } from 'react';
+import { useLanguage } from '@/store/useLanguage';
+import { translations } from '@/i18n/translations';
 import { Briefcase, GraduationCap, ChevronRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const timeline = [
-  {
-    type: "work",
-    period: "2023 - Hiện tại",
-    role: "Kỹ sư Hệ thống Cao cấp",
-    company: "FinTech Global",
-    description: [
-      "Thiết kế kiến trúc và triển khai hệ thống sổ cái phân đất bằng Rust và Kafka, giảm 40% thời gian xử lý giao dịch.",
-      "Dẫn dắt quá trình chuyển đổi hệ thống Monolith cũ sang kiến trúc Microservices với NestJS chạy trên Kubernetes, đạt uptime 99.99%.",
-      "Đào tạo đội ngũ gồm 5 kỹ sư trẻ và thiết lập luồng CI/CD nội bộ bằng GitHub Actions cùng Docker."
-    ]
-  },
-  {
-    type: "work",
-    period: "2020 - 2023",
-    role: "Lập trình viên Fullstack",
-    company: "TechNova Solutions",
-    description: [
-      "Xây dựng ứng dụng di động đa nền tảng hiệu năng cao bằng Flutter, đạt mốc 500k+ lượt tải ngay trong năm đầu tiên.",
-      "Phát triển trang quản trị phân tích thời gian thực với React, TypeScript và WebSockets để giám sát thiết bị IoT.",
-      "Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm thời gian xuất báo cáo trung bình từ 45 giây xuống dưới 3 giây."
-    ]
-  },
-  {
-    type: "education",
-    period: "2016 - 2020",
-    role: "Cử nhân Khoa học Máy tính",
-    company: "Đại học Bách Khoa",
-    description: [
-      "Tốt nghiệp loại Giỏi (GPA: 3.8/4.0).",
-      "Xuất bản bài báo nghiên cứu khoa học về 'Cấu trúc dữ liệu đồng thời không khóa (Lock-free) trong C++' tại Hội nghị Hệ thống Toàn quốc.",
-      "Trưởng nhóm lập trình cho Đội tuyển Robot của trường, lập trình hệ thống dẫn đường tự động bằng C++ và ROS."
-    ]
-  }
-];
-
 export function Experience() {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const { lang } = useLanguage();
+  const t = translations[lang].experience;
 
   useEffect(() => {
     if (!containerRef.current || !lineRef.current) return;
@@ -104,7 +72,7 @@ export function Experience() {
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 relative z-10">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 md:mb-24 text-white text-center font-heading">
-          Hành trình <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">Nghề nghiệp</span>
+          {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">{t.highlight}</span>
         </h2>
         
         <div className="relative ml-4 md:ml-8 pb-12">
@@ -117,8 +85,8 @@ export function Experience() {
             className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-purple-500 via-indigo-500 to-fuchsia-500 rounded-full -translate-x-1/2 origin-top shadow-[0_0_20px_rgba(168,85,247,0.8)] z-0"
           ></div>
 
-          {timeline.map((item, index) => (
-            <div key={index} className="timeline-item mb-16 md:mb-20 relative pl-12 md:pl-24 group">
+          {t.timeline.map((item, index) => (
+            <div key={index} className="timeline-item relative pl-10 md:pl-16 mb-16 last:mb-0 group">
               
               {/* Timeline Icon / Dot Wrapper (to prevent GSAP from overwriting transform) */}
               <div className="absolute left-0 top-0.5 md:top-1 -translate-x-1/2 z-10">

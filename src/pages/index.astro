@@ -5,14 +5,14 @@ import { Projects } from '@/components/Projects';
 import { TechStack } from '@/components/TechStack';
 import { Experience } from '@/components/Experience';
 import { Contact } from '@/components/Contact';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import '@/styles/global.css';
 ---
 
 <html lang="vi" class="scroll-smooth dark">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" href="/avatar.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		
@@ -28,17 +28,18 @@ import '@/styles/global.css';
 		<meta property="og:url" content="https://hnamhocit.com/" />
 		<meta property="og:title" content="Ng Hoang Nam (hnamhocit) | Kỹ sư Fullstack & Hệ thống" />
 		<meta property="og:description" content="Portfolio của Ng Hoang Nam (hnamhocit) - Kỹ sư Fullstack & Hệ thống. Chuyên xây dựng hạ tầng mạnh mẽ, mở rộng linh hoạt và tối ưu hiệu năng." />
-		<meta property="og:image" content="https://avatars.githubusercontent.com/u/100000000?v=4" />
+		<meta property="og:image" content="https://hnamhocit.com/avatar.png" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="https://hnamhocit.com/" />
 		<meta property="twitter:title" content="Ng Hoang Nam (hnamhocit) | Kỹ sư Fullstack & Hệ thống" />
 		<meta property="twitter:description" content="Portfolio của Ng Hoang Nam (hnamhocit) - Kỹ sư Fullstack & Hệ thống. Chuyên xây dựng hạ tầng mạnh mẽ, mở rộng linh hoạt và tối ưu hiệu năng." />
-		<meta property="twitter:image" content="https://avatars.githubusercontent.com/u/100000000?v=4" />
+		<meta property="twitter:image" content="https://hnamhocit.com/avatar.png" />
 	</head>
 	<body class="bg-[#030014] text-neutral-200 antialiased font-sans selection:bg-purple-500/30 selection:text-purple-200">
 		<main class="min-h-screen">
+			<LanguageSwitcher client:only="react" />
 			<Hero client:only="react" />
 			<AboutStory client:visible />
 			<Projects client:visible />

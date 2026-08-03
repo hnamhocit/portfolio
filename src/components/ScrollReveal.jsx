@@ -77,13 +77,14 @@ const ScrollReveal = ({
 
     gsap.fromTo(
       wordElements,
-      { opacity: 0, y: 150, scale: 0.8, willChange: 'opacity, transform' },
+      { opacity: 0, y: 30, scale: 0.9, filter: enableBlur ? `blur(${blurStrength}px)` : 'none', willChange: 'opacity, transform, filter' },
       {
-        duration: 0.4,
-        ease: 'power4.out',
+        duration: 0.5,
+        ease: 'power3.out',
         opacity: 1,
         y: 0,
         scale: 1,
+        filter: 'blur(0px)',
         stagger: 0.1,
         scrollTrigger: {
           trigger: el.closest('.scroll-trigger-wrapper') || el.parentElement,

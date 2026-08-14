@@ -1,43 +1,15 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Hoàng Nam
 
-```sh
-bun create astro@latest -- --template minimal
-```
+Portfolio tối giản, focus vào scannability, tốc độ và thông tin thật. Built bằng Astro, React, Tailwind CSS.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Deploy lên Vercel
 
-## 🚀 Project Structure
+1. Push code lên GitHub repo của bạn.
+2. Đăng nhập vào [Vercel](https://vercel.com).
+3. Bấm **Add New... > Project**.
+4. Chọn Import từ repo GitHub của bạn.
+5. Vercel sẽ tự động detect Framework là **Astro**.
+6. Giữ nguyên các cài đặt mặc định (Build Command: `astro build`, Output Directory: `dist`).
+7. Bấm **Deploy**.
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Sau vài giây, bạn sẽ có URL live của portfolio với hiệu năng tuyệt đối.

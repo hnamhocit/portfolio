@@ -28,8 +28,8 @@ export default function Portfolio() {
   };
 
   const sectionVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.3 } }
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
   return (
@@ -59,9 +59,9 @@ export default function Portfolio() {
       <main>
         {/* Hero */}
         <motion.section 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative pt-24 pb-32 flex flex-col items-center justify-center text-center overflow-hidden min-h-[100vh]"
         >
           {/* CSS Ambient Glows & Starfield */}
@@ -134,7 +134,14 @@ export default function Portfolio() {
         </motion.section>
 
         {/* About */}
-        <section id="about" className="py-24 relative overflow-hidden bg-[var(--surface2)]">
+        <motion.section 
+          id="about" 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="py-24 relative overflow-hidden bg-[var(--surface2)]"
+        >
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <h3 className="text-3xl md:text-4xl font-display font-black mb-10 flex flex-col gap-2">
               <span className="text-[var(--pink)] text-sm font-mono tracking-widest font-normal uppercase">01 · About</span> 
@@ -152,10 +159,17 @@ export default function Portfolio() {
               </p>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Projects */}
-        <section id="projects" className="py-24 bg-[var(--bg)] relative overflow-hidden">
+        <motion.section 
+          id="projects" 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="py-24 bg-[var(--bg)] relative overflow-hidden"
+        >
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <h3 className="text-3xl md:text-4xl font-display font-black mb-10 flex flex-col gap-2">
               <span className="text-[var(--pink)] text-sm font-mono tracking-widest font-normal uppercase">02 · Projects</span> 
@@ -197,10 +211,17 @@ export default function Portfolio() {
               />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Skills */}
-        <section id="skills" className="py-24 bg-[var(--surface2)] relative overflow-hidden">
+        <motion.section 
+          id="skills" 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={sectionVariants}
+          className="py-24 bg-[var(--surface2)] relative overflow-hidden"
+        >
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <h3 className="text-3xl md:text-4xl font-display font-black mb-12 flex flex-col gap-2">
               <span className="text-[var(--pink)] text-sm font-mono tracking-widest font-normal uppercase">03 · Skills</span> 
@@ -241,7 +262,7 @@ export default function Portfolio() {
               />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Career */}
         <motion.section 

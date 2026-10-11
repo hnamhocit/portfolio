@@ -1,0 +1,36 @@
+---
+import Blog from '@/components/Blog';
+import '@/styles/global.css';
+---
+
+<html lang="vi" class="scroll-smooth dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/avatar.png" />
+		<link rel="apple-touch-icon" href="/avatar.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Primary Meta Tags -->
+		<title>Technical Blog & Architecture | Hoàng Nam (hnamhocit)</title>
+		<meta name="title" content="Technical Blog & Architecture | Hoàng Nam (hnamhocit)" />
+		<meta name="description" content="Bài viết chuyên sâu về Backend, DevOps, Kiến trúc hệ thống phân tán, Rust, Golang và Cloud Native của Hoàng Nam (hnamhocit)." />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://hnamhocit.vercel.app/blog" />
+		<meta property="og:title" content="Technical Blog & Architecture | Hoàng Nam (hnamhocit)" />
+		<meta property="og:description" content="Bài viết chuyên sâu về Backend, DevOps, Kiến trúc hệ thống phân tán, Rust, Golang và Cloud Native của Hoàng Nam." />
+		<meta property="og:image" content="https://hnamhocit.vercel.app/avatar.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://hnamhocit.vercel.app/blog" />
+		<meta property="twitter:title" content="Technical Blog & Architecture | Hoàng Nam (hnamhocit)" />
+		<meta property="twitter:description" content="Bài viết chuyên sâu về Backend, DevOps, Kiến trúc hệ thống phân tán, Rust, Golang và Cloud Native của Hoàng Nam." />
+		<meta property="twitter:image" content="https://hnamhocit.vercel.app/avatar.png" />
+	</head>
+	<body>
+		<Blog client:load />
+	</body>
+</html>

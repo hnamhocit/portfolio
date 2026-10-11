@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Sun, Moon, Mail, ArrowUpRight, ExternalLink, 
-  Sparkles, ArrowRight, Server, Smartphone, Shield, 
+  Sparkles, ArrowRight, ArrowUp, Server, Smartphone, Shield, 
   Award, CheckCircle2, Globe, ChevronDown,
   Key, Sliders, Bell, Database, BarChart3, Terminal, Cpu, Layers, DollarSign, Users, Zap, ShieldCheck, Lock, Check,
   Activity, GitBranch, Box, Clock, Workflow, FileCode2
@@ -12,9 +12,18 @@ import {
   SiKubernetes, SiLinux, SiPostgresql, SiRedis,
   SiSvelte, SiTailwindcss, SiTypescript
 } from 'react-icons/si';
+import { useLanguage } from '../store/useLanguage';
+import { translations } from '../i18n/translations';
+import LanguageSelector from './LanguageSelector';
 
 export default function Portfolio() {
+  const { lang } = useLanguage();
+  const t = translations[lang] || translations.vi;
   const [isDark, setIsDark] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Tính tuổi động theo năm hiện tại trừ đi năm sinh 2007
+  const currentAge = new Date().getFullYear() - 2007;
 
   // Khởi tạo theme: ưu tiên theme đã lưu, mặc định theo light để tận hưởng tone Claude dịu
   useEffect(() => {
@@ -28,6 +37,22 @@ export default function Portfolio() {
     }
   }, []);
 
+  // Lắng nghe cuộn trang để hiển thị nút Scroll To Top
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 350);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const toggleTheme = () => {
     const nextDark = !isDark;
     setIsDark(nextDark);
@@ -39,9 +64,9 @@ export default function Portfolio() {
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] font-sans antialiased selection:bg-purple-500/25 selection:text-purple-600 dark:selection:text-purple-300 transition-colors duration-300">
       
       {/* ============================================================ */}
-      {/* HEADER: Kính mờ mềm mại trên nền kem Claude dịu mắt */}
+      {/* HEADER: Nền trắng tinh khôi, chỉ gồm Trang chủ và Blog */}
       {/* ============================================================ */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/85 backdrop-blur-lg transition-colors">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)]/40 bg-white/95 dark:bg-[#10141E]/95 backdrop-blur-lg transition-colors">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           
           {/* Brand & Avatar */}
@@ -60,35 +85,32 @@ export default function Portfolio() {
                 Hoàng Nam
               </span>
               <span className="text-[11px] text-[var(--muted)] font-mono leading-none">
-                hnam.dev
+                hnamhocit
               </span>
             </div>
           </a>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-medium text-[var(--muted)]">
-            <a href="#about" className="hover:text-[var(--text)] transition-colors">Về tôi</a>
-            <a href="#povixa" className="text-purple-600 dark:text-purple-400 font-semibold hover:opacity-80 transition-opacity">Povixa.cloud</a>
-            <a href="#credentials" className="hover:text-[var(--text)] transition-colors">Chứng chỉ</a>
-            <a href="#skills" className="hover:text-[var(--text)] transition-colors">Kỹ năng</a>
-            <a href="#projects" className="hover:text-[var(--text)] transition-colors">Dự án khác</a>
-            <a href="#contact" className="hover:text-[var(--text)] transition-colors">Liên hệ</a>
+          {/* Navigation Links: Chỉ gồm Trang chủ và Blog */}
+          <nav className="flex items-center gap-6 sm:gap-8 text-xs sm:text-sm font-medium">
+            <a href="#" className="text-purple-600 dark:text-purple-400 font-semibold hover:opacity-80 transition-opacity">
+              {t.nav.home}
+            </a>
+            <a href="/blog" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+              {t.nav.blog}
+            </a>
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            {/* Status Pill */}
-            <div className="hidden sm:inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Sẵn sàng cho cơ hội mới</span>
-            </div>
+          <div className="flex items-center gap-2">
+            {/* Language Selector */}
+            <LanguageSelector />
 
             {/* GitHub */}
             <a 
               href="https://github.com/hnamhocit" 
               target="_blank" 
               rel="noreferrer"
-              className="p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-500/40 transition-colors shadow-2xs"
+              className="p-2 rounded-lg border border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-500/40 transition-colors shadow-2xs"
               title="GitHub Profile"
             >
               <FaGithub size={15} />
@@ -97,8 +119,9 @@ export default function Portfolio() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer shadow-2xs"
-              aria-label="Toggle theme"
+              className="p-2 rounded-lg border border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer shadow-2xs"
+              aria-label={t.nav.themeToggle}
+              title={t.nav.themeToggle}
             >
               {isDark ? <Sun size={15} className="text-purple-300" /> : <Moon size={15} />}
             </button>
@@ -112,7 +135,7 @@ export default function Portfolio() {
         {/* ============================================================ */}
         {/* 01 · HERO FULL SCREEN VỚI BACKGROUND AURORA TÍM DỊU DÀNG */}
         {/* ============================================================ */}
-        <section id="about" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center relative overflow-hidden border-b border-[var(--border)] px-6 py-16">
+        <section id="about" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center relative overflow-hidden border-b border-[var(--border)]/30 px-6 py-16">
           
           {/* Subtle Organic Aurora Background Glowing Blobs */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
@@ -146,24 +169,24 @@ export default function Portfolio() {
             {/* Châm ngôn truyền cảm hứng */}
             <div className="mb-6 space-y-1">
               <p className="font-mono text-xs sm:text-sm text-purple-600 dark:text-purple-300 font-medium tracking-wide">
-                “ 少年 他们都不看好你 但认输不是你的性格 ”
+                {t.hero.quote_zh}
               </p>
               <p className="text-xs text-[var(--dim)] italic">
-                “Thiếu niên, họ đều không đánh giá cao cậu, nhưng nhận thua không phải là tính cách của cậu.”
+                {t.hero.quote_trans}
               </p>
             </div>
 
             {/* Tiêu đề chính với gradient tím cao cấp */}
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight text-[var(--text)] mb-5 leading-tight">
-              Xin chào, tôi là{' '}
+              {t.hero.greeting}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-400">
-                Hoàng Nam
+                {t.hero.name}
               </span>.
             </h1>
 
             {/* Lời giới thiệu cô đọng & ấm áp */}
             <p className="text-base sm:text-lg text-[var(--muted)] leading-relaxed max-w-2xl mb-8 font-normal">
-              19 tuổi. Kỹ sư phần mềm tập trung vào <strong className="text-[var(--text)] font-semibold">Backend, DevOps &amp; Mobile</strong>, cùng sự am hiểu sâu về kiến trúc Web hiện đại. Tôi kiên định với việc làm chủ công nghệ từ tầng gốc rễ và tạo ra những sản phẩm thực chiến vận hành bền bỉ.
+              {t.hero.bio(currentAge)}
             </p>
 
             {/* Action Buttons */}
@@ -172,7 +195,7 @@ export default function Portfolio() {
                 href="#povixa" 
                 className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white font-medium text-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-purple-500/25 cursor-pointer"
               >
-                <span>Khám phá Povixa Cloud</span>
+                <span>{t.hero.ctaPovixa}</span>
                 <ArrowRight size={14} />
               </a>
 
@@ -181,7 +204,7 @@ export default function Portfolio() {
                 className="px-6 py-3 rounded-full border border-purple-500/30 bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-medium text-sm hover:border-purple-500 transition-all flex items-center gap-2 shadow-sm"
               >
                 <Mail size={14} className="text-purple-600 dark:text-purple-400" />
-                <span>Gửi Email trực tiếp</span>
+                <span>{t.hero.ctaEmail}</span>
               </a>
             </div>
 
@@ -189,7 +212,7 @@ export default function Portfolio() {
 
           {/* Cuộn xuống hint */}
           <div className="mt-auto pt-4 flex flex-col items-center gap-1 text-[var(--dim)] text-xs font-mono">
-            <span>Cuộn xuống xem dự án trọng tâm</span>
+            <span>{t.hero.scrollHint}</span>
             <ChevronDown size={15} className="animate-bounce text-purple-500 dark:text-purple-400" />
           </div>
 
@@ -198,7 +221,7 @@ export default function Portfolio() {
         {/* ============================================================ */}
         {/* 02 · FLAGSHIP PROJECT: POVIXA CLOUD (CASE STUDY DÀNH CHO HR & TECH LEAD) */}
         {/* ============================================================ */}
-        <section id="povixa" className="py-20 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+        <section id="povixa" className="py-20 border-b border-[var(--border)]/30 bg-[var(--surface-subtle)]/20">
           <div className="max-w-5xl mx-auto px-6">
             
             {/* Top Bar Section Header */}
@@ -206,13 +229,13 @@ export default function Portfolio() {
               <div>
                 <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
                   <Sparkles size={14} />
-                  <span>FLAGSHIP SYSTEM ARCHITECTURE · DỰ ÁN TRỌNG TÂM</span>
+                  <span>{t.povixa.badge}</span>
                 </span>
                 <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-[var(--text)] mt-1.5">
-                  Povixa Cloud Platform
+                  {t.povixa.title}
                 </h2>
                 <p className="text-xs sm:text-sm text-[var(--muted)] mt-1 font-normal">
-                  Hạ tầng ứng dụng hợp nhất. Tự do tuyệt đối.
+                  {t.povixa.tagline}
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -238,39 +261,42 @@ export default function Portfolio() {
             </div>
 
             {/* Showcase Main Container */}
-            <div className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-6 sm:p-8 shadow-sm space-y-10">
+            <div className="rounded-3xl bg-[var(--surface)] p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.25)] border border-[var(--border)]/60 space-y-12">
               
               {/* 1. Project Overview & Candidate Role (HR screens this first) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-6 space-y-4">
                   <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-mono font-semibold">
                     <Activity size={13} />
-                    <span>Lead Architect &amp; Solo Developer</span>
+                    <span>{t.povixa.roleTag}</span>
                   </div>
                   <h3 className="font-display font-bold text-xl sm:text-2xl text-[var(--text)] leading-snug">
-                    Nền Tảng Điều Phối Hạ Tầng Đám Mây &amp; Dịch Vụ Phân Tán
+                    {t.povixa.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
-                    Hệ thống hạ tầng đám mây toàn diện, hợp nhất các dịch vụ cốt lõi (Universal Auth, Edge Config, S3 Storage, Notifications, Telemetry) vào một nền tảng điều phối tập trung. Thiết kế từ con số 0 với mục tiêu tối ưu hiệu năng xử lý, bảo mật chuẩn zero-trust và hỗ trợ tự do vận hành trên máy chủ riêng (Self-Hosted).
+                    {t.povixa.desc}
                   </p>
 
-                  {/* Candidate Ownership Grid for HR */}
-                  <div className="grid grid-cols-2 gap-2.5 pt-1 text-xs font-mono">
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <span className="text-[var(--dim)] block text-[10px] uppercase">Phạm vi sở hữu</span>
-                      <strong className="text-[var(--text)] block mt-0.5">100% Kiến trúc &amp; Code</strong>
+                  {/* Candidate Ownership Grid (Clean & Breathable) */}
+                  <div className="grid grid-cols-2 gap-y-3.5 gap-x-6 pt-3 text-xs font-mono">
+                    <div>
+                      <span className="text-[var(--dim)] block text-[10px] uppercase tracking-wider">{t.povixa.scopeLabel}</span>
+                      <strong className="text-[var(--text)] text-xs sm:text-sm block mt-0.5">{t.povixa.scopeVal}</strong>
                     </div>
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <span className="text-[var(--dim)] block text-[10px] uppercase">Thời gian phát triển</span>
-                      <strong className="text-[var(--text)] block mt-0.5">2024 – Hiện tại</strong>
+                    <div>
+                      <span className="text-[var(--dim)] block text-[10px] uppercase tracking-wider">{t.povixa.timeLabel}</span>
+                      <strong className="text-[var(--text)] text-xs sm:text-sm block mt-0.5">{t.povixa.timeVal}</strong>
                     </div>
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <span className="text-[var(--dim)] block text-[10px] uppercase">Mô hình triển khai</span>
-                      <strong className="text-[var(--text)] block mt-0.5">Microservices / Monorepo</strong>
+                    <div>
+                      <span className="text-[var(--dim)] block text-[10px] uppercase tracking-wider">{t.povixa.modelLabel}</span>
+                      <strong className="text-[var(--text)] text-xs sm:text-sm block mt-0.5">{t.povixa.modelVal}</strong>
                     </div>
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <span className="text-[var(--dim)] block text-[10px] uppercase">Trạng thái vận hành</span>
-                      <strong className="text-emerald-600 dark:text-emerald-400 block mt-0.5">Production Active</strong>
+                    <div>
+                      <span className="text-[var(--dim)] block text-[10px] uppercase tracking-wider">{t.povixa.statusLabel}</span>
+                      <strong className="text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm flex items-center gap-1.5 mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        {t.povixa.statusVal}
+                      </strong>
                     </div>
                   </div>
                 </div>
@@ -280,7 +306,7 @@ export default function Portfolio() {
                     href="https://povixa.cloud" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="block relative rounded-xl overflow-hidden border border-purple-500/30 shadow-md group/img"
+                    className="block relative rounded-2xl overflow-hidden border border-[var(--border)] shadow-md hover:shadow-xl hover:border-purple-500/40 transition-all group/img"
                   >
                     <img 
                       src="/povixa-preview.png" 
@@ -291,309 +317,252 @@ export default function Portfolio() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
                       <span className="text-white text-xs font-mono font-medium flex items-center gap-1.5">
                         <Globe size={13} className="text-purple-400" />
-                        <span>Mở trực tiếp povixa.cloud ↗</span>
+                        <span>{t.povixa.openLiveHint}</span>
                       </span>
                     </div>
                   </a>
                 </div>
               </div>
 
-              {/* 2. Key Technical Metrics & Benchmarks (HR / Tech Lead loooking for measurable results) */}
-              <div className="pt-6 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between mb-4">
+              {/* 2. Key Technical Metrics & Benchmarks (Clean, open stat counter strip) */}
+              <div className="pt-8 border-t border-[var(--border)]/40">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <Activity size={16} className="text-purple-600 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
-                      Chỉ Số Kỹ Thuật &amp; Hiệu Năng Thực Tế (Metrics)
+                      {t.povixa.metricsTitle}
                     </h4>
                   </div>
-                  <span className="text-[11px] font-mono text-[var(--dim)]">Production Benchmarks</span>
+                  <span className="text-[11px] font-mono text-[var(--dim)]">{t.povixa.metricsSub}</span>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] text-center">
-                    <span className="font-display font-black text-2xl sm:text-3xl text-purple-600 dark:text-purple-400 block">
-                      &lt; 15ms
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-1">
+                  <div className="space-y-1">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-purple-600 dark:text-purple-400 block tracking-tight">
+                      {t.povixa.metric1Val}
                     </span>
-                    <span className="text-xs font-bold text-[var(--text)] mt-1 block">p95 API Latency</span>
-                    <span className="text-[11px] text-[var(--muted)] mt-0.5 block font-mono">Golang worker pool &amp; in-memory cache</span>
+                    <span className="text-xs font-bold text-[var(--text)] block">{t.povixa.metric1Label}</span>
+                    <span className="text-[11px] text-[var(--muted)] block leading-snug">{t.povixa.metric1Desc}</span>
                   </div>
 
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] text-center">
-                    <span className="font-display font-black text-2xl sm:text-3xl text-sky-600 dark:text-sky-400 block">
-                      ~18 MB
+                  <div className="space-y-1">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-sky-600 dark:text-sky-400 block tracking-tight">
+                      {t.povixa.metric2Val}
                     </span>
-                    <span className="text-xs font-bold text-[var(--text)] mt-1 block">Distroless Image</span>
-                    <span className="text-[11px] text-[var(--muted)] mt-0.5 block font-mono">Tối thiểu hóa attack surface &amp; build size</span>
+                    <span className="text-xs font-bold text-[var(--text)] block">{t.povixa.metric2Label}</span>
+                    <span className="text-[11px] text-[var(--muted)] block leading-snug">{t.povixa.metric2Desc}</span>
                   </div>
 
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] text-center">
-                    <span className="font-display font-black text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400 block">
-                      9 Core
+                  <div className="space-y-1">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-emerald-600 dark:text-emerald-400 block tracking-tight">
+                      {t.povixa.metric3Val}
                     </span>
-                    <span className="text-xs font-bold text-[var(--text)] mt-1 block">Subsystems Độc Lập</span>
-                    <span className="text-[11px] text-[var(--muted)] mt-0.5 block font-mono">Microservices kiến trúc module hóa</span>
+                    <span className="text-xs font-bold text-[var(--text)] block">{t.povixa.metric3Label}</span>
+                    <span className="text-[11px] text-[var(--muted)] block leading-snug">{t.povixa.metric3Desc}</span>
                   </div>
 
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] text-center">
-                    <span className="font-display font-black text-2xl sm:text-3xl text-amber-600 dark:text-amber-400 block">
-                      100%
+                  <div className="space-y-1">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-amber-600 dark:text-amber-400 block tracking-tight">
+                      {t.povixa.metric4Val}
                     </span>
-                    <span className="text-xs font-bold text-[var(--text)] mt-1 block">End-to-End Type Safety</span>
-                    <span className="text-[11px] text-[var(--muted)] mt-0.5 block font-mono">Shared contracts từ Backend đến SDKs</span>
+                    <span className="text-xs font-bold text-[var(--text)] block">{t.povixa.metric4Label}</span>
+                    <span className="text-[11px] text-[var(--muted)] block leading-snug">{t.povixa.metric4Desc}</span>
                   </div>
                 </div>
               </div>
 
-              {/* 3. Core Engineering Challenges & Solutions (Thách thức & Giải pháp kỹ thuật) */}
-              <div className="pt-6 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between mb-4">
+              {/* 3. Core Engineering Challenges & Solutions (Clean semantic list) */}
+              <div className="pt-8 border-t border-[var(--border)]/40">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <Workflow size={16} className="text-purple-600 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
-                      Thách Thức Kỹ Thuật &amp; Giải Pháp Thực Hiện
+                      {t.povixa.challengesTitle}
                     </h4>
                   </div>
-                  <span className="text-[11px] font-mono text-[var(--dim)]">Architectural Decisions</span>
+                  <span className="text-[11px] font-mono text-[var(--dim)]">{t.povixa.challengesSub}</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
                   
                   {/* Challenge 1: Auth & Zero-Trust */}
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-2">
+                  <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <Key size={15} className="text-purple-500 shrink-0" />
                       <h5 className="font-display font-bold text-sm text-[var(--text)]">
-                        Xác thực Không Mật khẩu &amp; Zero-Trust (apps/id)
+                        {t.povixa.challenges[0]?.title}
                       </h5>
                     </div>
-                    <div className="text-xs text-[var(--muted)] space-y-1.5 leading-relaxed">
-                      <p>
-                        <strong className="text-[var(--text)]">Thách thức:</strong> Nguy cơ lộ lọt cơ sở dữ liệu mật khẩu người dùng và các cuộc tấn công Phishing qua giao thức cũ.
-                      </p>
-                      <p>
-                        <strong className="text-[var(--text)]">Giải pháp:</strong> Triển khai xác thực sinh trắc học WebAuthn / Passkeys chuẩn FIDO2, OAuth 2.1 kết hợp PKCE, JWT asymmetric signing (Ed25519) và SSO session management đa miền.
-                      </p>
+                    <div className="text-xs text-[var(--muted)] leading-relaxed pl-6 space-y-1">
+                      <p>{t.povixa.challenges[0]?.problem}</p>
+                      <p>{t.povixa.challenges[0]?.solution}</p>
                     </div>
                   </div>
 
                   {/* Challenge 2: Edge Remote Config */}
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-2">
+                  <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <Sliders size={15} className="text-emerald-500 shrink-0" />
                       <h5 className="font-display font-bold text-sm text-[var(--text)]">
-                        Đồng Bộ Cấu Hình &amp; Feature Flags Thời Gian Thực (apps/config)
+                        {t.povixa.challenges[1]?.title}
                       </h5>
                     </div>
-                    <div className="text-xs text-[var(--muted)] space-y-1.5 leading-relaxed">
-                      <p>
-                        <strong className="text-[var(--text)]">Thách thức:</strong> Phân phối quy tắc cấu hình và A/B testing tới hàng chục nghìn client tức thời mà không gây nghẽn kết nối database.
-                      </p>
-                      <p>
-                        <strong className="text-[var(--text)]">Giải pháp:</strong> Kết hợp Redis Pub/Sub với Edge in-memory cache. Tốc độ lan truyền thay đổi dưới 50ms, tự động rollback khẩn cấp mà không cần submit lại ứng dụng lên App Store.
-                      </p>
+                    <div className="text-xs text-[var(--muted)] leading-relaxed pl-6 space-y-1">
+                      <p>{t.povixa.challenges[1]?.problem}</p>
+                      <p>{t.povixa.challenges[1]?.solution}</p>
                     </div>
                   </div>
 
                   {/* Challenge 3: Storage Engine */}
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-2">
+                  <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <Database size={15} className="text-sky-500 shrink-0" />
                       <h5 className="font-display font-bold text-sm text-[var(--text)]">
-                        Lưu Trữ &amp; Truy Xuất File Phân Tán (apps/storage)
+                        {t.povixa.challenges[2]?.title}
                       </h5>
                     </div>
-                    <div className="text-xs text-[var(--muted)] space-y-1.5 leading-relaxed">
-                      <p>
-                        <strong className="text-[var(--text)]">Thách thức:</strong> Băng thông máy chủ ứng dụng bị thắt nút cổ chai khi nhiều client tải lên video và ảnh kích thước lớn cùng lúc.
-                      </p>
-                      <p>
-                        <strong className="text-[var(--text)]">Giải pháp:</strong> Xây dựng storage gateway tương thích chuẩn AWS S3 API (hỗ trợ MinIO/R2), cấp Presigned Upload URL trực tiếp từ client kèm xác thực mã băm SHA-256.
-                      </p>
+                    <div className="text-xs text-[var(--muted)] leading-relaxed pl-6 space-y-1">
+                      <p>{t.povixa.challenges[2]?.problem}</p>
+                      <p>{t.povixa.challenges[2]?.solution}</p>
                     </div>
                   </div>
 
                   {/* Challenge 4: Ingestion Pipeline */}
-                  <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-2">
+                  <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <BarChart3 size={15} className="text-fuchsia-500 shrink-0" />
                       <h5 className="font-display font-bold text-sm text-[var(--text)]">
-                        Pipeline Thu Thập Sự Kiện Bảo Vệ Quyền Riêng Tư (apps/analytics)
+                        {t.povixa.challenges[3]?.title}
                       </h5>
                     </div>
-                    <div className="text-xs text-[var(--muted)] space-y-1.5 leading-relaxed">
-                      <p>
-                        <strong className="text-[var(--text)]">Thách thức:</strong> Thu thập dữ liệu telemetry người dùng theo thời gian thực mà không phụ thuộc cookie bên thứ ba, tuân thủ nghiêm ngặt GDPR.
-                      </p>
-                      <p>
-                        <strong className="text-[var(--text)]">Giải pháp:</strong> Pipeline xử lý bất đồng bộ qua buffer hàng đợi trên Golang, cơ chế batch insert vào database giúp giảm 90% áp lực I/O đĩa.
-                      </p>
+                    <div className="text-xs text-[var(--muted)] leading-relaxed pl-6 space-y-1">
+                      <p>{t.povixa.challenges[3]?.problem}</p>
+                      <p>{t.povixa.challenges[3]?.solution}</p>
                     </div>
                   </div>
 
                 </div>
               </div>
 
-              {/* 4. DevOps, CI/CD & Production Discipline (HR / DevOps Tech Lead looks for this) */}
-              <div className="pt-6 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between mb-4">
+              {/* 4. DevOps, CI/CD & Production Discipline (Clean spacious 4 columns) */}
+              <div className="pt-8 border-t border-[var(--border)]/40">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <GitBranch size={16} className="text-purple-600 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
-                      Kỷ Luật Kỹ Thuật, DevOps &amp; Vận Hành
+                      {t.povixa.disciplineTitle}
                     </h4>
                   </div>
-                  <span className="text-[11px] font-mono text-[var(--dim)]">Production Discipline</span>
+                  <span className="text-[11px] font-mono text-[var(--dim)]">{t.povixa.disciplineSub}</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-1.5 text-purple-600 dark:text-purple-400 text-xs font-mono font-bold">
                       <Box size={14} />
-                      <span>Turborepo Monorepo</span>
+                      <span>{t.povixa.disciplines[0]?.title}</span>
                     </div>
                     <p className="text-xs text-[var(--muted)] leading-relaxed">
-                      Quản lý đồng nhất 8 ứng dụng độc lập cùng các package dùng chung, tối ưu hóa caching khi biên dịch.
+                      {t.povixa.disciplines[0]?.desc}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-1.5 text-sky-600 dark:text-sky-400 text-xs font-mono font-bold">
                       <Workflow size={14} />
-                      <span>Automated CI/CD</span>
+                      <span>{t.povixa.disciplines[1]?.title}</span>
                     </div>
                     <p className="text-xs text-[var(--muted)] leading-relaxed">
-                      GitHub Actions tự động lint, type-check, unit test và build multi-arch Docker image (amd64 / arm64).
+                      {t.povixa.disciplines[1]?.desc}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold">
                       <SiKubernetes size={14} />
-                      <span>K8s &amp; Containers</span>
+                      <span>{t.povixa.disciplines[2]?.title}</span>
                     </div>
                     <p className="text-xs text-[var(--muted)] leading-relaxed">
-                      Multi-stage Dockerfile distroless, cấu hình Kubernetes Helm charts, liveness/readiness probes tự phục hồi.
+                      {t.povixa.disciplines[2]?.desc}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 text-xs font-mono font-bold">
                       <ShieldCheck size={14} />
-                      <span>Security &amp; Observability</span>
+                      <span>{t.povixa.disciplines[3]?.title}</span>
                     </div>
                     <p className="text-xs text-[var(--muted)] leading-relaxed">
-                      Structured JSON logging, rate-limiting chống DDoS, phân quyền RBAC và kiểm soát phiên token chặt chẽ.
+                      {t.povixa.disciplines[3]?.desc}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* 5. Core Technologies & Architecture Stack */}
-              <div className="pt-6 border-t border-[var(--border)]">
-                <div className="flex items-center justify-between mb-4">
+              {/* 5. Core Technologies & Architecture Stack (Clean 4 columns) */}
+              <div className="pt-8 border-t border-[var(--border)]/40">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <Cpu size={16} className="text-purple-600 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
-                      Công Nghệ Cốt Lõi Sử Dụng
+                      {t.povixa.techTitle}
                     </h4>
                   </div>
-                  <span className="text-[11px] font-mono text-[var(--dim)]">Core Tech Stack</span>
+                  <span className="text-[11px] font-mono text-[var(--dim)]">{t.povixa.techSub}</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
-                    <span className="text-[10px] font-mono text-purple-600 dark:text-purple-400 font-bold uppercase block">
-                      Backend &amp; Concurrency
-                    </span>
-                    <strong className="text-xs sm:text-sm font-bold text-[var(--text)] block">
-                      Golang 1.23 &amp; Rust Core
-                    </strong>
-                    <span className="text-xs text-[var(--muted)] block leading-snug">
-                      Goroutines pool, HTTP router tối ưu, low-memory footprint
-                    </span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
-                    <span className="text-[10px] font-mono text-sky-600 dark:text-sky-400 font-bold uppercase block">
-                      Data &amp; In-Memory State
-                    </span>
-                    <strong className="text-xs sm:text-sm font-bold text-[var(--text)] block">
-                      PostgreSQL, Redis, MinIO
-                    </strong>
-                    <span className="text-xs text-[var(--muted)] block leading-snug">
-                      Schema indexing, Redis Pub/Sub event bus, S3-compatible storage
-                    </span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
-                    <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400 font-bold uppercase block">
-                      Control Plane &amp; UI
-                    </span>
-                    <strong className="text-xs sm:text-sm font-bold text-[var(--text)] block">
-                      SvelteKit 5 &amp; Tailwind
-                    </strong>
-                    <span className="text-xs text-[var(--muted)] block leading-snug">
-                      Svelte 5 Runes reactivity, bundle siêu nhẹ, SSR/SSG Edge execution
-                    </span>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] space-y-1">
-                    <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase block">
-                      Client SDKs &amp; DevOps
-                    </span>
-                    <strong className="text-xs sm:text-sm font-bold text-[var(--text)] block">
-                      Flutter, TS, Docker, K8s
-                    </strong>
-                    <span className="text-xs text-[var(--muted)] block leading-snug">
-                      Native SDKs cho iOS/Android/Web, Turborepo monorepo, Helm charts
-                    </span>
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {t.povixa.techStacks.map((stack, i) => {
+                    const colors = [
+                      "text-purple-600 dark:text-purple-400",
+                      "text-sky-600 dark:text-sky-400",
+                      "text-orange-600 dark:text-orange-400",
+                      "text-emerald-600 dark:text-emerald-400"
+                    ];
+                    return (
+                      <div key={i} className="space-y-1">
+                        <span className={`text-[10px] font-mono ${colors[i % colors.length]} font-bold uppercase block`}>
+                          {stack.category}
+                        </span>
+                        <strong className="text-xs sm:text-sm font-bold text-[var(--text)] block">
+                          {stack.strong}
+                        </strong>
+                        <span className="text-xs text-[var(--muted)] block leading-relaxed">
+                          {stack.desc}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* 6. Live Verifiable Subdomains (HR / Tech Lead can click and test directly) */}
-              <div className="pt-6 border-t border-[var(--border)]">
+              {/* 6. Live Verifiable Subdomains (Clean interactive links without border clutter) */}
+              <div className="pt-8 border-t border-[var(--border)]/40">
                 <p className="text-xs font-mono text-[var(--dim)] uppercase tracking-wider mb-4">
-                  Các Subdomain Đang Vận Hành Thực Tế (Bấm Để Kiểm Chứng Trực Tiếp)
+                  {t.povixa.subdomainsTitle}
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  <a 
-                    href="https://povixa.cloud" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-500/50 transition-colors block group"
-                  >
-                    <span className="text-xs font-mono font-bold text-purple-600 dark:text-purple-400 block group-hover:underline">povixa.cloud ↗</span>
-                    <span className="text-xs text-[var(--muted)] mt-1 block">Landing Page, Architecture Overview &amp; Manifesto</span>
-                  </a>
-                  <a 
-                    href="https://id.povixa.cloud" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-500/50 transition-colors block group"
-                  >
-                    <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 block group-hover:underline">id.povixa.cloud ↗</span>
-                    <span className="text-xs text-[var(--muted)] mt-1 block">Cổng SSO, WebAuthn Passkeys &amp; Quản lý phiên</span>
-                  </a>
-                  <a 
-                    href="https://console.povixa.cloud" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-500/50 transition-colors block group"
-                  >
-                    <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 block group-hover:underline">console.povixa.cloud ↗</span>
-                    <span className="text-xs text-[var(--muted)] mt-1 block">Developer Cockpit, Quản trị API Keys &amp; Telemetry</span>
-                  </a>
-                  <a 
-                    href="https://docs.povixa.cloud" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-500/50 transition-colors block group"
-                  >
-                    <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 block group-hover:underline">docs.povixa.cloud ↗</span>
-                    <span className="text-xs text-[var(--muted)] mt-1 block">Tài liệu Kỹ thuật, OpenAPI Specs &amp; SDK Guides</span>
-                  </a>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                  {t.povixa.subdomains.map((sub, i) => {
+                    const cfgs = [
+                      { hover: "hover:bg-purple-500/[0.06]", text: "text-purple-600 dark:text-purple-400", href: "https://povixa.cloud" },
+                      { hover: "hover:bg-sky-500/[0.06]", text: "text-sky-600 dark:text-sky-400", href: "https://id.povixa.cloud" },
+                      { hover: "hover:bg-emerald-500/[0.06]", text: "text-emerald-600 dark:text-emerald-400", href: "https://console.povixa.cloud" },
+                      { hover: "hover:bg-indigo-500/[0.06]", text: "text-indigo-600 dark:text-indigo-400", href: "https://docs.povixa.cloud" },
+                    ];
+                    const cfg = cfgs[i % cfgs.length];
+                    return (
+                      <a 
+                        key={i}
+                        href={cfg.href} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className={`p-3.5 rounded-2xl bg-[var(--surface-subtle)]/40 ${cfg.hover} transition-all block group`}
+                      >
+                        <span className={`text-xs font-mono font-bold ${cfg.text} block group-hover:underline`}>{sub.url}</span>
+                        <span className="text-xs text-[var(--muted)] mt-1 block leading-relaxed">{sub.desc}</span>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -606,19 +575,19 @@ export default function Portfolio() {
         {/* ============================================================ */}
         {/* 03 · CHỨNG CHỈ & BẢO CHỨNG QUỐC TẾ (CREDENTIAL BADGES) */}
         {/* ============================================================ */}
-        <section id="credentials" className="py-20 border-b border-[var(--border)]">
+        <section id="credentials" className="py-20 border-b border-[var(--border)]/30">
           <div className="max-w-5xl mx-auto px-6">
             
             <div className="text-center mb-14">
               <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5">
                 <Award size={14} />
-                <span>VERIFIED CREDENTIALS · BẢO CHỨNG QUỐC TẾ</span>
+                <span>{t.credentials.badge}</span>
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-[var(--text)] mt-1.5">
-                Chứng Chỉ Năng Lực Quốc Tế
+                {t.credentials.title}
               </h2>
               <p className="text-xs sm:text-sm text-[var(--muted)] mt-2 max-w-lg mx-auto leading-relaxed">
-                Minh chứng độc lập về kiến trúc đám mây chuẩn AWS, năng lực quản trị cụm Kubernetes và trình độ tiếng Anh học thuật làm việc toàn cầu.
+                {t.credentials.desc}
               </p>
             </div>
 
@@ -627,30 +596,30 @@ export default function Portfolio() {
               {/* ──────────────────────────────────────────────────────── */}
               {/* CARD 1: AWS SOLUTIONS ARCHITECT (AMBER GOLD BADGE) */}
               {/* ──────────────────────────────────────────────────────── */}
-              <div className="relative rounded-3xl border border-amber-500/30 bg-gradient-to-b from-amber-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-500/60 hover:-translate-y-1.5 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-amber-500/15 p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-amber-500/40 hover:-translate-y-1 transition-all duration-300 group">
                 
                 {/* Watermark Logo chìm tạo chiều sâu không gian */}
-                <FaAws className="absolute -right-6 -bottom-6 w-44 h-44 text-amber-500/[0.06] dark:text-amber-400/[0.08] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" />
+                <FaAws className="absolute -right-6 -bottom-6 w-44 h-44 text-amber-500/[0.05] dark:text-amber-400/[0.07] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" />
 
                 {/* Top Badge & Verified Seal */}
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center border border-amber-500/25 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
                       <FaAws size={28} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>VERIFIED</span>
+                      <span>{t.credentials.verified}</span>
                     </div>
                   </div>
 
                   {/* Title & Level */}
                   <div>
                     <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">
-                      Associate Level · SAA-C03
+                      {t.credentials.aws.level}
                     </span>
                     <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-amber-500 transition-colors">
-                      AWS Solutions Architect
+                      {t.credentials.aws.title}
                     </h3>
                   </div>
 
@@ -658,27 +627,27 @@ export default function Portfolio() {
                   <div className="mt-4 space-y-2.5 text-xs text-[var(--muted)] leading-relaxed">
                     <div className="flex items-start gap-2">
                       <span className="text-amber-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Kiến trúc Multi-AZ:</strong> Thiết kế hệ thống chịu tải cao, failover tự động chuẩn Well-Architected.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.aws.p1Title}</strong> {t.credentials.aws.p1Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-amber-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Bảo mật mạng VPC:</strong> Phân chia subnet public/private, Security Groups, IAM Least Privilege.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.aws.p2Title}</strong> {t.credentials.aws.p2Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-amber-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Tối ưu hóa chi phí:</strong> Cấu hình ECS/Fargate, S3 Lifecycle tiers và auto-scaling theo tải.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.aws.p3Title}</strong> {t.credentials.aws.p3Desc}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Credential Stamp */}
-                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
-                    <span className="text-[10px] text-[var(--dim)] block uppercase">Mã cấp phép</span>
+                    <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.aws.codeLabel}</span>
                     <strong className="text-amber-600 dark:text-amber-400 font-bold tracking-wider">AWS-SAA-84920</strong>
                   </div>
                   <span className="text-[11px] text-[var(--muted)] group-hover:text-amber-500 transition-colors font-medium flex items-center gap-1">
-                    <span>Xác minh</span>
+                    <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
                 </div>
@@ -688,33 +657,33 @@ export default function Portfolio() {
               {/* ──────────────────────────────────────────────────────── */}
               {/* CARD 2: IELTS ACADEMIC 7.5 (AZURE / CAMBRIDGE SEAL) */}
               {/* ──────────────────────────────────────────────────────── */}
-              <div className="relative rounded-3xl border border-sky-500/30 bg-gradient-to-b from-sky-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl hover:border-sky-500/60 hover:-translate-y-1.5 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-sky-500/15 p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-sky-500/40 hover:-translate-y-1 transition-all duration-300 group">
                 
                 {/* Watermark Crest chìm */}
-                <div className="absolute -right-4 -bottom-6 w-44 h-44 text-sky-500/[0.06] dark:text-sky-400/[0.08] pointer-events-none font-display font-black text-8xl flex items-center justify-center select-none transition-transform duration-500 group-hover:scale-110">
+                <div className="absolute -right-4 -bottom-6 w-44 h-44 text-sky-500/[0.05] dark:text-sky-400/[0.07] pointer-events-none font-display font-black text-8xl flex items-center justify-center select-none transition-transform duration-500 group-hover:scale-110">
                   7.5
                 </div>
 
                 {/* Top Badge & Score Hero */}
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center border border-sky-500/25 shadow-xs font-display font-black text-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-display font-black text-sm">
                       IELTS
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
-                      <span>CEFR C1 PROFICIENT</span>
+                      <span>{t.credentials.ielts.badge}</span>
                     </div>
                   </div>
 
                   {/* Title & Score Hero Banner */}
                   <div>
                     <span className="text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider block">
-                      Academic English · Global Working
+                      {t.credentials.ielts.level}
                     </span>
                     <div className="flex items-baseline gap-2 mt-1">
                       <h3 className="font-display font-extrabold text-xl text-[var(--text)] group-hover:text-sky-500 transition-colors">
-                        IELTS Academic
+                        {t.credentials.ielts.title}
                       </h3>
                       <span className="text-2xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-indigo-600 dark:from-sky-400 dark:to-indigo-400">
                         7.5
@@ -722,40 +691,40 @@ export default function Portfolio() {
                     </div>
                   </div>
 
-                  {/* 4 Skill Score Breakdown (HR LOVES THIS) */}
-                  <div className="grid grid-cols-4 gap-1.5 my-3.5 p-2 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] text-center text-xs font-mono">
+                  {/* 4 Skill Score Breakdown (Clean, breathable stats) */}
+                  <div className="grid grid-cols-4 gap-1.5 my-3.5 py-2 border-y border-[var(--border)]/30 text-center text-xs font-mono">
                     <div>
-                      <span className="text-[10px] text-[var(--dim)] block">Listening</span>
-                      <strong className="text-[var(--text)] font-bold">8.5</strong>
+                      <span className="text-[10px] text-[var(--dim)] block">{t.credentials.ielts.listening}</span>
+                      <strong className="text-[var(--text)] font-bold text-sm">8.5</strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[var(--dim)] block">Reading</span>
-                      <strong className="text-[var(--text)] font-bold">8.0</strong>
+                      <span className="text-[10px] text-[var(--dim)] block">{t.credentials.ielts.reading}</span>
+                      <strong className="text-[var(--text)] font-bold text-sm">8.0</strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[var(--dim)] block">Writing</span>
-                      <strong className="text-[var(--text)] font-bold">7.0</strong>
+                      <span className="text-[10px] text-[var(--dim)] block">{t.credentials.ielts.writing}</span>
+                      <strong className="text-[var(--text)] font-bold text-sm">7.0</strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-[var(--dim)] block">Speaking</span>
-                      <strong className="text-[var(--text)] font-bold">7.0</strong>
+                      <span className="text-[10px] text-[var(--dim)] block">{t.credentials.ielts.speaking}</span>
+                      <strong className="text-[var(--text)] font-bold text-sm">7.0</strong>
                     </div>
                   </div>
 
                   {/* Value to Employer */}
                   <p className="text-xs text-[var(--muted)] leading-relaxed">
-                    Sẵn sàng làm việc 100% trong môi trường quốc tế: Viết RFC/Technical Docs chuẩn, trao đổi giải pháp kỹ thuật tự nhiên và họp trực tiếp với đối tác toàn cầu.
+                    {t.credentials.ielts.desc}
                   </p>
                 </div>
 
                 {/* Bottom Credential Stamp */}
-                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
-                    <span className="text-[10px] text-[var(--dim)] block uppercase">Hội đồng thi</span>
-                    <strong className="text-sky-600 dark:text-sky-400 font-bold">IDP / British Council</strong>
+                    <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.ielts.boardLabel}</span>
+                    <strong className="text-sky-600 dark:text-sky-400 font-bold">{t.credentials.ielts.boardVal}</strong>
                   </div>
                   <span className="text-[11px] text-[var(--muted)] group-hover:text-sky-500 transition-colors font-medium flex items-center gap-1">
-                    <span>Xác minh</span>
+                    <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
                 </div>
@@ -765,30 +734,30 @@ export default function Portfolio() {
               {/* ──────────────────────────────────────────────────────── */}
               {/* CARD 3: KUBERNETES CKA (ROYAL PURPLE / CNCF BADGE) */}
               {/* ──────────────────────────────────────────────────────── */}
-              <div className="relative rounded-3xl border border-purple-500/30 bg-gradient-to-b from-purple-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl hover:border-purple-500/60 hover:-translate-y-1.5 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/15 p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 group">
                 
                 {/* Watermark Logo chìm */}
-                <SiKubernetes className="absolute -right-6 -bottom-6 w-44 h-44 text-purple-500/[0.06] dark:text-purple-400/[0.08] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
+                <SiKubernetes className="absolute -right-6 -bottom-6 w-44 h-44 text-purple-500/[0.05] dark:text-purple-400/[0.07] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
 
                 {/* Top Badge & Verified Seal */}
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-500/25 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                       <SiKubernetes size={28} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>VERIFIED</span>
+                      <span>{t.credentials.verified}</span>
                     </div>
                   </div>
 
                   {/* Title & Organization */}
                   <div>
                     <span className="text-[11px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">
-                      CNCF &amp; Linux Foundation
+                      {t.credentials.cka.level}
                     </span>
                     <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-purple-500 transition-colors">
-                      Kubernetes Administrator
+                      {t.credentials.cka.title}
                     </h3>
                   </div>
 
@@ -796,27 +765,27 @@ export default function Portfolio() {
                   <div className="mt-4 space-y-2.5 text-xs text-[var(--muted)] leading-relaxed">
                     <div className="flex items-start gap-2">
                       <span className="text-purple-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Zero-Downtime Deploy:</strong> Rolling update, canary rollout, điều phối cụm sản xuất ổn định.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.cka.p1Title}</strong> {t.credentials.cka.p1Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-purple-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Ingress &amp; Networking:</strong> Reverse proxy routing, phân vùng NetworkPolicy và phân quyền RBAC.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.cka.p2Title}</strong> {t.credentials.cka.p2Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-purple-500 font-bold shrink-0">✦</span>
-                      <span><strong className="text-[var(--text)]">Tự phục hồi (Auto-Healing):</strong> Cấu hình liveness/readiness probes, tự động tái tạo pods khi lỗi.</span>
+                      <span><strong className="text-[var(--text)]">{t.credentials.cka.p3Title}</strong> {t.credentials.cka.p3Desc}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Credential Stamp */}
-                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
-                    <span className="text-[10px] text-[var(--dim)] block uppercase">Chứng chỉ số</span>
+                    <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.cka.codeLabel}</span>
                     <strong className="text-purple-600 dark:text-purple-400 font-bold tracking-wider">CKA-294018</strong>
                   </div>
                   <span className="text-[11px] text-[var(--muted)] group-hover:text-purple-500 transition-colors font-medium flex items-center gap-1">
-                    <span>Xác minh</span>
+                    <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
                 </div>
@@ -831,144 +800,162 @@ export default function Portfolio() {
         {/* ============================================================ */}
         {/* 04 · KỸ NĂNG & CÔNG NGHỆ CỐT LÕI (NỔI BẬT & PHÂN CẤP RÕ RÀNG) */}
         {/* ============================================================ */}
-        <section id="skills" className="py-20 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+        <section id="skills" className="py-20 border-b border-[var(--border)]/30 bg-[var(--surface-subtle)]/20">
           <div className="max-w-5xl mx-auto px-6">
             
             <div className="text-center mb-12">
               <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold">
-                CORE STACK &amp; CAPABILITIES
+                {t.skills.badge}
               </span>
               <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-[var(--text)] mt-1">
-                Kỹ Năng &amp; Công Nghệ Sử Dụng
+                {t.skills.title}
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               {/* Stack 1: Backend */}
-              <div className="relative rounded-3xl border border-purple-500/30 bg-gradient-to-b from-purple-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-purple-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-4">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/15 p-6 sm:p-7 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-500/20 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                       <Server size={22} />
                     </div>
                     <div>
                       <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                        Backend &amp; Hệ Thống
+                        {t.skills.backend.title}
                       </h3>
-                      <span className="text-[11px] font-mono text-[var(--dim)]">High-Throughput Services</span>
+                      <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.backend.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2.5 pt-2">
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-purple-500/30 transition-colors">
+                  <div className="space-y-4 pt-1">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiGo className="text-[#00ADD8] shrink-0" size={16} />
                         <span>Golang (Go 1.23)</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Microservices, Goroutines, Channels, WebSocket pool</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.backend.goDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-purple-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiRust className="text-[#DEA584] shrink-0" size={16} />
                         <span>Rust Core</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">An toàn bộ nhớ tuyệt đối, Lock-Free Concurrency, Low latency</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.backend.rustDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-purple-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiPostgresql className="text-[#4169E1] shrink-0" size={16} />
                         <span>PostgreSQL &amp; Redis</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Index tuning, Partitioning, In-memory caching, Pub/Sub</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.backend.dbDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Stack 2: DevOps */}
-              <div className="relative rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-indigo-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-indigo-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-4">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-indigo-500/15 p-6 sm:p-7 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-500/20 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                       <Shield size={22} />
                     </div>
                     <div>
                       <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        DevOps &amp; Hạ Tầng
+                        {t.skills.devops.title}
                       </h3>
-                      <span className="text-[11px] font-mono text-[var(--dim)]">Cloud-Native Automation</span>
+                      <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.devops.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2.5 pt-2">
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-indigo-500/30 transition-colors">
+                  <div className="space-y-4 pt-1">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiDocker className="text-[#2496ED] shrink-0" size={16} />
                         <span>Docker &amp; Compose</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Multi-stage builds, Distroless images, Container isolation</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.devops.dockerDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-indigo-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiKubernetes className="text-[#326CE5] shrink-0" size={16} />
                         <span>Kubernetes (K8s)</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Điều phối cụm, Scaling pods tự động, Ingress reverse proxy</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.devops.k8sDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-indigo-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiLinux className="text-[var(--text)] shrink-0" size={16} />
                         <span>Linux &amp; CI/CD Pipelines</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Kernel internals, epoll, System calls, GitHub Actions workflow</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.devops.linuxDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Stack 3: Mobile & Web */}
-              <div className="relative rounded-3xl border border-fuchsia-500/30 bg-gradient-to-b from-fuchsia-500/[0.04] via-[var(--surface)] to-[var(--surface)] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-fuchsia-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-4">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-fuchsia-500/15 p-6 sm:p-7 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-fuchsia-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 flex items-center justify-center border border-fuchsia-500/20 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 flex items-center justify-center">
                       <Smartphone size={22} />
                     </div>
                     <div>
                       <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
-                        Mobile &amp; Deep Web
+                        {t.skills.mobile.title}
                       </h3>
-                      <span className="text-[11px] font-mono text-[var(--dim)]">Cross-Platform UI &amp; Architecture</span>
+                      <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.mobile.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2.5 pt-2">
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-fuchsia-500/30 transition-colors">
+                  <div className="space-y-4 pt-1">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <SiFlutter className="text-[#02569B] shrink-0" size={16} />
                         <span>Flutter &amp; Dart</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">60 FPS native render, Drift SQLite cache, Clean Architecture</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.mobile.flutterDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-fuchsia-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <span className="font-bold text-blue-500 text-xs shrink-0">TS</span>
                         <span>TypeScript &amp; SvelteKit</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">Giao diện phản ứng tốc độ cao, Svelte 5 Runes, Tailwind</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.mobile.tsDesc}
+                      </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-[var(--surface-subtle)] border border-[var(--border)] hover:border-fuchsia-500/30 transition-colors">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
                         <span className="font-bold text-purple-500 text-xs shrink-0">Web</span>
                         <span>Deep Web Architecture</span>
                       </div>
-                      <p className="text-xs text-[var(--muted)] mt-1 pl-6">SSR/SSG, DOM performance tuning, Turborepo Monorepo</p>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.mobile.webDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -982,93 +969,93 @@ export default function Portfolio() {
         {/* ============================================================ */}
         {/* 05 · DỰ ÁN NỔI BẬT KHÁC (HALLOW & HNSYNC) */}
         {/* ============================================================ */}
-        <section id="projects" className="py-20 border-b border-[var(--border)]">
+        <section id="projects" className="py-20 border-b border-[var(--border)]/30">
           <div className="max-w-4xl mx-auto px-6">
             
             <div className="mb-10">
               <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold">
-                OTHER SELECTED WORKS
+                {t.projects.badge}
               </span>
               <h2 className="text-2xl sm:text-3xl font-display font-bold text-[var(--text)] mt-1">
-                Các Sản Phẩm Tiêu Biểu Khác
+                {t.projects.title}
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Project 2: Hallow Super-App */}
-              <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group shadow-sm">
+              <div className="p-6 sm:p-7 rounded-3xl bg-[var(--surface)] border border-purple-500/15 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-medium">
-                      Mobile &amp; Desktop
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold">
+                      {t.projects.hallow.tag}
                     </span>
                     <span className="text-xs text-[var(--dim)] font-mono">2024</span>
                   </div>
                   <h3 className="font-display font-bold text-lg text-[var(--text)] group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                    Hallow — Super-App Cá Nhân
+                    {t.projects.hallow.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
-                    Super-app ghi chú, tài chính và quản lý công việc trên Flutter. SQLite Drift cache, điều hướng 5-tab shell routing, đạt chuẩn 60 FPS phản hồi mượt mà không phụ thuộc mạng.
+                    {t.projects.hallow.desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    {['Flutter', 'Dart', 'Drift SQLite', 'Clean Architecture'].map(t => (
-                      <span key={t} className="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--surface-subtle)] text-[var(--dim)] border border-[var(--border)]">
-                        {t}
+                    {['Flutter', 'Dart', 'Drift SQLite', 'Clean Architecture'].map(item => (
+                      <span key={item} className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--surface-subtle)]/70 text-[var(--muted)] font-medium">
+                        {item}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-[var(--border)] flex items-center justify-between">
+                <div className="pt-5 mt-5 border-t border-[var(--border)]/40 flex items-center justify-between">
                   <a 
                     href="https://github.com/hnamhocit/hallow" 
                     target="_blank" 
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--text)] hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   >
-                    <span>Xem mã nguồn</span>
+                    <span>{t.projects.sourceAction}</span>
                     <ExternalLink size={13} />
                   </a>
-                  <span className="text-xs font-mono text-[var(--dim)]">60 FPS</span>
+                  <span className="text-xs font-mono text-[var(--dim)]">{t.projects.hallow.metric}</span>
                 </div>
               </div>
 
               {/* Project 3: HNSync Engine */}
-              <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group shadow-sm">
+              <div className="p-6 sm:p-7 rounded-3xl bg-[var(--surface)] border border-indigo-500/15 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-medium">
-                      Backend Daemon
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold">
+                      {t.projects.hnsync.tag}
                     </span>
                     <span className="text-xs text-[var(--dim)] font-mono">2024</span>
                   </div>
                   <h3 className="font-display font-bold text-lg text-[var(--text)] group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    HNSync — Realtime Stream Engine
+                    {t.projects.hnsync.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
-                    Hệ thống Golang đồng bộ sự kiện theo thời gian thực. Quản lý pool WebSocket đồng thời, tích hợp PostgreSQL và container hóa Docker, hoạt động bền bỉ với uptime 99.99%.
+                    {t.projects.hnsync.desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    {['Golang', 'WebSocket', 'PostgreSQL', 'Docker'].map(t => (
-                      <span key={t} className="text-[11px] font-mono px-2 py-0.5 rounded bg-[var(--surface-subtle)] text-[var(--dim)] border border-[var(--border)]">
-                        {t}
+                    {['Golang', 'WebSocket', 'PostgreSQL', 'Docker'].map(item => (
+                      <span key={item} className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--surface-subtle)]/70 text-[var(--muted)] font-medium">
+                        {item}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-[var(--border)] flex items-center justify-between">
+                <div className="pt-5 mt-5 border-t border-[var(--border)]/40 flex items-center justify-between">
                   <a 
                     href="https://github.com/hnamhocit" 
                     target="_blank" 
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--text)] hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                   >
-                    <span>Xem mã nguồn</span>
+                    <span>{t.projects.sourceAction}</span>
                     <ExternalLink size={13} />
                   </a>
-                  <span className="text-xs font-mono text-[var(--dim)]">Uptime 99.99%</span>
+                  <span className="text-xs font-mono text-[var(--dim)]">{t.projects.hnsync.metric}</span>
                 </div>
               </div>
 
@@ -1083,16 +1070,16 @@ export default function Portfolio() {
         <section id="contact" className="py-20">
           <div className="max-w-2xl mx-auto px-6 text-center flex flex-col items-center">
             
-            <div className="w-12 h-12 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4 border border-purple-500/20">
+            <div className="w-12 h-12 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4">
               <Sparkles size={22} />
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-display font-bold text-[var(--text)] mb-3">
-              Cùng Tạo Nên Những Điều Ý Nghĩa
+              {t.contact.title}
             </h2>
 
             <p className="text-xs sm:text-sm text-[var(--muted)] max-w-lg mb-8 leading-relaxed">
-              Tôi luôn trân trọng mọi cơ hội học hỏi, thử thách và đồng hành cùng các đội ngũ kỹ thuật. Dù bạn có một vị trí công việc (Junior / Remote Fullstack) hay chỉ đơn giản là muốn trò chuyện về hệ thống, tôi luôn sẵn lòng phản hồi nhanh nhất có thể.
+              {t.contact.desc}
             </p>
 
             {/* Direct Email Action Button */}
@@ -1102,7 +1089,7 @@ export default function Portfolio() {
                 className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-95 transition-all shadow-md shadow-purple-500/25 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Mail size={16} />
-                <span>Gửi Email: hnamhocit@gmail.com</span>
+                <span>{t.contact.emailBtn}</span>
               </a>
 
               <a
@@ -1112,7 +1099,7 @@ export default function Portfolio() {
                 className="w-full sm:w-auto px-6 py-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] font-medium text-sm hover:border-purple-500 transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
                 <FaGithub size={16} />
-                <span>GitHub @hnamhocit</span>
+                <span>{t.contact.githubBtn}</span>
               </a>
             </div>
 
@@ -1123,7 +1110,7 @@ export default function Portfolio() {
                 className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
               >
                 <Mail size={14} />
-                <span>Email trực tiếp</span>
+                <span>{t.contact.directEmail}</span>
               </a>
               <a 
                 href="https://github.com/hnamhocit" 
@@ -1153,14 +1140,30 @@ export default function Portfolio() {
       {/* ============================================================ */}
       {/* FOOTER */}
       {/* ============================================================ */}
-      <footer className="border-t border-[var(--border)] py-8 text-center text-xs text-[var(--dim)] font-mono">
+      <footer className="border-t border-[var(--border)]/30 bg-white dark:bg-[#10141E] py-8 text-center text-xs text-[var(--dim)] font-mono transition-colors">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>© {new Date().getFullYear()} Nguyễn Hoàng Nam (hnamhocit).</span>
           <span className="flex items-center gap-1 text-[var(--muted)]">
-            Tạo nên bằng sự kiên định và tình yêu với kỹ thuật.
+            {t.footer.quote}
           </span>
         </div>
       </footer>
+
+      {/* ============================================================ */}
+      {/* SCROLL TO TOP BUTTON */}
+      {/* ============================================================ */}
+      <button
+        onClick={scrollToTop}
+        aria-label={t.footer.scrollTop}
+        className={`fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-white dark:bg-[#10141E] border border-[var(--border)]/60 text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 shadow-lg shadow-black/5 hover:shadow-xl hover:border-purple-500/40 transition-all duration-300 cursor-pointer ${
+          showScrollTop 
+            ? 'opacity-100 translate-y-0 pointer-events-auto' 
+            : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        title={t.footer.scrollTop}
+      >
+        <ArrowUp size={18} />
+      </button>
 
     </div>
   );

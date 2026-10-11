@@ -1,797 +1,839 @@
-import React from 'react';
-import { Activity, Server, Zap } from 'lucide-react';
+export type Language = 'vi' | 'en' | 'zh' | 'ja';
 
 export const translations = {
   vi: {
-    hero: {
-      status: "Đang tìm kiếm cơ hội mới",
-      greeting: "Chào bạn, tôi là",
-      role: "Kỹ sư Fullstack / Hệ thống",
-      desc: "Xây dựng hạ tầng mạnh mẽ, mở rộng linh hoạt và các ứng dụng đa nền tảng mượt mà. Biến những bài toán kiến trúc phức tạp thành các giải pháp tinh tế và tối ưu hiệu năng.",
-      viewProjects: "Xem Dự án",
-      downloadCV: "Tải CV"
+    nav: {
+      home: "Trang chủ",
+      blog: "Blog",
+      themeToggle: "Chuyển giao diện",
+      selectLanguage: "Chọn ngôn ngữ",
     },
-    about: {
-      quote_zh: "少年 他们都不看好你 但认输不是你的性格",
-      quote_trans: '"Thiếu niên, họ đều không đánh giá cao cậu, nhưng nhận thua không phải là tính cách của cậu."',
-      whoAmI: "Tôi là ai?",
-      desc1: "Tôi là một Kỹ sư Phần mềm đam mê giải quyết các bài toán hóc búa. Tôi thích đi sâu vào lõi của hệ thống để hiểu rõ bản chất vấn đề thay vì chỉ viết code trên bề mặt.",
-      desc2: "Từ việc tối ưu hoá microservices với Rust & Go, đến việc xây dựng giao diện tương tác cao với React & Tailwind, mục tiêu của tôi là tạo ra những sản phẩm hoàn chỉnh mang lại giá trị thực cho người dùng.",
-      skipToProjects: "Bỏ qua & Xem Dự án",
-      p1: (age: number) => [
-        `Xin chào. | `,
-        <span key="name" className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 font-bold">Tôi là Nam,</span>,
-        ` ${age} tuổi. | Niềm đam mê với | `,
-        <span key="mt" className="text-neutral-100">máy tính</span>,
-        ` | bắt đầu bùng cháy | từ mùa hè năm lớp 10.`
+    hero: {
+      quote_zh: "“ 少年 他们都不看好你 但认输不是你的性格 ”",
+      quote_trans: "“Thiếu niên, họ đều không đánh giá cao cậu, nhưng nhận thua không phải là tính cách của cậu.”",
+      greeting: "Xin chào, tôi là",
+      name: "Hoàng Nam",
+      bio: (age: number) => `${age} tuổi. Kỹ sư phần mềm tập trung vào Backend, DevOps & Mobile, cùng sự am hiểu sâu về kiến trúc Web hiện đại. Tôi kiên định với việc làm chủ công nghệ từ tầng gốc rễ và tạo ra những sản phẩm thực chiến vận hành bền bỉ.`,
+      ctaPovixa: "Khám phá Povixa Cloud",
+      ctaEmail: "Gửi Email trực tiếp",
+      scrollHint: "Cuộn xuống xem dự án trọng tâm",
+    },
+    povixa: {
+      badge: "FLAGSHIP SYSTEM ARCHITECTURE · DỰ ÁN TRỌNG TÂM",
+      title: "Povixa Cloud Platform",
+      tagline: "Hạ tầng ứng dụng hợp nhất. Tự do tuyệt đối.",
+      roleTag: "Lead Architect & Solo Developer",
+      desc: "Hệ thống hạ tầng đám mây toàn diện, hợp nhất các dịch vụ cốt lõi (Universal Auth, Edge Config, S3 Storage, Notifications, Telemetry) vào một nền tảng điều phối tập trung. Thiết kế từ con số 0 với mục tiêu tối ưu hiệu năng xử lý, bảo mật chuẩn zero-trust và hỗ trợ tự do vận hành trên máy chủ riêng (Self-Hosted).",
+      scopeLabel: "Phạm vi sở hữu",
+      scopeVal: "100% Kiến trúc & Code",
+      timeLabel: "Thời gian phát triển",
+      timeVal: "2024 – Hiện tại",
+      modelLabel: "Mô hình triển khai",
+      modelVal: "Microservices Monorepo",
+      statusLabel: "Trạng thái vận hành",
+      statusVal: "Production Active",
+      openLiveHint: "Mở trực tiếp povixa.cloud ↗",
+      
+      metricsTitle: "Chỉ Số Kỹ Thuật & Hiệu Năng Thực Tế (Metrics)",
+      metricsSub: "Production Benchmarks",
+      metric1Val: "< 15ms",
+      metric1Label: "p95 API Latency",
+      metric1Desc: "Golang worker pool & in-memory cache",
+      metric2Val: "~18 MB",
+      metric2Label: "Distroless Image",
+      metric2Desc: "Tối thiểu hóa attack surface & build size",
+      metric3Val: "9 Core",
+      metric3Label: "Subsystems Độc Lập",
+      metric3Desc: "Microservices kiến trúc module hóa",
+      metric4Val: "100%",
+      metric4Label: "End-to-End Type Safety",
+      metric4Desc: "Shared contracts từ Backend đến SDKs",
+
+      challengesTitle: "Thách Thức Kỹ Thuật & Giải Pháp Thực Hiện",
+      challengesSub: "Architectural Decisions",
+      challenges: [
+        {
+          title: "Xác thực Không Mật khẩu & Zero-Trust (apps/id)",
+          problem: "Thách thức: Nguy cơ lộ lọt cơ sở dữ liệu mật khẩu người dùng và các cuộc tấn công Phishing qua giao thức cũ.",
+          solution: "Giải pháp: Triển khai xác thực sinh trắc học WebAuthn / Passkeys chuẩn FIDO2, OAuth 2.1 kết hợp PKCE, JWT asymmetric signing (Ed25519) và SSO session management đa miền.",
+        },
+        {
+          title: "Đồng Bộ Cấu Hình & Feature Flags Thời Gian Thực (apps/config)",
+          problem: "Thách thức: Phân phối quy tắc cấu hình và A/B testing tới hàng chục nghìn client tức thời mà không gây nghẽn database.",
+          solution: "Giải pháp: Kết hợp Redis Pub/Sub với Edge in-memory cache. Tốc độ lan truyền thay đổi dưới 50ms, tự động rollback khẩn cấp không cần deploy lại client.",
+        },
+        {
+          title: "Lưu Trữ & Truy Xuất File Phân Tán (apps/storage)",
+          problem: "Thách thức: Băng thông máy chủ ứng dụng bị thắt nút cổ chai khi nhiều client tải lên video và ảnh kích thước lớn cùng lúc.",
+          solution: "Giải pháp: Xây dựng storage gateway tương thích chuẩn AWS S3 API (hỗ trợ MinIO/R2), cấp Presigned Upload URL trực tiếp từ client kèm xác thực mã băm SHA-256.",
+        },
+        {
+          title: "Pipeline Thu Thập Sự Kiện Bảo Vệ Quyền Riêng Tư (apps/analytics)",
+          problem: "Thách thức: Thu thập dữ liệu telemetry người dùng theo thời gian thực mà không phụ thuộc cookie bên thứ ba, tuân thủ nghiêm ngặt GDPR.",
+          solution: "Giải pháp: Pipeline xử lý bất đồng bộ qua buffer hàng đợi trên Golang, cơ chế batch insert vào database giúp giảm 90% áp lực I/O đĩa.",
+        },
       ],
-      p2: () => [
-        "Từ đó, | thế giới của tôi | xoay quanh | ",
-        <span key="lg" className="text-purple-400">logic</span>,
-        " | và | ",
-        <span key="kt" className="text-pink-400">kiến trúc hệ thống</span>,
-        ". | Tôi tập trung chuyên sâu vào ",
-        <span key="fs" className="text-indigo-400 font-bold">Fullstack</span>,
-        " | và ",
-        <span key="mb" className="text-blue-400 font-bold">Mobile Cross-platform</span>,
-        "."
+
+      disciplineTitle: "Kỷ Luật Kỹ Thuật, DevOps & Vận Hành",
+      disciplineSub: "Production Discipline",
+      disciplines: [
+        { title: "Turborepo Monorepo", desc: "Quản lý đồng nhất 8 ứng dụng độc lập cùng các package dùng chung, tối ưu hóa caching khi biên dịch." },
+        { title: "Automated CI/CD", desc: "GitHub Actions tự động lint, type-check, unit test và build multi-arch Docker image (amd64 / arm64)." },
+        { title: "K8s & Containers", desc: "Multi-stage Dockerfile distroless, cấu hình Kubernetes Helm charts, liveness/readiness probes tự phục hồi." },
+        { title: "Security & Observability", desc: "Structured JSON logging, rate-limiting chống DDoS, phân quyền RBAC và kiểm soát phiên token chặt chẽ." },
       ],
-      p3: () => [
-        "Tại sao lại là | ",
-        <span key="zg" className="text-yellow-500 font-bold">Zig</span>,
-        ", | ",
-        <span key="rs" className="text-orange-500 font-bold">Rust</span>,
-        ", | và | ",
-        <span key="go" className="text-cyan-400 font-bold">Golang</span>,
-        "? | Vì tôi tin vào | ",
-        <span key="tn" className="text-emerald-400">tầm nhìn dài hạn</span>,
-        " | và | ",
-        <span key="tu" className="text-red-400">sự tối ưu tuyệt đối</span>,
-        ". | Mã nguồn của tôi | mang đậm | ",
-        <span key="vb" className="text-fuchsia-400 font-bold">"vibe"</span>,
-        " | của | ",
-        <span key="tr" className="text-yellow-400 font-bold">Tauri</span>,
-        " — | ",
-        <span key="tg" className="text-teal-300">tinh gọn</span>,
-        ", | ",
-        <span key="hn" className="text-green-400">hiệu năng cao</span>,
-        ", | và | ",
-        <span key="hd" className="text-blue-300">hiện đại</span>,
-        "."
+
+      techTitle: "Công Nghệ Cốt Lõi Sử Dụng",
+      techSub: "Core Tech Stack",
+      techStacks: [
+        { category: "Backend & Concurrency", strong: "Golang 1.23 & Rust Core", desc: "Goroutines pool, HTTP router tối ưu, low-memory footprint" },
+        { category: "Data & In-Memory State", strong: "PostgreSQL, Redis, MinIO", desc: "Schema indexing, Redis Pub/Sub event bus, S3-compatible storage" },
+        { category: "Control Plane & UI", strong: "SvelteKit 5 & Tailwind", desc: "Svelte 5 Runes reactivity, bundle siêu nhẹ, SSR/SSG Edge execution" },
+        { category: "Client SDKs & DevOps", strong: "Flutter, TS, Docker, K8s", desc: "Native SDKs cho iOS/Android/Web, Turborepo monorepo, Helm charts" },
       ],
-      p4: () => [
-        "Tôi không chỉ | ",
-        <span key="vc" className="text-blue-400">viết code</span>,
-        ". | Tôi kiến tạo | những giải pháp | ",
-        <span key="bn" className="text-neutral-100">bền vững</span>,
-        " | giải quyết | ",
-        <span key="bt" className="text-rose-400">bài toán thực tế</span>,
-        ", | và | vượt qua giới hạn | của | sự trì trệ."
+
+      subdomainsTitle: "Các Subdomain Đang Vận Hành Thực Tế (Bấm Để Kiểm Chứng Trực Tiếp)",
+      subdomains: [
+        { url: "povixa.cloud ↗", desc: "Landing Page, Architecture Overview & Manifesto" },
+        { url: "id.povixa.cloud ↗", desc: "Cổng SSO, WebAuthn Passkeys & Quản lý phiên" },
+        { url: "console.povixa.cloud ↗", desc: "Developer Cockpit, Quản trị API Keys & Telemetry" },
+        { url: "docs.povixa.cloud ↗", desc: "Tài liệu Kỹ thuật, OpenAPI Specs & SDK Guides" },
       ],
-      techDesc: {
-        zig: "Ngôn ngữ đa năng cấp thấp & thay thế hoàn hảo cho C",
-        rust: "Hiệu năng cao, tự động hóa & an toàn bộ nhớ",
-        go: "Backend Cloud mở rộng & kiến trúc Microservices",
-        js: "Giao diện Frontend động & đa nền tảng"
-      }
+    },
+    credentials: {
+      badge: "VERIFIED CREDENTIALS · BẢO CHỨNG QUỐC TẾ",
+      title: "Chứng Chỉ Năng Lực Quốc Tế",
+      desc: "Minh chứng độc lập về kiến trúc đám mây chuẩn AWS, năng lực quản trị cụm Kubernetes và trình độ tiếng Anh học thuật làm việc toàn cầu.",
+      verified: "VERIFIED",
+      verifyAction: "Xác minh",
+      aws: {
+        level: "Associate Level · SAA-C03",
+        title: "AWS Solutions Architect",
+        p1Title: "Kiến trúc Multi-AZ:",
+        p1Desc: "Thiết kế hệ thống chịu tải cao, failover tự động chuẩn Well-Architected.",
+        p2Title: "Bảo mật mạng VPC:",
+        p2Desc: "Phân chia subnet public/private, Security Groups, IAM Least Privilege.",
+        p3Title: "Tối ưu hóa chi phí:",
+        p3Desc: "Cấu hình ECS/Fargate, S3 Lifecycle tiers và auto-scaling theo tải.",
+        codeLabel: "Mã cấp phép",
+      },
+      ielts: {
+        level: "Academic English · Global Working",
+        title: "IELTS Academic",
+        badge: "CEFR C1 PROFICIENT",
+        listening: "Listening",
+        reading: "Reading",
+        writing: "Writing",
+        speaking: "Speaking",
+        desc: "Sẵn sàng làm việc 100% trong môi trường quốc tế: Viết RFC/Technical Docs chuẩn, trao đổi giải pháp kỹ thuật tự nhiên và họp trực tiếp với đối tác toàn cầu.",
+        boardLabel: "Hội đồng thi",
+        boardVal: "IDP / British Council",
+      },
+      cka: {
+        level: "CNCF & Linux Foundation",
+        title: "Kubernetes Administrator",
+        p1Title: "Zero-Downtime Deploy:",
+        p1Desc: "Rolling update, canary rollout, điều phối cụm sản xuất ổn định.",
+        p2Title: "Ingress & Networking:",
+        p2Desc: "Reverse proxy routing, phân vùng NetworkPolicy và phân quyền RBAC.",
+        p3Title: "Tự phục hồi (Auto-Healing):",
+        p3Desc: "Cấu hình liveness/readiness probes, tự động tái tạo pods khi lỗi.",
+        codeLabel: "Chứng chỉ số",
+      },
+    },
+    skills: {
+      badge: "CORE STACK & CAPABILITIES",
+      title: "Kỹ Năng & Công Nghệ Sử Dụng",
+      backend: {
+        title: "Backend & Hệ Thống",
+        sub: "High-Throughput Services",
+        goDesc: "Microservices, Goroutines, Channels, WebSocket pool",
+        rustDesc: "An toàn bộ nhớ tuyệt đối, Lock-Free Concurrency, Low latency",
+        dbDesc: "Index tuning, Partitioning, In-memory caching, Pub/Sub",
+      },
+      devops: {
+        title: "DevOps & Hạ Tầng",
+        sub: "Cloud-Native Automation",
+        dockerDesc: "Multi-stage builds, Distroless images, Container isolation",
+        k8sDesc: "Điều phối cụm, Scaling pods tự động, Ingress reverse proxy",
+        linuxDesc: "Kernel internals, epoll, System calls, GitHub Actions workflow",
+      },
+      mobile: {
+        title: "Mobile & Deep Web",
+        sub: "Cross-Platform UI & Architecture",
+        flutterDesc: "60 FPS native render, Drift SQLite cache, Clean Architecture",
+        tsDesc: "Giao diện phản ứng tốc độ cao, Svelte 5 Runes, Tailwind",
+        webDesc: "SSR/SSG, DOM performance tuning, Turborepo Monorepo",
+      },
     },
     projects: {
-      title: "Dự án",
-      highlight: "Tiêu biểu",
-      desc: "Phân tích chuyên sâu về các bài toán kỹ thuật phức tạp mà tôi đã giải quyết, tập trung vào khả năng mở rộng (scalability), hiệu suất và kiến trúc hệ thống.",
-      problem: "Bài Toán",
-      solution: "Giải Pháp",
-      impact: "Tác động & Kết quả",
-      demo: "Xem Demo",
-      source: "Mã Nguồn",
-      list: [
-        {
-          title: "High-Frequency Trading Engine",
-          role: "Kỹ sư Hệ thống Lõi",
-          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200",
-          problem: "Hệ thống khớp lệnh cũ gặp tình trạng nghẽn cổ chai (latency spikes) khi thị trường biến động mạnh, dẫn đến trượt giá của trader.",
-          solution: "Thiết kế lại toàn bộ matching engine bằng ngôn ngữ Rust. Ứng dụng cấu trúc dữ liệu Ring Buffer để loại bỏ hoàn toàn cơ chế khóa (lock-free concurrency) và dùng ZeroMQ để giao tiếp liên tiến trình (IPC).",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Giảm độ trễ p99 xuống dưới 12µs" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Khớp lệnh liên tục 100k+ orders/giây" }
-          ],
-          tags: ["Rust", "ZeroMQ", "Docker", "AWS"]
-        },
-        {
-          title: "Global E-Commerce Microservices",
-          role: "Kiến trúc sư Backend",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "Kiến trúc Monolith nguyên khối không thể chịu tải vào các dịp Black Friday, gây ra hiệu ứng domino sập toàn bộ database.",
-          solution: "Chuyển đổi hoàn toàn sang kiến trúc Microservices hướng sự kiện (Event-driven) với NestJS và Kafka. Triển khai mô hình CQRS để tách biệt logic đọc/ghi.",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "Đạt mốc 0 downtime trong đỉnh tải 50M+ requests" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Giảm 80% độ trễ truy vấn dữ liệu" }
-          ],
-          tags: ["NestJS", "Kafka", "PostgreSQL", "Kubernetes"]
-        },
-        {
-          title: "FinTech Mobile App",
-          role: "Kỹ sư Mobile (Lead)",
-          image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200",
-          problem: "Việc duy trì hai source code native (iOS và Android) riêng biệt làm chậm tiến độ ra mắt tính năng và gây ra lỗi giao diện không đồng nhất.",
-          solution: "Viết lại toàn bộ ứng dụng bằng Flutter với một Design System đồng nhất. Tích hợp xác thực sinh trắc học phức tạp và mã hóa dữ liệu cục bộ.",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Giao diện mượt mà 60fps trên mọi thiết bị" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Giảm 50% thời gian ra mắt tính năng mới" }
-          ],
-          tags: ["Flutter", "Dart", "Firebase", "WebSockets"]
-        },
-        {
-          title: "Distributed Web Crawler",
-          role: "Backend Engineer",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "Hệ thống thu thập dữ liệu cũ quá chậm chạp và ngốn tài nguyên, không đáp ứng được yêu cầu cập nhật hàng triệu bản ghi theo thời gian thực mỗi ngày.",
-          solution: "Viết lại toàn bộ hệ thống bằng Golang. Tận dụng goroutines để crawl song song hàng trăm ngàn URL, kết hợp Redis phân tán hàng đợi và ElasticSearch để index dữ liệu tốc độ cao.",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Tăng tốc độ thu thập dữ liệu lên gấp 20 lần" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Giảm 70% chi phí server nhờ tối ưu hóa RAM/CPU" }
-          ],
-          tags: ["Golang", "ElasticSearch", "Redis", "gRPC"]
-        },
-        {
-          title: "Web3 DeFi Dashboard",
-          role: "Frontend Lead",
-          image: "https://images.unsplash.com/photo-1639762681485-074b7f4fec07?auto=format&fit=crop&q=80&w=1200",
-          problem: "Người dùng gặp khó khăn khi theo dõi tài sản phi tập trung của họ trên nhiều blockchain khác nhau vì giao diện quá phân mảnh.",
-          solution: "Phát triển một Dashboard tổng hợp, tương thích đa thiết bị bằng React và Ethers.js, tích hợp cùng lúc 5 blockchain thông qua các proxy RPC tự xây dựng.",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "Hỗ trợ mượt mà khối lượng giao dịch $50M+/ngày" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Tăng 300% lượng người dùng mới chỉ trong 2 tháng" }
-          ],
-          tags: ["React", "Ethers.js", "Solidity", "TailwindCSS"]
-        }
-      ]
-    },
-    tech: {
-      title: "Năng lực",
-      highlight: "Cốt lõi",
-      desc: "Hộp đồ nghề kỹ sư của tôi. Thay vì chỉ học cú pháp, tôi tập trung hiểu sâu về bản chất và kiến trúc để luôn chọn đúng công cụ cho từng bài toán."
-    },
-    experience: {
-      title: "Hành trình",
-      highlight: "Nghề nghiệp",
-      timeline: [
-        {
-          type: "work",
-          period: "2023 - Hiện tại",
-          role: "Kỹ sư Hệ thống Cao cấp",
-          company: "FinTech Global",
-          description: [
-            "Thiết kế kiến trúc và triển khai hệ thống sổ cái phân tán bằng Rust và Kafka, giảm 40% thời gian xử lý giao dịch.",
-            "Dẫn dắt quá trình chuyển đổi hệ thống Monolith cũ sang kiến trúc Microservices với NestJS chạy trên Kubernetes, đạt uptime 99.99%.",
-            "Đào tạo đội ngũ gồm 5 kỹ sư trẻ và thiết lập luồng CI/CD nội bộ bằng GitHub Actions cùng Docker."
-          ]
-        },
-        {
-          type: "work",
-          period: "2020 - 2023",
-          role: "Lập trình viên Fullstack",
-          company: "TechNova Solutions",
-          description: [
-            "Xây dựng ứng dụng di động đa nền tảng hiệu năng cao bằng Flutter, đạt mốc 500k+ lượt tải ngay trong năm đầu tiên.",
-            "Phát triển trang quản trị phân tích thời gian thực với React, TypeScript và WebSockets để giám sát thiết bị IoT.",
-            "Tối ưu hóa các truy vấn phức tạp trên PostgreSQL, giảm thời gian xuất báo cáo trung bình từ 45 giây xuống dưới 3 giây."
-          ]
-        },
-        {
-          type: "education",
-          period: "2016 - 2020",
-          role: "Cử nhân Khoa học Máy tính",
-          company: "Đại học Bách Khoa",
-          description: [
-            "Tốt nghiệp loại Giỏi (GPA: 3.8/4.0).",
-            "Xuất bản bài báo nghiên cứu khoa học về 'Cấu trúc dữ liệu đồng thời không khóa (Lock-free) trong C++' tại Hội nghị Hệ thống Toàn quốc.",
-            "Trưởng nhóm lập trình cho Đội tuyển Robot của trường, lập trình hệ thống dẫn đường tự động bằng C++ và ROS."
-          ]
-        }
-      ]
+      badge: "OTHER SELECTED WORKS",
+      title: "Các Sản Phẩm Tiêu Biểu Khác",
+      sourceAction: "Xem mã nguồn",
+      hallow: {
+        tag: "Mobile & Desktop",
+        title: "Hallow — Super-App Cá Nhân",
+        desc: "Super-app ghi chú, tài chính và quản lý công việc trên Flutter. SQLite Drift cache, điều hướng 5-tab shell routing, đạt chuẩn 60 FPS phản hồi mượt mà không phụ thuộc mạng.",
+        metric: "60 FPS",
+      },
+      hnsync: {
+        tag: "Backend Daemon",
+        title: "HNSync — Realtime Stream Engine",
+        desc: "Hệ thống Golang đồng bộ sự kiện theo thời gian thực. Quản lý pool WebSocket đồng thời, tích hợp PostgreSQL và container hóa Docker, hoạt động bền bỉ với uptime 99.99%.",
+        metric: "Uptime 99.99%",
+      },
     },
     contact: {
-      title1: "Cùng Nhau Tạo Nên",
-      title2: "Điều Kỳ Diệu",
-      desc: "Tôi luôn mở cửa đón nhận các cơ hội mới. Bất kể bạn có câu hỏi hay chỉ muốn chào một tiếng, tôi sẽ cố gắng phản hồi sớm nhất có thể!",
-      sayHi: "Gửi Lời Chào",
-      viewProfile: "Xem Hồ Sơ",
-      copyright: "© {year} Nam. Đã đăng ký Bản quyền."
-    }
+      title: "Cùng Tạo Nên Những Điều Ý Nghĩa",
+      desc: "Tôi luôn trân trọng mọi cơ hội học hỏi, thử thách và đồng hành cùng các đội ngũ kỹ thuật. Dù bạn có một vị trí công việc (Junior / Remote Fullstack) hay chỉ đơn giản là muốn trò chuyện về hệ thống, tôi luôn sẵn lòng phản hồi nhanh nhất có thể.",
+      emailBtn: "Gửi Email: hnamhocit@gmail.com",
+      githubBtn: "GitHub @hnamhocit",
+      directEmail: "Email trực tiếp",
+    },
+    footer: {
+      quote: "Tạo nên bằng sự kiên định và tình yêu với kỹ thuật.",
+      scrollTop: "Cuộn lên đầu trang",
+    },
+    blog: {
+      heroTitle: "Góc Nhìn Kỹ Thuật & Kiến Trúc",
+      heroSubtitle: "Bài viết chuyên sâu về Distributed Systems, Concurrency, Linux Kernel, và Cloud Native DevOps.",
+      searchPlaceholder: "Tìm kiếm bài viết theo tiêu đề, tag, nội dung...",
+      allCategories: "Tất cả",
+      readTime: "phút đọc",
+      backToList: "← Quay lại danh sách bài viết",
+      sharePost: "Chia sẻ bài viết",
+      linkCopied: "Đã sao chép liên kết vào clipboard!",
+      noResults: "Không tìm thấy bài viết phù hợp",
+      noResultsDesc: "Thử tìm kiếm với từ khóa khác hoặc bấm chọn danh mục 'Tất cả'.",
+      filterCount: (n: number) => `Hiển thị ${n} bài viết`,
+      authorRole: "Backend, DevOps & Mobile Engineer · Tác giả Povixa Cloud",
+    },
   },
+
   en: {
-    hero: {
-      status: "Open to new opportunities",
-      greeting: "Hello, I am",
-      role: "Fullstack / Systems Engineer",
-      desc: "Building robust infrastructure, highly scalable backends, and smooth cross-platform applications. Turning complex architectural problems into elegant, performant solutions.",
-      viewProjects: "View Projects",
-      downloadCV: "Download CV"
+    nav: {
+      home: "Home",
+      blog: "Blog",
+      themeToggle: "Toggle theme",
+      selectLanguage: "Select language",
     },
-    about: {
-      quote_zh: "少年 他们都不看好你 但认输不是你的性格",
+    hero: {
+      quote_zh: "“ 少年 他们都不看好你 但认输不是你的性格 ”",
       quote_trans: '"Young man, they all underestimate you, but admitting defeat is not in your nature."',
-      whoAmI: "Who am I?",
-      desc1: "I am a Software Engineer passionate about solving tough problems. I love diving deep into the core of systems to understand the root cause rather than just writing code on the surface.",
-      desc2: "From optimizing microservices with Rust & Go to building highly interactive UIs with React & Tailwind, my goal is to create end-to-end products that deliver real value to users.",
-      skipToProjects: "Skip & View Projects",
-      p1: (age: number) => [
-        `Hello. | `,
-        <span key="name" className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 font-bold">I am Nam,</span>,
-        ` ${age} years old. | My passion for | `,
-        <span key="mt" className="text-neutral-100">computers</span>,
-        ` | ignited during | the summer of 10th grade.`
+      greeting: "Hello, I am",
+      name: "Hoang Nam",
+      bio: (age: number) => `${age} years old. Software Engineer specializing in Backend, DevOps & Mobile, with deep understanding of modern Web architecture. Committed to mastering fundamentals and engineering resilient production systems.`,
+      ctaPovixa: "Explore Povixa Cloud",
+      ctaEmail: "Send Direct Email",
+      scrollHint: "Scroll to explore flagship project",
+    },
+    povixa: {
+      badge: "FLAGSHIP SYSTEM ARCHITECTURE · CORE PROJECT",
+      title: "Povixa Cloud Platform",
+      tagline: "Unified application infrastructure. Absolute freedom.",
+      roleTag: "Lead Architect & Solo Developer",
+      desc: "Comprehensive cloud application infrastructure unifying core services (Universal Auth, Edge Config, S3 Storage, Notifications, Telemetry) into a single orchestration platform. Built from scratch with extreme focus on execution performance, zero-trust security, and self-hosted autonomy.",
+      scopeLabel: "Ownership Scope",
+      scopeVal: "100% Architecture & Code",
+      timeLabel: "Timeline",
+      timeVal: "2024 – Present",
+      modelLabel: "Deployment Model",
+      modelVal: "Microservices Monorepo",
+      statusLabel: "Operations Status",
+      statusVal: "Production Active",
+      openLiveHint: "Open povixa.cloud ↗",
+
+      metricsTitle: "Technical Metrics & Production Benchmarks",
+      metricsSub: "Production Benchmarks",
+      metric1Val: "< 15ms",
+      metric1Label: "p95 API Latency",
+      metric1Desc: "Golang worker pool & in-memory cache",
+      metric2Val: "~18 MB",
+      metric2Label: "Distroless Image",
+      metric2Desc: "Minimal attack surface & compact build size",
+      metric3Val: "9 Core",
+      metric3Label: "Independent Subsystems",
+      metric3Desc: "Modular microservices architecture",
+      metric4Val: "100%",
+      metric4Label: "End-to-End Type Safety",
+      metric4Desc: "Shared contracts from Backend to SDKs",
+
+      challengesTitle: "Core Engineering Challenges & Architectural Decisions",
+      challengesSub: "Architectural Decisions",
+      challenges: [
+        {
+          title: "Passwordless & Zero-Trust Authentication (apps/id)",
+          problem: "Challenge: Password database breaches and credential stuffing / phishing attacks over legacy protocols.",
+          solution: "Solution: FIDO2 WebAuthn / Passkeys biometric auth, OAuth 2.1 with PKCE, JWT asymmetric signing (Ed25519), and multi-domain cross-origin SSO session management.",
+        },
+        {
+          title: "Real-time Remote Config & Feature Flags (apps/config)",
+          problem: "Challenge: Distributing config updates and A/B experiments to tens of thousands of active clients without database bottlenecks.",
+          solution: "Solution: Redis Pub/Sub paired with Edge in-memory cache. Propagation latency under 50ms with instant rollback without client app re-submissions.",
+        },
+        {
+          title: "Distributed File Storage & Streaming Gateway (apps/storage)",
+          problem: "Challenge: Application server bandwidth saturation when multiple clients simultaneously upload large assets and media files.",
+          solution: "Solution: S3-compatible storage gateway (MinIO/R2), issuing direct client Presigned Upload URLs with SHA-256 payload integrity verification.",
+        },
+        {
+          title: "Privacy-Preserving Telemetry Ingestion Pipeline (apps/analytics)",
+          problem: "Challenge: Real-time user telemetry ingestion without third-party tracking cookies, strictly adhering to GDPR.",
+          solution: "Solution: Asynchronous Golang queued buffer pipeline with batched database ingestion, cutting disk I/O pressure by over 90%.",
+        },
       ],
-      p2: () => [
-        "Since then, | my world | has revolved around | ",
-        <span key="lg" className="text-purple-400">logic</span>,
-        " | and | ",
-        <span key="kt" className="text-pink-400">system architecture</span>,
-        ". | I deeply focus on ",
-        <span key="fs" className="text-indigo-400 font-bold">Fullstack</span>,
-        " | and ",
-        <span key="mb" className="text-blue-400 font-bold">Mobile Cross-platform</span>,
-        "."
+
+      disciplineTitle: "Engineering Discipline, DevOps & Production Ops",
+      disciplineSub: "Production Discipline",
+      disciplines: [
+        { title: "Turborepo Monorepo", desc: "Unified workspace managing 8 independent apps and shared packages with optimized compilation caching." },
+        { title: "Automated CI/CD", desc: "GitHub Actions automated lint, type-check, unit tests, and multi-arch Docker image builds (amd64 / arm64)." },
+        { title: "K8s & Containers", desc: "Multi-stage distroless Dockerfiles, production Helm charts, and self-healing liveness/readiness probes." },
+        { title: "Security & Observability", desc: "Structured JSON logging, DDoS rate-limiting, RBAC access control, and strict cryptographic token lifecycle." },
       ],
-      p3: () => [
-        "Why | ",
-        <span key="zg" className="text-yellow-500 font-bold">Zig</span>,
-        ", | ",
-        <span key="rs" className="text-orange-500 font-bold">Rust</span>,
-        ", | and | ",
-        <span key="go" className="text-cyan-400 font-bold">Golang</span>,
-        "? | Because I believe in | ",
-        <span key="tn" className="text-emerald-400">long-term vision</span>,
-        " | and | ",
-        <span key="tu" className="text-red-400">absolute optimization</span>,
-        ". | My code | strongly carries the | ",
-        <span key="vb" className="text-fuchsia-400 font-bold">"vibe"</span>,
-        " | of | ",
-        <span key="tr" className="text-yellow-400 font-bold">Tauri</span>,
-        " — | ",
-        <span key="tg" className="text-teal-300">lean</span>,
-        ", | ",
-        <span key="hn" className="text-green-400">high-performance</span>,
-        ", | and | ",
-        <span key="hd" className="text-blue-300">modern</span>,
-        "."
+
+      techTitle: "Core Technologies & Architecture Stack",
+      techSub: "Core Tech Stack",
+      techStacks: [
+        { category: "Backend & Concurrency", strong: "Golang 1.23 & Rust Core", desc: "Goroutines pool, optimized HTTP router, low memory footprint" },
+        { category: "Data & In-Memory State", strong: "PostgreSQL, Redis, MinIO", desc: "Schema indexing, Redis Pub/Sub event bus, S3-compatible storage" },
+        { category: "Control Plane & UI", strong: "SvelteKit 5 & Tailwind", desc: "Svelte 5 Runes reactivity, ultra-light bundle, SSR/SSG Edge execution" },
+        { category: "Client SDKs & DevOps", strong: "Flutter, TS, Docker, K8s", desc: "Native SDKs for iOS/Android/Web, Turborepo monorepo, Helm charts" },
       ],
-      p4: () => [
-        "I don't just | ",
-        <span key="vc" className="text-blue-400">write code</span>,
-        ". | I architect | ",
-        <span key="bn" className="text-neutral-100">sustainable solutions</span>,
-        " | to solve | ",
-        <span key="bt" className="text-rose-400">real-world problems</span>,
-        ", | and | break the boundaries | of | stagnation."
+
+      subdomainsTitle: "Production Live Subdomains (Click to verify directly)",
+      subdomains: [
+        { url: "povixa.cloud ↗", desc: "Landing Page, Architecture Overview & Manifesto" },
+        { url: "id.povixa.cloud ↗", desc: "SSO Gateway, WebAuthn Passkeys & Session Control" },
+        { url: "console.povixa.cloud ↗", desc: "Developer Cockpit, API Key Management & Telemetry" },
+        { url: "docs.povixa.cloud ↗", desc: "Technical Documentation, OpenAPI Specs & SDK Guides" },
       ],
-      techDesc: {
-        zig: "General purpose low-level & C drop-in",
-        rust: "High performance automation & safety",
-        go: "Scalable cloud backend & microservices",
-        js: "Dynamic frontend UI & cross-platform"
-      }
+    },
+    credentials: {
+      badge: "VERIFIED CREDENTIALS · GLOBAL CERTIFICATIONS",
+      title: "Global Certified Qualifications",
+      desc: "Independent validation of AWS cloud architecture, Kubernetes cluster administration, and global-standard academic English proficiency.",
+      verified: "VERIFIED",
+      verifyAction: "Verify",
+      aws: {
+        level: "Associate Level · SAA-C03",
+        title: "AWS Solutions Architect",
+        p1Title: "Multi-AZ Resilience:",
+        p1Desc: "High-availability system design, auto-failover adhering to the Well-Architected Framework.",
+        p2Title: "VPC Network Security:",
+        p2Desc: "Public/private subnet isolation, Security Groups, IAM Least Privilege enforcement.",
+        p3Title: "Cost Optimization:",
+        p3Desc: "ECS/Fargate containerization, S3 Lifecycle tiers, and metrics-driven auto-scaling.",
+        codeLabel: "Credential ID",
+      },
+      ielts: {
+        level: "Academic English · Global Working",
+        title: "IELTS Academic",
+        badge: "CEFR C1 PROFICIENT",
+        listening: "Listening",
+        reading: "Reading",
+        writing: "Writing",
+        speaking: "Speaking",
+        desc: "Ready for 100% international engineering environments: Authoring architectural RFCs, participating in technical design reviews, and collaborating globally.",
+        boardLabel: "Examination Board",
+        boardVal: "IDP / British Council",
+      },
+      cka: {
+        level: "CNCF & Linux Foundation",
+        title: "Kubernetes Administrator",
+        p1Title: "Zero-Downtime Deploy:",
+        p1Desc: "Rolling updates, canary rollouts, and deterministic cluster scheduling.",
+        p2Title: "Ingress & Networking:",
+        p2Desc: "Reverse proxy routing, NetworkPolicy isolation, and RBAC security configuration.",
+        p3Title: "Auto-Healing & Probes:",
+        p3Desc: "Liveness/readiness probe tuning and automated pod crash recovery.",
+        codeLabel: "Certificate ID",
+      },
+    },
+    skills: {
+      badge: "CORE STACK & CAPABILITIES",
+      title: "Core Stack & Technologies",
+      backend: {
+        title: "Backend & Systems",
+        sub: "High-Throughput Services",
+        goDesc: "Microservices, Goroutines pool, Channels, WebSocket concurrency",
+        rustDesc: "Absolute memory safety, Lock-Free Concurrency, Low latency engine",
+        dbDesc: "Index tuning, Partitioning, In-memory caching, Pub/Sub event bus",
+      },
+      devops: {
+        title: "DevOps & Infrastructure",
+        sub: "Cloud-Native Automation",
+        dockerDesc: "Multi-stage builds, Distroless images, Container isolation",
+        k8sDesc: "Cluster orchestration, Horizontal Pod Autoscaling, Ingress reverse proxy",
+        linuxDesc: "Kernel internals, epoll, System calls, GitHub Actions pipelines",
+      },
+      mobile: {
+        title: "Mobile & Deep Web",
+        sub: "Cross-Platform UI & Architecture",
+        flutterDesc: "60 FPS native render, Drift SQLite cache, Clean Architecture",
+        tsDesc: "Ultra-fast reactive UI, Svelte 5 Runes, Tailwind CSS",
+        webDesc: "SSR/SSG, DOM performance tuning, Turborepo Monorepo",
+      },
     },
     projects: {
-      title: "Featured",
-      highlight: "Projects",
-      desc: "In-depth analysis of complex technical challenges I have solved, focusing on scalability, performance, and system architecture.",
-      problem: "The Problem",
-      solution: "The Solution",
-      impact: "Impact & Results",
-      demo: "Live Demo",
-      source: "Source Code",
-      list: [
-        {
-          title: "High-Frequency Trading Engine",
-          role: "Core Systems Engineer",
-          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200",
-          problem: "The legacy matching engine suffered from latency spikes during high market volatility, causing slippage for traders.",
-          solution: "Redesigned the entire matching engine in Rust. Utilized a Ring Buffer data structure for lock-free concurrency and ZeroMQ for inter-process communication (IPC).",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Reduced p99 latency to under 12µs" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Sustained 100k+ orders/sec throughput" }
-          ],
-          tags: ["Rust", "ZeroMQ", "Docker", "AWS"]
-        },
-        {
-          title: "Global E-Commerce Microservices",
-          role: "Backend Architect",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "The monolithic architecture failed to handle Black Friday traffic, causing a domino effect that crashed the entire database.",
-          solution: "Fully migrated to an Event-driven Microservices architecture using NestJS and Kafka. Implemented CQRS pattern to decouple read/write operations.",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "Achieved 0 downtime during 50M+ requests peak" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Reduced data query latency by 80%" }
-          ],
-          tags: ["NestJS", "Kafka", "PostgreSQL", "Kubernetes"]
-        },
-        {
-          title: "FinTech Mobile App",
-          role: "Lead Mobile Engineer",
-          image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200",
-          problem: "Maintaining two separate native codebases (iOS & Android) slowed down feature releases and caused UI inconsistencies.",
-          solution: "Rewrote the entire app in Flutter with a unified Design System. Integrated complex biometric authentication and local data encryption.",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Smooth 60fps UI on all devices" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Reduced new feature time-to-market by 50%" }
-          ],
-          tags: ["Flutter", "Dart", "Firebase", "WebSockets"]
-        },
-        {
-          title: "Distributed Web Crawler",
-          role: "Backend Engineer",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "The legacy crawler was slow and resource-heavy, unable to meet the requirement of updating millions of records in real-time daily.",
-          solution: "Rewrote the system in Golang. Leveraged goroutines to concurrently crawl hundreds of thousands of URLs, combined with distributed Redis queues and ElasticSearch for high-speed indexing.",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "Increased data collection speed by 20x" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Reduced server costs by 70% through RAM/CPU optimization" }
-          ],
-          tags: ["Golang", "ElasticSearch", "Redis", "gRPC"]
-        },
-        {
-          title: "Web3 DeFi Dashboard",
-          role: "Frontend Lead",
-          image: "https://images.unsplash.com/photo-1639762681485-074b7f4fec07?auto=format&fit=crop&q=80&w=1200",
-          problem: "Users struggled to track their decentralized assets across multiple blockchains due to highly fragmented interfaces.",
-          solution: "Developed a comprehensive, responsive Dashboard using React and Ethers.js, simultaneously integrating 5 blockchains via custom RPC proxies.",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "Seamlessly supported $50M+/day transaction volume" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "Increased new user acquisition by 300% in 2 months" }
-          ],
-          tags: ["React", "Ethers.js", "Solidity", "TailwindCSS"]
-        }
-      ]
-    },
-    tech: {
-      title: "Core",
-      highlight: "Competencies",
-      desc: "My engineering toolkit. Rather than just learning syntax, I focus on understanding principles and architecture to always pick the right tool for the job."
-    },
-    experience: {
-      title: "Career",
-      highlight: "Journey",
-      timeline: [
-        {
-          type: "work",
-          period: "2023 - Present",
-          role: "Senior Systems Engineer",
-          company: "FinTech Global",
-          description: [
-            "Architected and deployed a distributed ledger system using Rust and Kafka, reducing transaction processing time by 40%.",
-            "Led the migration of a legacy Monolith to a Microservices architecture using NestJS on Kubernetes, achieving 99.99% uptime.",
-            "Mentored a team of 5 junior engineers and established an internal CI/CD pipeline with GitHub Actions and Docker."
-          ]
-        },
-        {
-          type: "work",
-          period: "2020 - 2023",
-          role: "Fullstack Developer",
-          company: "TechNova Solutions",
-          description: [
-            "Built a high-performance cross-platform mobile app in Flutter, hitting 500k+ downloads in the first year.",
-            "Developed a real-time analytics admin dashboard using React, TypeScript, and WebSockets to monitor IoT devices.",
-            "Optimized complex PostgreSQL queries, reducing average report generation time from 45 seconds to under 3 seconds."
-          ]
-        },
-        {
-          type: "education",
-          period: "2016 - 2020",
-          role: "B.S. in Computer Science",
-          company: "University of Technology",
-          description: [
-            "Graduated with Honors (GPA: 3.8/4.0).",
-            "Published a research paper on 'Lock-free Concurrent Data Structures in C++' at the National Systems Conference.",
-            "Lead Programmer for the University Robotics Team, writing autonomous navigation systems in C++ and ROS."
-          ]
-        }
-      ]
+      badge: "OTHER SELECTED WORKS",
+      title: "Other Selected Projects",
+      sourceAction: "View source code",
+      hallow: {
+        tag: "Mobile & Desktop",
+        title: "Hallow — Personal Super-App",
+        desc: "Notes, personal finance, and task management super-app in Flutter. Drift SQLite offline cache, 5-tab shell routing, maintaining consistent 60 FPS independent of network state.",
+        metric: "60 FPS",
+      },
+      hnsync: {
+        tag: "Backend Daemon",
+        title: "HNSync — Realtime Stream Engine",
+        desc: "Real-time event streaming service in Golang. Manages concurrent WebSocket connections, integrates with PostgreSQL and Docker, operating with 99.99% uptime.",
+        metric: "Uptime 99.99%",
+      },
     },
     contact: {
-      title1: "Let's Create",
-      title2: "Magic Together",
-      desc: "My inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
-      sayHi: "Say Hello",
-      viewProfile: "View Profile",
-      copyright: "© {year} Nam. All rights reserved."
-    }
+      title: "Let's Build Meaningful Systems Together",
+      desc: "I deeply value opportunities to learn, solve complex engineering challenges, and collaborate with high-caliber teams. Whether you have an open position or simply want to talk distributed systems, I'd love to connect.",
+      emailBtn: "Email: hnamhocit@gmail.com",
+      githubBtn: "GitHub @hnamhocit",
+      directEmail: "Direct Email",
+    },
+    footer: {
+      quote: "Built with perseverance and deep passion for engineering.",
+      scrollTop: "Scroll to top",
+    },
+    blog: {
+      heroTitle: "Engineering Blog & Architecture",
+      heroSubtitle: "Deep-dives into Distributed Systems, Concurrency, Linux Kernel internals, and Cloud-Native DevOps.",
+      searchPlaceholder: "Search articles by title, tag, content...",
+      allCategories: "All",
+      readTime: "min read",
+      backToList: "← Back to all articles",
+      sharePost: "Share article",
+      linkCopied: "Link copied to clipboard!",
+      noResults: "No matching articles found",
+      noResultsDesc: "Try searching with different keywords or select the 'All' category.",
+      filterCount: (n: number) => `Showing ${n} articles`,
+      authorRole: "Backend, DevOps & Mobile Engineer · Creator of Povixa Cloud",
+    },
   },
-  ja: {
-    hero: {
-      status: "新たな機会を探しています",
-      greeting: "こんにちは、私は",
-      role: "フルスタック / システムエンジニア",
-      desc: "堅牢なインフラ、スケーラブルなバックエンド、スムーズなクロスプラットフォームアプリを構築します。複雑なアーキテクチャの課題を、洗練された高性能なソリューションに変えます。",
-      viewProjects: "プロジェクトを見る",
-      downloadCV: "履歴書をダウンロード"
-    },
-    about: {
-      quote_zh: "少年 他们都不看好你 但认输不是你的性格",
-      quote_trans: "「少年よ、誰も君を評価していないが、負けを認めるのは君の性格ではない。」",
-      whoAmI: "私について",
-      desc1: "私は難問の解決に情熱を注ぐソフトウェアエンジニアです。表面的なコードを書くのではなく、システムの奥深くへ潜り込み、本質を理解することを好みます。",
-      desc2: "RustやGoによるマイクロサービスの最適化から、ReactとTailwindを使ったインタラクティブなUIの構築まで、ユーザーに真の価値をもたらす完全な製品を創ることが目標です。",
-      skipToProjects: "スキップしてプロジェクトを見る",
-      p1: (age: number) => [
-        `こんにちは。 | `,
-        <span key="name" className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 font-bold">Namです、</span>,
-        ` ${age}歳です。 | `,
-        <span key="mt" className="text-neutral-100">コンピュータ</span>,
-        ` | への情熱は | 高校1年生の夏から | 燃え上がりました。`
-      ],
-      p2: () => [
-        "それ以来、 | 私の世界は | ",
-        <span key="lg" className="text-purple-400">論理</span>,
-        " | と | ",
-        <span key="kt" className="text-pink-400">システムアーキテクチャ</span>,
-        " | を中心に回っています。 | 私は ",
-        <span key="fs" className="text-indigo-400 font-bold">フルスタック</span>,
-        " | と ",
-        <span key="mb" className="text-blue-400 font-bold">モバイルクロスプラットフォーム</span>,
-        " | に深く焦点を当てています。"
-      ],
-      p3: () => [
-        "なぜ | ",
-        <span key="zg" className="text-yellow-500 font-bold">Zig</span>,
-        "、 | ",
-        <span key="rs" className="text-orange-500 font-bold">Rust</span>,
-        "、 | そして | ",
-        <span key="go" className="text-cyan-400 font-bold">Golang</span>,
-        " | なのか？ | それは私が | ",
-        <span key="tn" className="text-emerald-400">長期的なビジョン</span>,
-        " | と | ",
-        <span key="tu" className="text-red-400">究極の最適化</span>,
-        " | を信じているからです。 | 私のコードは | ",
-        <span key="tr" className="text-yellow-400 font-bold">Tauri</span>,
-        " | のような | ",
-        <span key="vb" className="text-fuchsia-400 font-bold">「バイブス」</span>,
-        " | を強く持っています — | ",
-        <span key="tg" className="text-teal-300">無駄がなく</span>,
-        "、 | ",
-        <span key="hn" className="text-green-400">高性能</span>,
-        "、 | そして | ",
-        <span key="hd" className="text-blue-300">モダン</span>,
-        "。"
-      ],
-      p4: () => [
-        "私はただ | ",
-        <span key="vc" className="text-blue-400">コードを書く</span>,
-        " | だけではありません。 | ",
-        <span key="bt" className="text-rose-400">現実の課題</span>,
-        " | を解決し、 | 停滞の限界を | 打ち破る | ",
-        <span key="bn" className="text-neutral-100">持続可能なソリューション</span>,
-        " | を設計します。"
-      ],
-      techDesc: {
-        zig: "汎用ローレベル & Cの代替",
-        rust: "高性能な自動化 & メモリ安全性",
-        go: "スケーラブルなクラウドバックエンド & マイクロサービス",
-        js: "動的なフロントエンドUI & クロスプラットフォーム"
-      }
-    },
-    projects: {
-      title: "注目の",
-      highlight: "プロジェクト",
-      desc: "拡張性（スケーラビリティ）、パフォーマンス、システムアーキテクチャに焦点を当て、私が解決してきた複雑な技術的課題を深く分析します。",
-      problem: "課題",
-      solution: "解決策",
-      impact: "影響と結果",
-      demo: "デモを見る",
-      source: "ソースコード",
-      list: [
-        {
-          title: "高頻度取引エンジン",
-          role: "コアシステムエンジニア",
-          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200",
-          problem: "従来の取引エンジンは市場の変動時に遅延スパイクが発生し、トレーダーにスリッページを引き起こしていました。",
-          solution: "Rustでマッチングエンジン全体を再設計。ロックフリー並行性のためのリングバッファ構造と、プロセス間通信（IPC）のためのZeroMQを活用しました。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "p99遅延を12µs未満に削減" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "毎秒10万件以上の注文処理を維持" }
-          ],
-          tags: ["Rust", "ZeroMQ", "Docker", "AWS"]
-        },
-        {
-          title: "グローバルEコマース・マイクロサービス",
-          role: "バックエンドアーキテクト",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "モノリスアーキテクチャはブラックフライデーのトラフィックに耐えられず、データベース全体がダウンするドミノ効果を引き起こしました。",
-          solution: "NestJSとKafkaを使用したイベント駆動型マイクロサービスへ完全移行。CQRSパターンを実装し、読み書き操作を分離しました。",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "5000万リクエストのピーク時にダウンタイム0を達成" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "データクエリ遅延を80%削減" }
-          ],
-          tags: ["NestJS", "Kafka", "PostgreSQL", "Kubernetes"]
-        },
-        {
-          title: "FinTech モバイルアプリ",
-          role: "リードモバイルエンジニア",
-          image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200",
-          problem: "2つのネイティブコード（iOS・Android）を維持することで機能リリースが遅れ、UIの不整合が発生していました。",
-          solution: "Flutterで統一されたデザインシステムを用いてアプリ全体を書き換え。複雑な生体認証とローカルデータ暗号化を統合しました。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "全デバイスで滑らかな60fpsのUIを実現" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "新機能のリリース期間を50%短縮" }
-          ],
-          tags: ["Flutter", "Dart", "Firebase", "WebSockets"]
-        },
-        {
-          title: "分散型ウェブクローラー",
-          role: "バックエンドエンジニア",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "従来のクローラーは遅くリソースを消費し、毎日何百万ものレコードをリアルタイムで更新する要件を満たせませんでした。",
-          solution: "Golangでシステムを再構築。goroutineを活用して数十万のURLを並行クロールし、分散RedisキューとElasticSearchを組み合わせた高速インデックスを実装しました。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "データ収集速度を20倍に向上" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "RAM/CPUの最適化によりサーバーコストを70%削減" }
-          ],
-          tags: ["Golang", "ElasticSearch", "Redis", "gRPC"]
-        },
-        {
-          title: "Web3 DeFi ダッシュボード",
-          role: "フロントエンドリード",
-          image: "https://images.unsplash.com/photo-1639762681485-074b7f4fec07?auto=format&fit=crop&q=80&w=1200",
-          problem: "インターフェースが断片化されているため、ユーザーは複数のブロックチェーン間で分散型資産を追跡するのに苦労していました。",
-          solution: "ReactとEthers.jsを使用し、独自のRPCプロキシを介して5つのブロックチェーンを同時に統合する、応答性の高いダッシュボードを開発しました。",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "1日5000万ドル以上の取引量をスムーズにサポート" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "2ヶ月で新規ユーザー獲得が300%増加" }
-          ],
-          tags: ["React", "Ethers.js", "Solidity", "TailwindCSS"]
-        }
-      ]
-    },
-    tech: {
-      title: "コア",
-      highlight: "スキル",
-      desc: "私のエンジニアリングツールキット。単なる構文を学ぶのではなく、常に最適なツールを選択するために、本質とアーキテクチャの理解に焦点を当てています。"
-    },
-    experience: {
-      title: "キャリアの",
-      highlight: "軌跡",
-      timeline: [
-        {
-          type: "work",
-          period: "2023 - 現在",
-          role: "シニアシステムエンジニア",
-          company: "FinTech Global",
-          description: [
-            "RustとKafkaを用いた分散型台帳システムを設計・導入し、トランザクション処理時間を40%削減。",
-            "Kubernetes上のNestJSを使用したマイクロサービスアーキテクチャへの移行を主導し、99.99%の稼働率を達成。",
-            "5人の若手エンジニアの指導にあたり、GitHub ActionsとDockerを使用した社内CI/CDパイプラインを確立。"
-          ]
-        },
-        {
-          type: "work",
-          period: "2020 - 2023",
-          role: "フルスタックデベロッパー",
-          company: "TechNova Solutions",
-          description: [
-            "Flutterで高性能なクロスプラットフォームモバイルアプリを構築し、初年度で50万件以上のダウンロードを達成。",
-            "React、TypeScript、WebSocketsを使用して、IoTデバイスを監視するリアルタイム分析管理ダッシュボードを開発。",
-            "複雑なPostgreSQLクエリを最適化し、平均レポート生成時間を45秒から3秒未満に短縮。"
-          ]
-        },
-        {
-          type: "education",
-          period: "2016 - 2020",
-          role: "コンピュータサイエンス学士",
-          company: "工科大学",
-          description: [
-            "優秀な成績（GPA: 3.8/4.0）で卒業。",
-            "全国システム会議で「C++におけるロックフリー並行データ構造」に関する研究論文を発表。",
-            "大学ロボットチームのリードプログラマーとして、C++とROSで自律ナビゲーションシステムを開発。"
-          ]
-        }
-      ]
-    },
-    contact: {
-      title1: "共に魔法を",
-      title2: "創り出しましょう",
-      desc: "常に新たな機会に対してオープンです。質問がある場合や、単に挨拶したい場合でも、できるだけ早くお返事します！",
-      sayHi: "挨拶する",
-      viewProfile: "プロフィールを見る",
-      copyright: "© {year} Nam. 無断転載を禁じます。"
-    }
-  },
+
   zh: {
-    hero: {
-      status: "正在寻找新机会",
-      greeting: "你好，我是",
-      role: "全栈 / 系统工程师",
-      desc: "构建强大的基础设施、高度可扩展的后端和流畅的跨平台应用程序。将复杂的架构问题转化为优雅、高性能的解决方案。",
-      viewProjects: "查看项目",
-      downloadCV: "下载简历"
+    nav: {
+      home: "首页",
+      blog: "博客",
+      themeToggle: "切换主题",
+      selectLanguage: "选择语言",
     },
-    about: {
-      quote_zh: "少年 他们都不看好你 但认输不是你的性格",
+    hero: {
+      quote_zh: "“ 少年 他们都不看好你 但认输不是你的性格 ”",
       quote_trans: "“少年，他们都不看好你，但认输不是你的性格。”",
-      whoAmI: "我是谁？",
-      desc1: "我是一名热衷于解决难题的软件工程师。我喜欢深入系统的核心以了解问题的本质，而不是仅仅在表面编写代码。",
-      desc2: "从使用Rust和Go优化微服务，到使用React和Tailwind构建高交互性的UI，我的目标是创造能为用户带来真正价值的完整产品。",
-      skipToProjects: "跳过并查看项目",
-      p1: (age: number) => [
-        `你好。 | `,
-        <span key="name" className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 font-bold">我是Nam，</span>,
-        ` ${age}岁。 | 对 `,
-        <span key="mt" className="text-neutral-100">计算机</span>,
-        ` | 的热爱 | 从高一的夏天 | 开始燃烧。`
+      greeting: "你好，我是",
+      name: "黄男 (Hoàng Nam)",
+      bio: (age: number) => `${age}岁。专注于后端、DevOps和移动端的软件工程师，对现代Web架构有深入理解。坚持从底层掌握技术本质，打造经得起生产考验的高可用、高韧性系统。`,
+      ctaPovixa: "探索 Povixa Cloud",
+      ctaEmail: "直接发送邮件",
+      scrollHint: "向下滚动查看核心旗舰项目",
+    },
+    povixa: {
+      badge: "旗舰系统架构 · 核心项目",
+      title: "Povixa Cloud Platform",
+      tagline: "统一的应用基础设施。绝对的自由与掌控。",
+      roleTag: "Lead Architect & 独立全栈开发者",
+      desc: "全面的云端应用基础设施，将核心服务（统一身份认证、边缘远程配置、S3兼容存储、通知推送、遥测监控）整合至单一调度平台。从零构建，专注极致性能、零信任安全与自主私有化部署（Self-Hosted）。",
+      scopeLabel: "负责范围",
+      scopeVal: "100% 架构设计与代码实现",
+      timeLabel: "研发周期",
+      timeVal: "2024 – 至今",
+      modelLabel: "架构模式",
+      modelVal: "Microservices Monorepo",
+      statusLabel: "运行状态",
+      statusVal: "Production Active (生产就绪)",
+      openLiveHint: "直接访问 povixa.cloud ↗",
+
+      metricsTitle: "核心技术指标与生产基准 (Metrics)",
+      metricsSub: "Production Benchmarks",
+      metric1Val: "< 15ms",
+      metric1Label: "p95 API 延迟",
+      metric1Desc: "Golang worker pool 与内存高速缓存",
+      metric2Val: "~18 MB",
+      metric2Label: "Distroless 容器镜像",
+      metric2Desc: "最小化攻击面与轻量化构建体积",
+      metric3Val: "9 Core",
+      metric3Label: "独立微服务子系统",
+      metric3Desc: "高内聚低耦合模块化架构",
+      metric4Val: "100%",
+      metric4Label: "端到端类型安全",
+      metric4Desc: "从后端API到客户端SDK的共享契约",
+
+      challengesTitle: "核心技术挑战与解决方案",
+      challengesSub: "Architectural Decisions",
+      challenges: [
+        {
+          title: "无密码与零信任身份认证 (apps/id)",
+          problem: "挑战：传统密码库泄露风险及针对陈旧认证协议的撞库与网络钓鱼攻击。",
+          solution: "方案：基于FIDO2规范实现WebAuthn / Passkeys生物识别认证，结合OAuth 2.1与PKCE，JWT非对称签名（Ed25519）与跨域单点登录SSO会话管理。",
+        },
+        {
+          title: "实时分布式远程配置与灰度发布 (apps/config)",
+          problem: "挑战：向数万在线客户端毫秒级分发动态配置规则与A/B测试，而不对数据库造成瞬时并发压力。",
+          solution: "方案：结合Redis Pub/Sub与Edge边缘内存缓存。变更传播延迟低于50ms，支持紧急一键回滚，无需重新提交客户端应用市场审核。",
+        },
+        {
+          title: "分布式对象存储与流媒体网关 (apps/storage)",
+          problem: "挑战：客户端并发上传超大视频与图片资源时，应用网关带宽成为严重性能瓶颈。",
+          solution: "方案：构建兼容AWS S3标准的存储网关（适配MinIO/R2），直接为客户端生成预签名上传URL（Presigned URLs）并附带SHA-256完整性校验。",
+        },
+        {
+          title: "注重隐私保护的实时遥测采集流水线 (apps/analytics)",
+          problem: "挑战：在不依赖第三方Cookie的前提下，高并发吞吐用户遥测事件并严格遵守GDPR规范。",
+          solution: "方案：采用Golang异步缓冲队列流水线，数据库批量合并插入（Batch Insert），减少磁盘I/O开销达90%以上。",
+        },
       ],
-      p2: () => [
-        "从那时起， | 我的世界 | 就围绕着 | ",
-        <span key="lg" className="text-purple-400">逻辑</span>,
-        " | 和 | ",
-        <span key="kt" className="text-pink-400">系统架构</span>,
-        " | 旋转。 | 我专注于 ",
-        <span key="fs" className="text-indigo-400 font-bold">全栈</span>,
-        " | 和 ",
-        <span key="mb" className="text-blue-400 font-bold">移动跨平台开发</span>,
-        "。"
+
+      disciplineTitle: "工程纪律、DevOps与生产运维",
+      disciplineSub: "Production Discipline",
+      disciplines: [
+        { title: "Turborepo Monorepo", desc: "统一管理8个独立应用程序及通用公共包，利用智能构建缓存极大加速编译。" },
+        { title: "自动化 CI/CD", desc: "GitHub Actions自动执行代码Lint检查、类型推导、单元测试及多架构Docker镜像构建（amd64 / arm64）。" },
+        { title: "K8s 与容器编排", desc: "Distroless多阶段构建Dockerfile，生产级Kubernetes Helm Charts，健康探测（Probes）自愈。" },
+        { title: "安全防护与可观测性", desc: "结构化JSON日志、防DDoS限流器、细粒度RBAC权限控制及严格的会话令牌安全生命周期。" },
       ],
-      p3: () => [
-        "为什么选择 | ",
-        <span key="zg" className="text-yellow-500 font-bold">Zig</span>,
-        "、 | ",
-        <span key="rs" className="text-orange-500 font-bold">Rust</span>,
-        " | 和 | ",
-        <span key="go" className="text-cyan-400 font-bold">Golang</span>,
-        "？ | 因为我相信 | ",
-        <span key="tn" className="text-emerald-400">长期愿景</span>,
-        " | 和 | ",
-        <span key="tu" className="text-red-400">极致优化</span>,
-        "。 | 我的代码 | 充满了 | ",
-        <span key="tr" className="text-yellow-400 font-bold">Tauri</span>,
-        " | 的 | ",
-        <span key="vb" className="text-fuchsia-400 font-bold">“氛围”</span>,
-        " —— | ",
-        <span key="tg" className="text-teal-300">精简</span>,
-        "、 | ",
-        <span key="hn" className="text-green-400">高性能</span>,
-        " | 且 | ",
-        <span key="hd" className="text-blue-300">现代</span>,
-        "。"
+
+      techTitle: "核心应用技术栈",
+      techSub: "Core Tech Stack",
+      techStacks: [
+        { category: "后端与高并发", strong: "Golang 1.23 & Rust Core", desc: "Goroutines协程池、极致HTTP路由优化、低内存开销" },
+        { category: "数据与内存状态", strong: "PostgreSQL, Redis, MinIO", desc: "复杂索引调优、Redis Pub/Sub事件总线、S3兼容对象存储" },
+        { category: "控制台与交互界面", strong: "SvelteKit 5 & Tailwind", desc: "Svelte 5 Runes响应式、极小Bundle体积、Edge边缘SSR/SSG" },
+        { category: "客户端SDK与运维", strong: "Flutter, TS, Docker, K8s", desc: "面向iOS/Android/Web的原生SDK、Turborepo Monorepo、Helm" },
       ],
-      p4: () => [
-        "我不只是 | ",
-        <span key="vc" className="text-blue-400">写代码</span>,
-        "。 | 我构建 | ",
-        <span key="bn" className="text-neutral-100">可持续的解决方案</span>,
-        " | 来解决 | ",
-        <span key="bt" className="text-rose-400">实际问题</span>,
-        "， | 并打破 | 停滞的界限。"
+
+      subdomainsTitle: "实际运行子域名（点击直接在线验证）",
+      subdomains: [
+        { url: "povixa.cloud ↗", desc: "官网首页、系统架构全景与技术宣言" },
+        { url: "id.povixa.cloud ↗", desc: "统一SSO网关、WebAuthn Passkeys及会话管理" },
+        { url: "console.povixa.cloud ↗", desc: "开发者工作台、API密钥管理与遥测监控" },
+        { url: "docs.povixa.cloud ↗", desc: "技术白皮书、OpenAPI规范与SDK集成指南" },
       ],
-      techDesc: {
-        zig: "通用底层开发 & C语言完美替代",
-        rust: "高性能自动化 & 内存安全",
-        go: "可扩展云后端 & 微服务架构",
-        js: "动态前端UI & 跨平台应用"
-      }
+    },
+    credentials: {
+      badge: "权威认证 · 国际专业背书",
+      title: "国际专业资格证书",
+      desc: "独立第三方验证：AWS云架构设计能力、Kubernetes生产集群运维能力，以及全球化工程协同的高阶学术英语水平。",
+      verified: "已验证",
+      verifyAction: "在线核验",
+      aws: {
+        level: "Associate Level · SAA-C03",
+        title: "AWS Solutions Architect",
+        p1Title: "Multi-AZ 高可用容灾：",
+        p1Desc: "遵循Well-Architected框架设计高承载、多可用区自动故障转移系统。",
+        p2Title: "VPC 网络深度防护：",
+        p2Desc: "公私子网精细隔离、安全组合规配置及IAM最小权限原则落实。",
+        p3Title: "云上成本精细调优：",
+        p3Desc: "ECS/Fargate容器化部署、S3生命周期管理及基于指标的自动扩缩容。",
+        codeLabel: "认证许可编号",
+      },
+      ielts: {
+        level: "学术英语 · 全球技术协作",
+        title: "IELTS Academic (雅思学术类)",
+        badge: "CEFR C1 PROFICIENT",
+        listening: "听力",
+        reading: "阅读",
+        writing: "写作",
+        speaking: "口语",
+        desc: "胜任100%全英文技术环境：撰写严谨的技术RFC提案、主导架构评审讨论，以及与跨国团队顺畅沟通协作。",
+        boardLabel: "官方考试局",
+        boardVal: "IDP / British Council",
+      },
+      cka: {
+        level: "CNCF & Linux Foundation",
+        title: "Kubernetes Administrator (CKA)",
+        p1Title: "零停机平滑发布：",
+        p1Desc: "滚动更新（Rolling update）、金丝雀发布及生产集群确定性调度。",
+        p2Title: "Ingress 与集群网络：",
+        p2Desc: "反向代理路由规则、NetworkPolicy网络隔离及RBAC权限策略设计。",
+        p3Title: "故障自愈机制：",
+        p3Desc: "存活与就绪探针调优，Pod异常崩溃自动恢复与弹性伸缩。",
+        codeLabel: "电子凭据证书号",
+      },
+    },
+    skills: {
+      badge: "CORE STACK & CAPABILITIES",
+      title: "核心技术栈与专业能力",
+      backend: {
+        title: "后端与系统工程",
+        sub: "高吞吐量与低延迟服务",
+        goDesc: "微服务架构、Goroutines协程池、Channel通信、WebSocket并发池",
+        rustDesc: "绝对内存安全、Lock-Free无锁并发算法、低延迟底层引擎",
+        dbDesc: "数据库索引调优、表分区、Redis内存缓存、Pub/Sub事件总线",
+      },
+      devops: {
+        title: "DevOps 与云原生基础设施",
+        sub: "云原生自动化运维",
+        dockerDesc: "多阶段编译构建、Distroless极简镜像、容器运行时安全隔离",
+        k8sDesc: "Kubernetes集群编排、HPA水平自动扩缩容、Ingress反向代理路由",
+        linuxDesc: "Linux内核机制、epoll多路复用、系统调用跟踪、GitHub Actions流水线",
+      },
+      mobile: {
+        title: "移动端与深度Web开发",
+        sub: "跨平台UI与现代应用架构",
+        flutterDesc: "60 FPS原生级流畅渲染、Drift SQLite本地持久化、Clean Architecture",
+        tsDesc: "高性能响应式交互、Svelte 5 Runes、Tailwind CSS样式体系",
+        webDesc: "SSR/SSG服务端渲染、DOM渲染性能调优、Turborepo Monorepo",
+      },
     },
     projects: {
-      title: "精选",
-      highlight: "项目",
-      desc: "深入分析我解决过的复杂技术挑战，重点关注可扩展性、性能和系统架构。",
-      problem: "面临问题",
-      solution: "解决方案",
-      impact: "影响与结果",
-      demo: "查看演示",
-      source: "源代码",
-      list: [
-        {
-          title: "高频交易引擎",
-          role: "核心系统工程师",
-          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200",
-          problem: "旧的撮合引擎在市场剧烈波动时遭遇延迟激增，导致交易员滑点。",
-          solution: "使用Rust重新设计了整个撮合引擎。利用Ring Buffer数据结构实现无锁并发，并使用ZeroMQ进行进程间通信（IPC）。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "将p99延迟降低至12µs以下" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "保持10万+订单/秒的持续处理量" }
-          ],
-          tags: ["Rust", "ZeroMQ", "Docker", "AWS"]
-        },
-        {
-          title: "全球电商微服务",
-          role: "后端架构师",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "单体架构无法承受黑色星期五的流量，引发多米诺骨牌效应导致整个数据库崩溃。",
-          solution: "全面迁移到基于NestJS和Kafka的事件驱动微服务架构。实现CQRS模式以解耦读写操作。",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "在5000万+请求峰值期间实现零停机" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "将数据查询延迟降低了80%" }
-          ],
-          tags: ["NestJS", "Kafka", "PostgreSQL", "Kubernetes"]
-        },
-        {
-          title: "FinTech 移动应用",
-          role: "移动端负责人",
-          image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200",
-          problem: "维护两套独立的本地代码（iOS和Android）减慢了功能发布速度，并导致UI不一致。",
-          solution: "使用Flutter和统一的设计系统重写了整个应用程序。集成了复杂的生物识别认证和本地数据加密。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "在所有设备上实现60fps流畅UI" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "将新功能上市时间缩短了50%" }
-          ],
-          tags: ["Flutter", "Dart", "Firebase", "WebSockets"]
-        },
-        {
-          title: "分布式网络爬虫",
-          role: "后端工程师",
-          image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200",
-          problem: "旧版爬虫缓慢且极其消耗资源，无法满足每天实时更新数百万条记录的要求。",
-          solution: "使用Golang重写了系统。利用goroutine并发抓取数十万个URL，结合分布式Redis队列和ElasticSearch进行高速索引。",
-          results: [
-            { icon: <Zap className="w-4 h-4 text-yellow-400" />, text: "将数据收集速度提高了20倍" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "通过RAM/CPU优化降低了70%的服务器成本" }
-          ],
-          tags: ["Golang", "ElasticSearch", "Redis", "gRPC"]
-        },
-        {
-          title: "Web3 DeFi 仪表板",
-          role: "前端负责人",
-          image: "https://images.unsplash.com/photo-1639762681485-074b7f4fec07?auto=format&fit=crop&q=80&w=1200",
-          problem: "由于界面高度碎片化，用户很难跨多个区块链跟踪他们的去中心化资产。",
-          solution: "使用React和Ethers.js开发了一个全面、响应式的仪表板，通过自定义RPC代理同时整合了5个区块链。",
-          results: [
-            { icon: <Server className="w-4 h-4 text-purple-400" />, text: "流畅支持每日5000万美元以上的交易量" },
-            { icon: <Activity className="w-4 h-4 text-green-400" />, text: "2个月内新用户获取量增加300%" }
-          ],
-          tags: ["React", "Ethers.js", "Solidity", "TailwindCSS"]
-        }
-      ]
-    },
-    tech: {
-      title: "核心",
-      highlight: "能力",
-      desc: "我的工程师工具箱。我不仅学习语法，更注重理解本质和架构，以便始终为每个问题选择正确的工具。"
-    },
-    experience: {
-      title: "职业",
-      highlight: "历程",
-      timeline: [
-        {
-          type: "work",
-          period: "2023 - 至今",
-          role: "高级系统工程师",
-          company: "FinTech Global",
-          description: [
-            "使用Rust和Kafka架构并部署了分布式账本系统，将交易处理时间缩短了40%。",
-            "领导将旧的单体架构迁移到基于Kubernetes和NestJS的微服务架构，实现了99.99%的正常运行时间。",
-            "指导了5名初级工程师，并使用GitHub Actions和Docker建立了内部CI/CD流水线。"
-          ]
-        },
-        {
-          type: "work",
-          period: "2020 - 2023",
-          role: "全栈开发人员",
-          company: "TechNova Solutions",
-          description: [
-            "使用Flutter构建了高性能跨平台移动应用程序，第一年下载量突破50万次。",
-            "使用React、TypeScript和WebSockets开发了实时分析管理仪表板，用于监控物联网设备。",
-            "优化了复杂的PostgreSQL查询，将平均报告生成时间从45秒缩短至3秒以下。"
-          ]
-        },
-        {
-          type: "education",
-          period: "2016 - 2020",
-          role: "计算机科学学士",
-          company: "理工大学",
-          description: [
-            "以优异成绩毕业（GPA: 3.8/4.0）。",
-            "在全国系统会议上发表了关于“C++中的无锁并发数据结构”的研究论文。",
-            "担任大学机器人团队的首席程序员，使用C++和ROS编写自主导航系统。"
-          ]
-        }
-      ]
+      badge: "OTHER SELECTED WORKS",
+      title: "其他代表性作品",
+      sourceAction: "查看源代码",
+      hallow: {
+        tag: "移动与桌面双端",
+        title: "Hallow — 个人超级应用 (Super-App)",
+        desc: "基于Flutter开发的个人笔记、财务记账与任务管理超级应用。集成Drift SQLite离线缓存与5-Tab Shell路由，断网状态下依然保持60 FPS极速丝滑响应。",
+        metric: "60 FPS 流畅度",
+      },
+      hnsync: {
+        tag: "后端后台守护进程",
+        title: "HNSync — 实时流式同步引擎",
+        desc: "基于Golang构建的实时事件流同步系统。维护大规模并发WebSocket连接池，集成PostgreSQL与Docker容器化，持续稳定保持99.99%高可用在线率。",
+        metric: "99.99% 在线率",
+      },
     },
     contact: {
-      title1: "让我们一起",
-      title2: "创造奇迹",
-      desc: "我总是对新机会敞开大门。无论您有问题还是只是想打个招呼，我都会尽量尽快回复！",
-      sayHi: "打个招呼",
-      viewProfile: "查看个人资料",
-      copyright: "© {year} Nam. 保留所有权利。"
-    }
-  }
+      title: "携手创造有价值的系统",
+      desc: "我始终珍视与优秀技术团队共同攻坚、学习和协作的机会。无论是Junior/Remote全栈工程师岗位机会，还是仅仅想探讨分布式系统架构，我都非常乐意尽快与您交流。",
+      emailBtn: "发送邮件：hnamhocit@gmail.com",
+      githubBtn: "GitHub @hnamhocit",
+      directEmail: "直接发邮件",
+    },
+    footer: {
+      quote: "以坚韧与对技术的热爱铸就。",
+      scrollTop: "回到顶部",
+    },
+    blog: {
+      heroTitle: "技术博客与系统架构",
+      heroSubtitle: "深入探讨分布式系统、高并发底层原理、Linux内核机制与云原生DevOps工程实战。",
+      searchPlaceholder: "按标题、标签、内容搜索文章...",
+      allCategories: "全部",
+      readTime: "分钟阅读",
+      backToList: "← 返回文章列表",
+      sharePost: "分享文章",
+      linkCopied: "文章链接已成功复制到剪贴板！",
+      noResults: "未找到相关技术文章",
+      noResultsDesc: "请尝试使用其他关键词搜索，或直接点击上方“全部”分类查看。",
+      filterCount: (n: number) => `共找到 ${n} 篇文章`,
+      authorRole: "后端、DevOps与移动端工程师 · Povixa Cloud 创作者",
+    },
+  },
+
+  ja: {
+    nav: {
+      home: "ホーム",
+      blog: "ブログ",
+      themeToggle: "テーマ切替",
+      selectLanguage: "言語を選択",
+    },
+    hero: {
+      quote_zh: "“ 少年 他们都不看好你 但认输不是你的性格 ”",
+      quote_trans: "「少年よ、誰も君を評価していないが、負けを認めるのは君の性格ではない。」",
+      greeting: "こんにちは、",
+      name: "ホアン・ナム (Hoàng Nam)",
+      bio: (age: number) => `${age}歳。バックエンド、DevOps、モバイルを専門とし、最新のWebアーキテクチャに深い知見を持つソフトウェアエンジニア。基礎から技術を追求し、耐久性の高いプロダクションシステムの構築に情熱を注いでいます。`,
+      ctaPovixa: "Povixa Cloud を探索する",
+      ctaEmail: "メールを送る",
+      scrollHint: "スクロールして主要プロジェクトを見る",
+    },
+    povixa: {
+      badge: "フラグシップシステムアーキテクチャ · 主要プロジェクト",
+      title: "Povixa Cloud Platform",
+      tagline: "統合アプリケーションインフラ。絶対的な自由と自律性。",
+      roleTag: "Lead Architect & 独立フルスタック開発者",
+      desc: "コアサービス（統合認証、エッジリモート設定、S3互換ストレージ、通知、テレメトリ）を単一のオーケストレーション基盤に統合した包括的クラウドインフラ。ゼロから設計され、超高速処理、ゼロトラストセキュリティ、セルフホスト（自己所有サーバー運用）の自律性を実現。",
+      scopeLabel: "担当範囲",
+      scopeVal: "100% 設計および実装",
+      timeLabel: "開発期間",
+      timeVal: "2024 – 現在",
+      modelLabel: "デプロイ形態",
+      modelVal: "Microservices Monorepo",
+      statusLabel: "稼働状況",
+      statusVal: "Production Active (本番運用中)",
+      openLiveHint: "直接 povixa.cloud を開く ↗",
+
+      metricsTitle: "技術指標＆本番ベンチマーク (Metrics)",
+      metricsSub: "Production Benchmarks",
+      metric1Val: "< 15ms",
+      metric1Label: "p95 API レイテンシ",
+      metric1Desc: "Golang worker pool とインメモリキャッシュ",
+      metric2Val: "~18 MB",
+      metric2Label: "Distroless コンテナイメージ",
+      metric2Desc: "攻撃面の最小化と軽量ビルドサイズ",
+      metric3Val: "9 Core",
+      metric3Label: "独立サブシステム群",
+      metric3Desc: "疎結合モジュラー型マイクロサービス",
+      metric4Val: "100%",
+      metric4Label: "End-to-End 型安全性",
+      metric4Desc: "バックエンドからクライアントSDKまでの共通契約",
+
+      challengesTitle: "技術的課題とアーキテクチャ設計",
+      challengesSub: "Architectural Decisions",
+      challenges: [
+        {
+          title: "パスワードレス＆ゼロトラスト認証 (apps/id)",
+          problem: "課題: 従来の認証プロトコルにおける認証情報の漏洩リスクとフィッシング攻撃の脅威。",
+          solution: "解決策: FIDO2標準のWebAuthn / Passkeys生体認証、PKCE対応OAuth 2.1、Ed25519によるJWT非対称署名、複数ドメイン横断SSOセッション管理を実装。",
+        },
+        {
+          title: "リアルタイム分散設定同期＆Feature Flags (apps/config)",
+          problem: "課題: データベースの負荷を抑えつつ、数万のクライアントに設定やA/Bテスト規則をミリ秒単位で瞬時に配信すること。",
+          solution: "解決策: Redis Pub/SubとEdgeインメモリキャッシュを融合。50ms未満での変更伝播と、アプリ再審査不要の即時ロールバックを実現。",
+        },
+        {
+          title: "分散オブジェクトストレージゲートウェイ (apps/storage)",
+          problem: "課題: 複数クライアントからの動画・大容量ファイル同時アップロードによるアプリサーバー帯域のボトルネック。",
+          solution: "解決策: S3互換ゲートウェイ（MinIO/R2対応）を構築し、クライアントから直接Presigned Upload URLを発行。SHA-256整合性検証を統合。",
+        },
+        {
+          title: "プライバシー保護型リアルタイムテレメトリパイプライン (apps/analytics)",
+          problem: "課題: サードパーティCookieに依存せず、GDPRに完全準拠しながらユーザー行動イベントをリアルタイムに収集すること。",
+          solution: "解決策: Golangキューバッファによる非同期処理とDB一括バッチ挿入により、ディスクI/O負荷を90%以上削減。",
+        },
+      ],
+
+      disciplineTitle: "エンジニアリング規律・DevOps・運用",
+      disciplineSub: "Production Discipline",
+      disciplines: [
+        { title: "Turborepo Monorepo", desc: "8つの独立アプリケーションと共有パッケージを一元管理し、インテリジェントキャッシュでビルドを高速化。" },
+        { title: "自動化 CI/CD", desc: "GitHub Actionsによる自動Lint、型検査、ユニットテスト、およびマルチアーキテクチャDockerビルド（amd64 / arm64）。" },
+        { title: "K8s とコンテナ設計", desc: "マルチステージDistroless Dockerfile、本番向けHelmチャート、liveness/readinessプローブによる自己修復。" },
+        { title: "セキュリティと可観測性", desc: "構造化JSONロギング、DDoSレートリミット、細粒度RBACアクセス制御、安全なトークンライフサイクル管理。" },
+      ],
+
+      techTitle: "採用コア技術スタック",
+      techSub: "Core Tech Stack",
+      techStacks: [
+        { category: "バックエンド・並行処理", strong: "Golang 1.23 & Rust Core", desc: "Goroutineプール、最適化HTTPルーター、低メモリ消費" },
+        { category: "データ・インメモリ状態", strong: "PostgreSQL, Redis, MinIO", desc: "インデックスチューニング、Redis Pub/Subイベントバス、S3互換ストレージ" },
+        { category: "コントロールプレーン・UI", strong: "SvelteKit 5 & Tailwind", desc: "Svelte 5 Runesリアクティビティ、軽量バンドル、エッジSSR/SSG" },
+        { category: "クライアントSDK・DevOps", strong: "Flutter, TS, Docker, K8s", desc: "iOS/Android/WebネイティブSDK、Turborepo Monorepo、Helm" },
+      ],
+
+      subdomainsTitle: "本番稼働中のサブドメイン（直接確認可能）",
+      subdomains: [
+        { url: "povixa.cloud ↗", desc: "公式ランディングページ、アーキテクチャ概要およびマニフェスト" },
+        { url: "id.povixa.cloud ↗", desc: "統合SSOポータル、WebAuthn Passkeysおよびセッション管理" },
+        { url: "console.povixa.cloud ↗", desc: "開発者コックピット、APIキー管理およびテレメトリ分析" },
+        { url: "docs.povixa.cloud ↗", desc: "技術仕様書、OpenAPI仕様およびSDK統合ガイド" },
+      ],
+    },
+    credentials: {
+      badge: "国際認定資格 · プロフェッショナル証明",
+      title: "国際プロフェッショナル資格",
+      desc: "AWSクラウドアーキテクチャ、Kubernetesクラスタ運用、およびグローバル業務に耐えうるアカデミック英語力の客観的証明。",
+      verified: "認定済み",
+      verifyAction: "検証する",
+      aws: {
+        level: "Associate Level · SAA-C03",
+        title: "AWS Solutions Architect",
+        p1Title: "Multi-AZ 高耐障害性:",
+        p1Desc: "Well-Architectedフレームワークに基づく高負荷・自動フェイルオーバー設計。",
+        p2Title: "VPCネットワークセキュリティ:",
+        p2Desc: "パブリック/プライベートサブネット分離、セキュリティグループ、最小権限IAMポリシーの徹底。",
+        p3Title: "クラウドコスト最適化:",
+        p3Desc: "ECS/Fargateコンテナ運用、S3ライフサイクル階層化、メトリクス連動オートスケーリング。",
+        codeLabel: "認定番号",
+      },
+      ielts: {
+        level: "Academic English · Global Working",
+        title: "IELTS Academic (アカデミック英語)",
+        badge: "CEFR C1 PROFICIENT",
+        listening: "Listening",
+        reading: "Reading",
+        writing: "Writing",
+        speaking: "Speaking",
+        desc: "100%英語でのエンジニアリング環境に対応：英語RFC/技術仕様書の策定、設計レビューへの参加、グローバルパートナーとの円滑な協業が可能。",
+        boardLabel: "認定機関",
+        boardVal: "IDP / British Council",
+      },
+      cka: {
+        level: "CNCF & Linux Foundation",
+        title: "Kubernetes Administrator (CKA)",
+        p1Title: "無停止デプロイ:",
+        p1Desc: "ローリングアップデート、カナリアリリース、クラスタの安定したPodスケジューリング。",
+        p2Title: "Ingress とネットワーク:",
+        p2Desc: "リバースプロキシルーティング、NetworkPolicyネットワーク分離、RBACアクセス制御。",
+        p3Title: "自己修復（Auto-Healing）:",
+        p3Desc: "liveness/readinessプローブの適切な調整と、Pod障害時の自動リカバリ。",
+        codeLabel: "証明書番号",
+      },
+    },
+    skills: {
+      badge: "CORE STACK & CAPABILITIES",
+      title: "コアスタック＆スキル",
+      backend: {
+        title: "バックエンド＆システム",
+        sub: "高スループット＆低遅延サービス",
+        goDesc: "マイクロサービス、Goroutineプール、Channel通信、WebSocketプール",
+        rustDesc: "絶対的なメモリ安全性、ロックフリー並行処理、低レイテンシ基盤",
+        dbDesc: "インデックスチューニング、パーティショニング、Redisインメモリキャッシュ、Pub/Sub",
+      },
+      devops: {
+        title: "DevOps＆クラウドインフラ",
+        sub: "クラウドネイティブ自動化",
+        dockerDesc: "マルチステージビルド、Distroless軽量イメージ、コンテナ隔離",
+        k8sDesc: "K8sクラスタオーケストレーション、Pod自動スケーリング、Ingressプロキシ",
+        linuxDesc: "Linuxカーネル内部構造、epoll多重化、システムコール、GitHub Actions CI/CD",
+      },
+      mobile: {
+        title: "モバイル＆モダンWeb",
+        sub: "クロスプラットフォームUI＆設計",
+        flutterDesc: "60 FPSネイティブ描画、Drift SQLiteキャッシュ、Clean Architecture",
+        tsDesc: "高速リアクティブUI、Svelte 5 Runes、Tailwind CSS",
+        webDesc: "SSR/SSG、DOMパフォーマンス最適化、Turborepo Monorepo",
+      },
+    },
+    projects: {
+      badge: "OTHER SELECTED WORKS",
+      title: "その他の主要プロジェクト",
+      sourceAction: "ソースコードを見る",
+      hallow: {
+        tag: "モバイル＆デスクトップ",
+        title: "Hallow — 個人向けスーパーアプリ",
+        desc: "Flutterで構築されたメモ・個人財務・タスク管理のスーパーアプリ。Drift SQLiteによるオフラインキャッシュ、5タブShellルーティング、ネットワーク環境に依存せず滑らかな60 FPS描画を維持。",
+        metric: "60 FPS 描画",
+      },
+      hnsync: {
+        tag: "バックエンドデーモン",
+        title: "HNSync — リアルタイムストリームエンジン",
+        desc: "Golangで開発されたリアルタイムイベントストリーミング基盤。大規模WebSocket並行接続プールを管理し、PostgreSQLおよびDockerと連携。稼働率99.99%の安定稼働を実現。",
+        metric: "稼働率 99.99%",
+      },
+    },
+    contact: {
+      title: "共に意義あるものを創り出す",
+      desc: "優れたエンジニアリングチームと共に学び、挑戦し、価値を生み出す機会を常に歓迎しています。採用のご相談（ジュニア / リモートフルスタック）から技術的なディスカッションまで、いつでもお気軽にご連絡ください。",
+      emailBtn: "メール送信: hnamhocit@gmail.com",
+      githubBtn: "GitHub @hnamhocit",
+      directEmail: "直接メールする",
+    },
+    footer: {
+      quote: "エンジニアリングへの情熱と信念を持って制作。",
+      scrollTop: "ページトップへ",
+    },
+    blog: {
+      heroTitle: "エンジニアリングブログ＆技術考察",
+      heroSubtitle: "分散システム、高並行処理、Linuxカーネル、クラウドネイティブDevOpsに関する技術考察。",
+      searchPlaceholder: "タイトル、タグ、内容で記事を検索...",
+      allCategories: "すべて",
+      readTime: "分で読める",
+      backToList: "← 記事一覧に戻る",
+      sharePost: "記事を共有",
+      linkCopied: "リンクをクリップボードにコピーしました！",
+      noResults: "該当する記事が見つかりませんでした",
+      noResultsDesc: "別のキーワードを試すか、「すべて」カテゴリを選択してください。",
+      filterCount: (n: number) => `${n} 件の記事を表示中`,
+      authorRole: "Backend, DevOps & Mobile Engineer · Creator of Povixa Cloud",
+    },
+  },
 };

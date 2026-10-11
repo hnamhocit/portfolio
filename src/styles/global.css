@@ -1,65 +1,137 @@
 @import "tailwindcss";
-@import "@fontsource/nunito/700.css";
-@import "@fontsource/nunito/800.css";
-@import "@fontsource/nunito/900.css";
+@import "@fontsource-variable/outfit/index.css";
 @import "@fontsource/be-vietnam-pro/400.css";
 @import "@fontsource/be-vietnam-pro/500.css";
 @import "@fontsource/be-vietnam-pro/600.css";
+@import "@fontsource/be-vietnam-pro/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-display: 'Nunito', sans-serif;
-    --font-sans: 'Be Vietnam Pro', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Outfit Variable', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 :root {
-    --bg: #F8FAFC;
-    --surface: #ffffff;
-    --surface2: #F1F5F9;
-    --border: rgba(0, 0, 0, 0.08);
-    --text: #0f172a;
-    --muted: #64748b;
+  /* Claude's gentle warm parchment/cream background */
+  --bg: #FAF9F5;
+  --surface: #FFFFFF;
+  --surface-subtle: #F4EFE6;
+  --surface-hover: #ECE6DA;
+  --border: rgba(40, 35, 25, 0.09);
+  --border-subtle: rgba(40, 35, 25, 0.05);
+  --border-strong: rgba(40, 35, 25, 0.16);
+  --border-highlight: rgba(147, 51, 234, 0.35);
+  
+  --text: #1C1917;
+  --muted: #68625A;
+  --dim: #9C958A;
 
-    --pink: #F65C8A;
-    --violet: #8B5CF6;
-    --cyan: #06b6d4;
-    --yellow: #d97706;
+  --accent-purple: #9333EA;
+  --accent-violet: #7C3AED;
+  --accent-indigo: #4F46E5;
+  --accent-fuchsia: #C026D3;
+  --accent-cyan: #0284C7;
+  --accent-emerald: #059669;
 }
 
 .dark {
-    --bg: #0E1220;
-    --surface: #161B2C;
-    --surface2: #1D2337;
-    --border: rgba(255, 255, 255, 0.08);
-    --text: #F1F5F9;
-    --muted: #94A3B8;
+  --bg: #080A0F;
+  --surface: #10141E;
+  --surface-subtle: #161D2B;
+  --surface-hover: #1D2536;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-highlight: rgba(192, 132, 252, 0.4);
 
-    --pink: #F65C8A;
-    --violet: #8B5CF6;
-    --cyan: #22D3EE;
-    --yellow: #FBBF24;
+  --text: #F1F5F9;
+  --muted: #94A3B8;
+  --dim: #64748B;
+
+  --accent-purple: #C084FC;
+  --accent-violet: #A78BFA;
+  --accent-indigo: #818CF8;
+  --accent-fuchsia: #E879F9;
+  --accent-cyan: #38BDF8;
+  --accent-emerald: #34D399;
 }
 
 @layer base {
   body {
-    @apply font-sans antialiased bg-[var(--bg)] text-[var(--text)] transition-colors duration-0 leading-[1.7];
+    @apply font-sans antialiased bg-[var(--bg)] text-[var(--text)] transition-colors duration-200 leading-[1.65];
   }
 }
 
 ::selection {
-    background: var(--pink);
-    color: #ffffff;
+  background: rgba(168, 85, 247, 0.3);
+  color: #FFFFFF;
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+@keyframes aurora-1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(45px, -25px) scale(1.12); }
 }
 
-.animate-marquee {
-  animation: marquee 40s linear infinite;
+@keyframes aurora-2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-35px, 30px) scale(1.08); }
+}
+
+@keyframes aurora-3 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(25px, 20px) scale(0.95); }
+}
+
+.aurora-blob-1 { animation: aurora-1 14s ease-in-out infinite; }
+.aurora-blob-2 { animation: aurora-2 18s ease-in-out infinite; }
+.aurora-blob-3 { animation: aurora-3 20s ease-in-out infinite; }
+
+/* Technical grid pattern background */
+.bg-grid-tech {
+  background-image: 
+    linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Subtle dot pattern */
+.bg-dots-tech {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Railroad SVG pulse animations */
+@keyframes railroad-pulse {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+.railroad-dot {
+  animation: railroad-pulse 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Custom terminal scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

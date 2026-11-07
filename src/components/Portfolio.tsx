@@ -72,10 +72,10 @@ export default function Portfolio() {
   ];
 
   return (
-    <div className="h-screen w-full flex flex-col justify-between px-6 sm:px-12 lg:px-16 xl:px-24 py-6 sm:py-8 box-border overflow-hidden bg-[var(--bg)] transition-colors select-none">
+    <div className="min-h-screen sm:h-screen min-h-[100dvh] sm:h-[100dvh] w-full flex flex-col justify-between px-4 sm:px-12 lg:px-16 xl:px-24 py-4 sm:py-8 box-border overflow-y-auto sm:overflow-hidden bg-[var(--bg)] transition-colors select-none">
       
       {/* ============================================================ */}
-      {/* HEADER: Gọn gàng, tối giản (Kyky.dev style) */}
+      {/* HEADER: Gọn gàng, tối giản (Responsive Kyky.dev style) */}
       {/* ============================================================ */}
       <header className="w-full max-w-4xl lg:max-w-5xl mx-auto flex items-center justify-between z-10 shrink-0">
         
@@ -84,21 +84,22 @@ export default function Portfolio() {
           <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md bg-[#1E3A5F]/10 text-[#1E3A5F] dark:bg-sky-500/15 dark:text-sky-300">
             hn
           </span>
-          <span className="font-mono text-sm tracking-tight text-slate-800 dark:text-slate-200 font-medium">
+          <span className="font-mono text-xs sm:text-sm tracking-tight text-slate-800 dark:text-slate-200 font-medium">
             hnamhocit<span className="text-[#1E3A5F] dark:text-sky-400 font-bold">.dev</span>
           </span>
         </a>
 
         {/* Right Navigation & Tools */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           
-          {/* Credentials Modal Trigger */}
+          {/* Credentials Modal Trigger (Icon on mobile, icon+text on sm+) */}
           <button
             onClick={() => setShowCredentials(true)}
-            className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer inline-flex items-center gap-1.5"
+            className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-2 sm:px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer inline-flex items-center gap-1.5"
+            title={t.nav.credentials}
           >
             <Award size={15} className="text-amber-500 shrink-0" />
-            <span>{t.nav.credentials}</span>
+            <span className="hidden sm:inline">{t.nav.credentials}</span>
           </button>
 
           {/* Language Selector */}
@@ -120,37 +121,38 @@ export default function Portfolio() {
       {/* ============================================================ */}
       {/* CENTER HERO: Co gọn vào giữa, sát nhau, nhiều khoảng thở */}
       {/* ============================================================ */}
-      <main className="w-full my-auto py-2 sm:py-4 flex items-center justify-center">
+      <main className="w-full my-auto py-3 sm:py-6 flex items-center justify-center">
         <div className="w-full max-w-4xl lg:max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
             
             {/* Left Column: Greeting, Role, Direct CTAs & Tech Chips */}
-            <div className="md:col-span-7 space-y-5 text-center md:text-left">
+            <div className="md:col-span-7 space-y-4 sm:space-y-5 text-center md:text-left">
               
-              {/* Main Greeting */}
-              <div className="space-y-2.5">
-                <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-[3.25rem] text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
-                  {t.hero.greeting} <span className="text-[#1E3A5F] dark:text-sky-300">{t.hero.name}</span>
+              {/* Main Greeting (No awkward word-breaking of name) */}
+              <div className="space-y-2">
+                <h1 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-[3.25rem] text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+                  <span>{t.hero.greeting}</span>{' '}
+                  <span className="inline-block text-[#1E3A5F] dark:text-sky-300">{t.hero.name}</span>
                 </h1>
                 
-                <p className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-300">
+                <p className="text-sm sm:text-base md:text-lg font-medium text-slate-700 dark:text-slate-300">
                   {t.hero.role}
                 </p>
 
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic max-w-md leading-relaxed border-l-2 border-slate-300 dark:border-slate-700 pl-3 py-0.5">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic max-w-md mx-auto md:mx-0 leading-relaxed md:border-l-2 md:border-slate-300 md:dark:border-slate-700 md:pl-3 py-0.5">
                   &ldquo;{t.hero.tagline}&rdquo;
                 </p>
               </div>
 
               {/* Direct Action Buttons: Resume, vntez, GitHub */}
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-2.5 pt-0.5">
                 
                 {/* 1. Primary: My Resume PDF */}
                 <a 
                   href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2.5 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 shadow-sm transition-all hover:scale-[1.02] cursor-pointer"
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 shadow-sm transition-all hover:scale-[1.02] cursor-pointer"
                 >
                   <span>{t.hero.ctaResume}</span>
                   <ArrowUpRight size={14} />
@@ -161,7 +163,7 @@ export default function Portfolio() {
                   href="https://vntez.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 shadow-2xs transition-all hover:scale-[1.02] cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 shadow-2xs transition-all hover:scale-[1.02] cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   <span>{t.hero.ctaVntez}</span>
@@ -173,7 +175,7 @@ export default function Portfolio() {
                   href="https://github.com/hnamhocit"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-all hover:scale-[1.05] cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-all hover:scale-[1.05] cursor-pointer"
                   title="GitHub Profile"
                 >
                   <FaGithub size={15} />
@@ -181,13 +183,13 @@ export default function Portfolio() {
 
               </div>
 
-              {/* Glanceable Tech Chips (ASP.NET Core, NestJS, TypeScript, Next.js, Flutter, Cloudflare Edge) */}
-              <div className="pt-1">
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5">
+              {/* Glanceable Tech Chips */}
+              <div className="pt-0.5">
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-1 sm:gap-1.5">
                   {coreSkills.map((s) => (
                     <span 
                       key={s.name}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/50 text-[11px] font-mono font-medium text-slate-600 dark:text-slate-300 shadow-2xs"
+                      className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/50 text-[10px] sm:text-[11px] font-mono font-medium text-slate-600 dark:text-slate-300 shadow-2xs"
                     >
                       {s.icon}
                       <span>{s.name}</span>
@@ -198,24 +200,24 @@ export default function Portfolio() {
 
             </div>
 
-            {/* Right Column: Layered Card Character Portrait (Exact Kyky.dev Offset Geometry) */}
-            <div className="md:col-span-5 flex justify-center md:justify-center">
-              <div className="relative w-60 h-68 sm:w-68 sm:h-76 md:w-76 md:h-84 select-none group transition-transform duration-500 hover:scale-[1.02]">
+            {/* Right Column: Layered Card Character Portrait (Balanced mobile & desktop scale) */}
+            <div className="md:col-span-5 flex justify-center md:justify-center py-2 sm:py-0">
+              <div className="relative w-44 h-52 sm:w-56 sm:h-64 md:w-68 md:h-80 select-none group transition-transform duration-500 hover:scale-[1.02]">
                 
                 {/* Layer 1: Bottom-Left Dark Navy Card (#1c4473) */}
                 <div 
-                  className="absolute inset-0 rounded-[2.5rem] bg-[#1c4473] dark:bg-[#122b4a] -translate-x-5 translate-y-5 sm:-translate-x-7 sm:translate-y-7 transition-transform duration-500 ease-out group-hover:-translate-x-7 group-hover:translate-y-7 sm:group-hover:-translate-x-9 sm:group-hover:translate-y-9 shadow-md"
+                  className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-[#1c4473] dark:bg-[#122b4a] -translate-x-3.5 translate-y-3.5 sm:-translate-x-6 sm:translate-y-6 transition-transform duration-500 ease-out group-hover:-translate-x-5 group-hover:translate-y-5 sm:group-hover:-translate-x-8 sm:group-hover:translate-y-8 shadow-md"
                   aria-hidden="true"
                 />
 
                 {/* Layer 2: Top-Right Slate Blue Card (#49698f) */}
                 <div 
-                  className="absolute inset-0 rounded-[2.5rem] bg-[#49698f] dark:bg-[#2d4664] translate-x-5 -translate-y-5 sm:translate-x-7 sm:-translate-y-7 transition-transform duration-500 ease-out group-hover:translate-x-7 group-hover:-translate-y-7 sm:group-hover:translate-x-9 sm:group-hover:-translate-y-9 shadow-md"
+                  className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-[#49698f] dark:bg-[#2d4664] translate-x-3.5 -translate-y-3.5 sm:translate-x-6 sm:-translate-y-6 transition-transform duration-500 ease-out group-hover:translate-x-5 group-hover:-translate-y-5 sm:group-hover:translate-x-8 sm:group-hover:-translate-y-8 shadow-md"
                   aria-hidden="true"
                 />
 
                 {/* Layer 3: Front Character Portrait Card (Centered, rounded-[2.5rem], shadow-2xl) */}
-                <div className="relative h-full w-full rounded-[2.5rem] bg-[#1c4473] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
+                <div className="relative h-full w-full rounded-[2rem] sm:rounded-[2.5rem] bg-[#1c4473] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
                   <img 
                     src="/avatar.png" 
                     alt="Hoàng Nam" 
@@ -233,9 +235,9 @@ export default function Portfolio() {
       </main>
 
       {/* ============================================================ */}
-      {/* BOTTOM BAR: Social Links on Left, Est. Year on Right */}
+      {/* BOTTOM BAR: Responsive on mobile (stacked) and desktop (single row) */}
       {/* ============================================================ */}
-      <footer className="w-full max-w-4xl lg:max-w-5xl mx-auto flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 z-10 shrink-0 pt-2">
+      <footer className="w-full max-w-4xl lg:max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-4 text-xs text-slate-500 dark:text-slate-400 z-10 shrink-0 pt-3 pb-1">
         
         {/* Left: Social Icons */}
         <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400">
@@ -279,7 +281,7 @@ export default function Portfolio() {
         </div>
 
         {/* Right: Est. Year & Location */}
-        <div className="flex items-center gap-1.5 font-mono text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs text-slate-400 dark:text-slate-500">
           <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
           <span>{t.hero.statusText}</span>
         </div>

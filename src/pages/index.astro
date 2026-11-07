@@ -1,6 +1,38 @@
 ---
 import Portfolio from '@/components/Portfolio';
 import '@/styles/global.css';
+
+const siteUrl = "https://hnamhocit.vercel.app";
+const title = "Hoàng Nam (hnamhocit) — Fullstack AI Engineering & Systems Architect";
+const description = "Portfolio cá nhân của Nguyễn Hoàng Nam (hnamhocit) — Kỹ sư Fullstack AI Engineering, Systems Architecture và tác giả hệ sinh thái VNTEZ.";
+const author = "Nguyễn Hoàng Nam (hnamhocit)";
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Nguyễn Hoàng Nam",
+  "alternateName": ["hnamhocit", "Hoàng Nam", "Nam Nguyen"],
+  "url": siteUrl,
+  "image": `${siteUrl}/avatar.png`,
+  "jobTitle": "Fullstack AI Engineer",
+  "sameAs": [
+    "https://github.com/hnamhocit",
+    "https://linkedin.com/in/hnamhocit",
+    "https://facebook.com/hnamhocit",
+    "https://t.me/hnamhocit",
+    "https://vntez.vercel.app"
+  ],
+  "knowsAbout": [
+    "Fullstack AI Engineering",
+    "ASP.NET Core",
+    "NestJS",
+    "TypeScript",
+    "Next.js",
+    "Flutter",
+    "Cloudflare Edge Workers",
+    "Distributed Systems"
+  ]
+};
 ---
 
 <html lang="vi" class="scroll-smooth">
@@ -8,27 +40,35 @@ import '@/styles/global.css';
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/png" href="/avatar.png" />
 		<link rel="apple-touch-icon" href="/avatar.png" />
+		<link rel="canonical" href={siteUrl} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- Primary Meta Tags -->
-		<title>Hoàng Nam | Backend, DevOps &amp; Mobile Engineer</title>
-		<meta name="title" content="Hoàng Nam | Backend, DevOps &amp; Mobile Engineer" />
-		<meta name="description" content="Portfolio của Hoàng Nam - Kỹ sư Backend, DevOps, Mobile &amp; Web Systems. Chuyên sâu Go, Rust, Flutter, Docker, Kubernetes, Distributed Systems và High-Performance Architecture." />
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="author" content={author} />
+		<meta name="keywords" content="hnamhocit, Hoàng Nam, Nguyễn Hoàng Nam, hoang nam hnamhocit, vntez, Fullstack AI Engineering, ASP.NET Core, NestJS, Cloudflare Edge" />
+		<meta name="robots" content="index, follow" />
 		
 		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://hnamhocit.vercel.app/" />
-		<meta property="og:title" content="Hoàng Nam | Backend, DevOps &amp; Mobile Engineer" />
-		<meta property="og:description" content="Portfolio của Hoàng Nam - Kỹ sư Backend, DevOps, Mobile &amp; Web Systems. Chuyên sâu Go, Rust, Flutter, Docker, Kubernetes, Distributed Systems và High-Performance Architecture." />
-		<meta property="og:image" content="https://hnamhocit.vercel.app/avatar.png" />
+		<meta property="og:type" content="profile" />
+		<meta property="og:url" content={siteUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={`${siteUrl}/avatar.png`} />
+		<meta property="og:site_name" content="hnamhocit.dev" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://hnamhocit.vercel.app/" />
-		<meta property="twitter:title" content="Hoàng Nam | Backend, DevOps &amp; Mobile Engineer" />
-		<meta property="twitter:description" content="Portfolio của Hoàng Nam - Kỹ sư Backend, DevOps, Mobile &amp; Web Systems. Chuyên sâu Go, Rust, Flutter, Docker, Kubernetes, Distributed Systems và High-Performance Architecture." />
-		<meta property="twitter:image" content="https://hnamhocit.vercel.app/avatar.png" />
+		<meta property="twitter:url" content={siteUrl} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={`${siteUrl}/avatar.png`} />
+
+		<!-- Structured Data / JSON-LD Entity Schema -->
+		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 	</head>
 	<body>
 		<Portfolio client:load />

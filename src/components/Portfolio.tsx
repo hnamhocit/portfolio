@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Sun, Moon, ArrowUpRight, ExternalLink, 
-  ShieldCheck, X, Award, CheckCircle2, BookOpen,
-  Cpu, Workflow, Check, Copy
+  ShieldCheck, X, Award, CheckCircle2,
+  Cpu, Workflow, Check, Copy, MapPin
 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTelegramPlane, FaAws } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
 import { 
-  SiFlutter, SiGo, SiRust, SiTypescript, SiCloudflare, SiNextdotjs 
+  SiFlutter, SiTypescript, SiCloudflare, SiNextdotjs,
+  SiDotnet, SiNestjs
 } from 'react-icons/si';
 import { useLanguage } from '../store/useLanguage';
 import { translations, CREDENTIALS_LIST, type CredentialItem } from '../i18n/translations';
@@ -62,19 +63,19 @@ export default function Portfolio() {
   };
 
   const coreSkills = [
-    { name: 'Golang', icon: <SiGo className="text-[#00ADD8]" size={14} /> },
-    { name: 'Rust', icon: <SiRust className="text-[#DEA584]" size={14} /> },
+    { name: 'ASP.NET Core', icon: <SiDotnet className="text-[#512BD4]" size={15} /> },
+    { name: 'NestJS', icon: <SiNestjs className="text-[#E0234E]" size={14} /> },
     { name: 'TypeScript', icon: <SiTypescript className="text-[#3178C6]" size={13} /> },
-    { name: 'Cloudflare Edge', icon: <SiCloudflare className="text-[#F38020]" size={14} /> },
     { name: 'Next.js', icon: <SiNextdotjs className="text-slate-900 dark:text-white" size={14} /> },
     { name: 'Flutter', icon: <SiFlutter className="text-[#02569B]" size={13} /> },
+    { name: 'Cloudflare Edge', icon: <SiCloudflare className="text-[#F38020]" size={14} /> },
   ];
 
   return (
     <div className="h-screen w-full flex flex-col justify-between px-6 sm:px-12 lg:px-16 xl:px-24 py-6 sm:py-8 box-border overflow-hidden bg-[var(--bg)] transition-colors select-none">
       
       {/* ============================================================ */}
-      {/* HEADER: Gọn gàng, không trùng lặp link (Kyky.dev style) */}
+      {/* HEADER: Gọn gàng, tối giản (Kyky.dev style) */}
       {/* ============================================================ */}
       <header className="w-full max-w-4xl lg:max-w-5xl mx-auto flex items-center justify-between z-10 shrink-0">
         
@@ -117,13 +118,13 @@ export default function Portfolio() {
       </header>
 
       {/* ============================================================ */}
-      {/* CENTER HERO: Co gọn vào giữa, sát nhau, nhiều khoảng thở bao quanh */}
+      {/* CENTER HERO: Co gọn vào giữa, sát nhau, nhiều khoảng thở */}
       {/* ============================================================ */}
       <main className="w-full my-auto py-2 sm:py-4 flex items-center justify-center">
         <div className="w-full max-w-4xl lg:max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Greeting, Role, All Direct CTAs & Tech Chips */}
+            {/* Left Column: Greeting, Role, Direct CTAs & Tech Chips */}
             <div className="md:col-span-7 space-y-5 text-center md:text-left">
               
               {/* Main Greeting */}
@@ -141,7 +142,7 @@ export default function Portfolio() {
                 </p>
               </div>
 
-              {/* Direct Action Buttons: Resume, VNTEZ, Blog, GitHub */}
+              {/* Direct Action Buttons: Resume, vntez, GitHub */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
                 
                 {/* 1. Primary: My Resume PDF */}
@@ -155,7 +156,7 @@ export default function Portfolio() {
                   <ArrowUpRight size={14} />
                 </a>
 
-                {/* 2. Secondary: vntez.vercel.app */}
+                {/* 2. Secondary: vntez */}
                 <a 
                   href="https://vntez.vercel.app"
                   target="_blank"
@@ -167,16 +168,7 @@ export default function Portfolio() {
                   <ExternalLink size={12} className="opacity-70" />
                 </a>
 
-                {/* 3. Tech Blog */}
-                <a 
-                  href="/blog"
-                  className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white/70 dark:bg-slate-800/70 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-medium inline-flex items-center gap-1.5 shadow-2xs transition-all hover:scale-[1.02] cursor-pointer"
-                >
-                  <BookOpen size={13} className="opacity-70" />
-                  <span>{t.hero.ctaBlog}</span>
-                </a>
-
-                {/* 4. GitHub Profile */}
+                {/* 3. GitHub Profile */}
                 <a
                   href="https://github.com/hnamhocit"
                   target="_blank"
@@ -189,7 +181,7 @@ export default function Portfolio() {
 
               </div>
 
-              {/* Glanceable Tech Chips */}
+              {/* Glanceable Tech Chips (ASP.NET Core, NestJS, TypeScript, Next.js, Flutter, Cloudflare Edge) */}
               <div className="pt-1">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5">
                   {coreSkills.map((s) => (
@@ -206,7 +198,7 @@ export default function Portfolio() {
 
             </div>
 
-            {/* Right Column: Layered Card Character Portrait (Sitting close to text) */}
+            {/* Right Column: Layered Card Character Portrait */}
             <div className="md:col-span-5 flex justify-center md:justify-center">
               <div className="relative w-56 h-68 sm:w-64 sm:h-76 md:w-72 md:h-84 select-none group transition-transform duration-500 hover:scale-[1.02]">
                 
@@ -241,7 +233,7 @@ export default function Portfolio() {
       </main>
 
       {/* ============================================================ */}
-      {/* BOTTOM BAR: Social Links on Left, Verified Credential on Right */}
+      {/* BOTTOM BAR: Social Links on Left, Est. Year on Right */}
       {/* ============================================================ */}
       <footer className="w-full max-w-4xl lg:max-w-5xl mx-auto flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 z-10 shrink-0 pt-2">
         
@@ -286,16 +278,11 @@ export default function Portfolio() {
           </a>
         </div>
 
-        {/* Right: Verified Credentials Badge Trigger */}
-        <button
-          onClick={() => setShowCredentials(true)}
-          className="inline-flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer"
-          title="Nhấn để xem chi tiết chứng chỉ quốc tế đã xác thực"
-        >
-          <ShieldCheck size={14} className="text-emerald-500 shrink-0" />
-          <span className="hidden sm:inline">{t.hero.statusText}</span>
-          <span className="sm:hidden">AWS SAA & Security+</span>
-        </button>
+        {/* Right: Est. Year & Location */}
+        <div className="flex items-center gap-1.5 font-mono text-xs text-slate-500 dark:text-slate-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
+          <span>{t.hero.statusText}</span>
+        </div>
 
       </footer>
 

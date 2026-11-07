@@ -7,7 +7,8 @@ export interface CredentialItem {
   code: string;
   date: string;
   badge: string;
-  skills: string[];
+  category: string;
+  highlight: string;
 }
 
 export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
@@ -18,17 +19,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Amazon Web Services (AWS)',
       code: 'SAA-84920',
       date: '2024 – 2027',
-      badge: 'ARCHITECT',
-      skills: ['Multi-Region HA', 'Edge Computing', 'S3 / VPC / CloudFront', 'Well-Architected Framework']
+      badge: 'AWS CERTIFIED',
+      category: 'CLOUD ARCHITECTURE',
+      highlight: 'Multi-Region HA & Edge Computing'
     },
     {
       id: 'comptia-sec',
       name: 'CompTIA Security+ (SY0-701)',
-      issuer: 'CompTIA',
+      issuer: 'CompTIA International',
       code: 'COMP001021',
       date: '2024 – 2027',
-      badge: 'SECURITY',
-      skills: ['Zero-Trust Architecture', 'PKCE & Cryptography', 'Threat Modeling', 'Identity & Access (IAM)']
+      badge: 'COMPTIA SECURITY',
+      category: 'CYBERSECURITY',
+      highlight: 'Zero-Trust, PKCE & Cryptography'
     },
     {
       id: 'stanford-ml',
@@ -36,17 +39,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Stanford Online & DeepLearning.AI',
       code: 'STAN-ML-9924',
       date: '2024',
-      badge: 'AI / ML',
-      skills: ['Supervised Learning', 'Neural Networks', 'Vector Embeddings', 'LLM Agentic Systems']
+      badge: 'STANFORD ONLINE',
+      category: 'AI & MACHINE LEARNING',
+      highlight: 'Neural Nets, Embeddings & Agents'
     },
     {
       id: 'scrum-csm',
       name: 'Certified ScrumMaster® (CSM)',
-      issuer: 'Scrum Alliance',
+      issuer: 'Scrum Alliance International',
       code: 'CSM-001594832',
       date: '2024 – 2026',
-      badge: 'AGILE',
-      skills: ['Iterative Delivery', 'Sprint Planning', 'Engineering Velocity', 'Cross-Functional Alignment']
+      badge: 'SCRUM ALLIANCE',
+      category: 'AGILE LEADERSHIP',
+      highlight: 'Iterative Delivery & Sprint Velocity'
     }
   ],
   en: [
@@ -56,17 +61,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Amazon Web Services (AWS)',
       code: 'SAA-84920',
       date: '2024 – 2027',
-      badge: 'ARCHITECT',
-      skills: ['Multi-Region HA', 'Edge Computing', 'S3 / VPC / CloudFront', 'Well-Architected Framework']
+      badge: 'AWS CERTIFIED',
+      category: 'CLOUD ARCHITECTURE',
+      highlight: 'Multi-Region HA & Edge Computing'
     },
     {
       id: 'comptia-sec',
       name: 'CompTIA Security+ (SY0-701)',
-      issuer: 'CompTIA',
+      issuer: 'CompTIA International',
       code: 'COMP001021',
       date: '2024 – 2027',
-      badge: 'SECURITY',
-      skills: ['Zero-Trust Architecture', 'PKCE & Cryptography', 'Threat Modeling', 'Identity & Access (IAM)']
+      badge: 'COMPTIA SECURITY',
+      category: 'CYBERSECURITY',
+      highlight: 'Zero-Trust, PKCE & Cryptography'
     },
     {
       id: 'stanford-ml',
@@ -74,17 +81,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Stanford Online & DeepLearning.AI',
       code: 'STAN-ML-9924',
       date: '2024',
-      badge: 'AI / ML',
-      skills: ['Supervised Learning', 'Neural Networks', 'Vector Embeddings', 'LLM Agentic Systems']
+      badge: 'STANFORD ONLINE',
+      category: 'AI & MACHINE LEARNING',
+      highlight: 'Neural Nets, Embeddings & Agents'
     },
     {
       id: 'scrum-csm',
       name: 'Certified ScrumMaster® (CSM)',
-      issuer: 'Scrum Alliance',
+      issuer: 'Scrum Alliance International',
       code: 'CSM-001594832',
       date: '2024 – 2026',
-      badge: 'AGILE',
-      skills: ['Iterative Delivery', 'Sprint Planning', 'Engineering Velocity', 'Cross-Functional Alignment']
+      badge: 'SCRUM ALLIANCE',
+      category: 'AGILE LEADERSHIP',
+      highlight: 'Iterative Delivery & Sprint Velocity'
     }
   ],
   zh: [
@@ -94,17 +103,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Amazon Web Services (AWS)',
       code: 'SAA-84920',
       date: '2024 – 2027',
-      badge: 'ARCHITECT',
-      skills: ['多区域高可用', '边缘计算', 'S3 / VPC / CloudFront', '架构完善框架']
+      badge: 'AWS CERTIFIED',
+      category: '云架构',
+      highlight: '多区域高可用与边缘计算'
     },
     {
       id: 'comptia-sec',
       name: 'CompTIA Security+ 安全认证 (SY0-701)',
-      issuer: 'CompTIA',
+      issuer: 'CompTIA International',
       code: 'COMP001021',
       date: '2024 – 2027',
-      badge: 'SECURITY',
-      skills: ['零信任架构', 'PKCE 密码学', '威胁建模', '身份与访问管理 (IAM)']
+      badge: 'COMPTIA SECURITY',
+      category: '网络安全',
+      highlight: '零信任架构与 PKCE 密码学'
     },
     {
       id: 'stanford-ml',
@@ -112,17 +123,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: '斯坦福在线 & DeepLearning.AI',
       code: 'STAN-ML-9924',
       date: '2024',
-      badge: 'AI / ML',
-      skills: ['监督学习', '神经网络', '向量检索', '大语言模型智能体']
+      badge: 'STANFORD ONLINE',
+      category: '人工智能与机器学习',
+      highlight: '神经网络与大模型智能体'
     },
     {
       id: 'scrum-csm',
       name: '专业敏捷教练认证 (CSM)',
-      issuer: 'Scrum Alliance',
+      issuer: 'Scrum Alliance International',
       code: 'CSM-001594832',
       date: '2024 – 2026',
-      badge: 'AGILE',
-      skills: ['敏捷迭代', '冲刺规划', '工程效能', '跨职能团队协作']
+      badge: 'SCRUM ALLIANCE',
+      category: '敏捷领导力',
+      highlight: '敏捷交付与冲刺效能'
     }
   ],
   ja: [
@@ -132,17 +145,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'Amazon Web Services (AWS)',
       code: 'SAA-84920',
       date: '2024 – 2027',
-      badge: 'ARCHITECT',
-      skills: ['マルチリージョン高可用性', 'エッジコンピューティング', 'S3 / VPC / CloudFront', 'Well-Architected']
+      badge: 'AWS CERTIFIED',
+      category: 'クラウド設計',
+      highlight: '高可用性設計＆エッジコンピューティング'
     },
     {
       id: 'comptia-sec',
       name: 'CompTIA Security+ (SY0-701)',
-      issuer: 'CompTIA',
+      issuer: 'CompTIA International',
       code: 'COMP001021',
       date: '2024 – 2027',
-      badge: 'SECURITY',
-      skills: ['ゼロトラスト設計', 'PKCE ＆ 暗号化技術', '脅威モデリング', 'IAM 認証基盤']
+      badge: 'COMPTIA SECURITY',
+      category: 'セキュリティ',
+      highlight: 'ゼロトラスト＆暗号化技術'
     },
     {
       id: 'stanford-ml',
@@ -150,17 +165,19 @@ export const CREDENTIALS_LIST: Record<Language, CredentialItem[]> = {
       issuer: 'スタンフォード大学 & DeepLearning.AI',
       code: 'STAN-ML-9924',
       date: '2024',
-      badge: 'AI / ML',
-      skills: ['機械学習アルゴリズム', 'ニューラルネットワーク', 'ベクトル検索', 'LLM エージェント']
+      badge: 'STANFORD ONLINE',
+      category: 'AI / 機械学習',
+      highlight: 'ニューラルネットワーク＆エージェント'
     },
     {
       id: 'scrum-csm',
       name: '認定スクラムマスター® (CSM)',
-      issuer: 'Scrum Alliance',
+      issuer: 'Scrum Alliance International',
       code: 'CSM-001594832',
       date: '2024 – 2026',
-      badge: 'AGILE',
-      skills: ['アジャイル開発', 'スプリント運用', '開発ベロシティ向上', 'チームビルディング']
+      badge: 'SCRUM ALLIANCE',
+      category: 'アジャイル開発',
+      highlight: 'スプリントデリバリー＆開発ベロシティ'
     }
   ]
 };
@@ -169,7 +186,6 @@ export const translations = {
   vi: {
     nav: {
       home: "Trang chủ",
-      vntezPlatform: "vntez.vercel.app ↗",
       credentials: "Chứng chỉ",
       blog: "Blog",
       themeToggle: "Chuyển giao diện",
@@ -182,15 +198,16 @@ export const translations = {
       tagline: "Tác giả kiến trúc nền tảng VNTEZ — High-performance Edge & Distributed Systems.",
       ctaResume: "My Resume",
       ctaVntez: "vntez.vercel.app",
+      ctaBlog: "Blog",
       credentialsBtn: "Chứng chỉ",
       statusText: "AWS SAA-C03 & CompTIA Security+ • TP. Hồ Chí Minh",
     },
     credentialsModal: {
-      title: "Chứng chỉ Năng lực Quốc tế",
-      subtitle: "Xác thực năng lực kiến trúc điện toán đám mây, an ninh mạng và AI.",
+      title: "Chứng chỉ & Năng lực Quốc tế",
+      subtitle: "Xác thực chuyên môn từ AWS, CompTIA, Stanford & Scrum Alliance.",
       close: "Đóng",
       verified: "Đã xác thực",
-      idLabel: "Mã định danh",
+      idLabel: "ID",
     },
     footer: {
       quote: "Tạo nên bằng sự kiên định và tình yêu với kỹ thuật.",
@@ -215,7 +232,6 @@ export const translations = {
   en: {
     nav: {
       home: "Home",
-      vntezPlatform: "vntez.vercel.app ↗",
       credentials: "Credentials",
       blog: "Blog",
       themeToggle: "Toggle theme",
@@ -228,15 +244,16 @@ export const translations = {
       tagline: "Author & Architect of VNTEZ Platform — High-performance Edge & Distributed Systems.",
       ctaResume: "My Resume",
       ctaVntez: "vntez.vercel.app",
+      ctaBlog: "Blog",
       credentialsBtn: "Credentials",
       statusText: "AWS SAA-C03 & CompTIA Security+ • Ho Chi Minh City",
     },
     credentialsModal: {
       title: "Verified Global Credentials",
-      subtitle: "Verified competencies in Cloud Architecture, Cybersecurity, and Machine Learning.",
+      subtitle: "Verified competencies from AWS, CompTIA, Stanford & Scrum Alliance.",
       close: "Close",
       verified: "Verified",
-      idLabel: "Credential ID",
+      idLabel: "ID",
     },
     footer: {
       quote: "Built with persistence and engineering precision.",
@@ -261,7 +278,6 @@ export const translations = {
   zh: {
     nav: {
       home: "首页",
-      vntezPlatform: "vntez.vercel.app ↗",
       credentials: "专业认证",
       blog: "博客",
       themeToggle: "切换主题",
@@ -274,15 +290,16 @@ export const translations = {
       tagline: "VNTEZ 平台架构作者 — 高性能边缘计算与分布式系统。",
       ctaResume: "个人简历",
       ctaVntez: "vntez.vercel.app",
+      ctaBlog: "博客",
       credentialsBtn: "专业认证",
       statusText: "AWS SAA-C03 & CompTIA Security+ • 胡志明市",
     },
     credentialsModal: {
       title: "国际专业能力认证",
-      subtitle: "已验证的云计算架构、网络安全与机器学习专业能力。",
+      subtitle: "经 AWS、CompTIA、斯坦福及 Scrum Alliance 官方权威验证。",
       close: "关闭",
       verified: "已验证",
-      idLabel: "证书编号",
+      idLabel: "编号",
     },
     footer: {
       quote: "始于坚持，成于技术。",
@@ -307,7 +324,6 @@ export const translations = {
   ja: {
     nav: {
       home: "ホーム",
-      vntezPlatform: "vntez.vercel.app ↗",
       credentials: "保有資格",
       blog: "ブログ",
       themeToggle: "テーマ切り替え",
@@ -320,15 +336,16 @@ export const translations = {
       tagline: "VNTEZプラットフォーム設計者 — 高性能エッジ＆分散システム。",
       ctaResume: "履歴書 (CV)",
       ctaVntez: "vntez.vercel.app",
+      ctaBlog: "ブログ",
       credentialsBtn: "保有資格",
       statusText: "AWS SAA-C03 & CompTIA Security+ • ホーチミン市",
     },
     credentialsModal: {
       title: "国際認定資格・証明",
-      subtitle: "クラウド設計、サイバーセキュリティ、機械学習の実証された専門性。",
+      subtitle: "AWS、CompTIA、スタンフォード大学、Scrum Alliance 公認。",
       close: "閉じる",
       verified: "認証済み",
-      idLabel: "資格ID",
+      idLabel: "ID",
     },
     footer: {
       quote: "技術への情熱と弛まぬ探求心によって構築。",

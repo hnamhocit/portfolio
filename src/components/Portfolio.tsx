@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sun, Moon, Mail, ArrowUpRight, ExternalLink, 
   Sparkles, ArrowRight, ArrowUp, Server, Smartphone, Shield, 
@@ -48,25 +48,6 @@ export default function Portfolio() {
   // Dynamic age calculation based on birth year 2007
   const currentAge = new Date().getFullYear() - 2007;
 
-  // AI Assistant interactive state
-  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'ai'; text: string; time: string }>>([
-    {
-      sender: 'ai',
-      text: lang === 'vi' 
-        ? "Chào bạn! Mình là AI Co-pilot được thiết lập dựa trên tư duy kỹ thuật và kinh nghiệm thực tế của Hoàng Nam. Bạn muốn khám phá điều gì về mình?"
-        : lang === 'zh'
-        ? "你好！我是根据黄男的技术思考与工程实践打造的 AI 伴侣。想了解关于我的哪些经历？"
-        : lang === 'ja'
-        ? "こんにちは！ホアン・ナムのエンジニアリング思想と実績に基づいて作成された AI パートナーです。何について知りたいですか？"
-        : "Hello! I am Nam's AI Co-pilot, modeled after his engineering mindset and production experience. What would you like to explore?",
-      time: "Vừa xong"
-    }
-  ]);
-  const [inputQuery, setInputQuery] = useState("");
-  const [isAiTyping, setIsAiTyping] = useState(false);
-  const [copiedChatIdx, setCopiedChatIdx] = useState<number | null>(null);
-  const chatBottomRef = useRef<HTMLDivElement>(null);
-
   // Theme initialization
   useEffect(() => {
     const saved = localStorage.getItem('theme');
@@ -87,11 +68,6 @@ export default function Portfolio() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Auto-scroll chat to bottom
-  useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatMessages, isAiTyping]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -231,79 +207,6 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
     }
   ];
 
-  // AI Assistant response generator
-  const getAiResponse = (query: string): string => {
-    const q = query.toLowerCase();
-    const prompts = t.aiAssistant.quickPrompts;
-
-    if (q.includes("pkce") || q.includes("iam") || q.includes("cloudflare") || q.includes("edge") || q.includes("oauth") || q.includes("auth")) {
-      return prompts[0]?.a || "";
-    }
-    if (q.includes("pos") || q.includes("bman") || q.includes("offline") || q.includes("sqlite") || q.includes("bán lẻ") || q.includes("in bill")) {
-      return prompts[1]?.a || "";
-    }
-    if (q.includes("định hướng") || q.includes("công việc") || q.includes("văn hóa") || q.includes("tuyển") || q.includes("remote") || q.includes("junior") || q.includes("job") || q.includes("hire") || q.includes("team")) {
-      return prompts[2]?.a || "";
-    }
-    if (q.includes("chứng chỉ") || q.includes("cert") || q.includes("aws") || q.includes("cka") || q.includes("ielts") || q.includes("kubernetes")) {
-      return prompts[3]?.a || "";
-    }
-    if (q.includes("ai") || q.includes("llm") || q.includes("mcp") || q.includes("prompt") || q.includes("agent") || q.includes("trợ lý")) {
-      return lang === 'vi' 
-        ? "Mình tiếp cận AI dưới góc độ công cụ gia tăng năng lực (Augmentation) và tích hợp hệ sinh thái: ứng dụng Model Context Protocol (MCP), streaming UI, function calling và tối ưu context window. Quan trọng nhất là giữ con người ở trung tâm (Human-in-the-loop) để bảo đảm sự an toàn, độ tin cậy và sự tinh tế trong trải nghiệm."
-        : "I treat AI as an amplification tool and practical systems integrator: applying Model Context Protocol (MCP), streaming interfaces, tool-calling and strict context window tuning. Crucially, keeping humans in the loop ensures software reliability, empathy, and craft.";
-    }
-
-    // Default warm human response
-    return lang === 'vi'
-      ? `Cảm ơn bạn đã trò chuyện! Hoàng Nam luôn trân trọng những trao đổi thẳng thắn, sâu sắc về công nghệ, kiến trúc hoặc các cơ hội hợp tác thực tế. Bạn có thể gửi email trực tiếp cho mình tại hnamhocit@gmail.com hoặc Telegram @hnamhocit để chúng ta cùng trò chuyện chi tiết nhé!`
-      : `Thank you for reaching out! I deeply value authentic engineering conversations and collaboration opportunities. Feel free to send me a direct email at hnamhocit@gmail.com or message me on Telegram @hnamhocit!`;
-  };
-
-  const handleSendQuery = (textToSend?: string) => {
-    const q = textToSend || inputQuery.trim();
-    if (!q || isAiTyping) return;
-
-    const userMsg = {
-      sender: 'user' as const,
-      text: q,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
-    setChatMessages((prev) => [...prev, userMsg]);
-    setInputQuery("");
-    setIsAiTyping(true);
-
-    setTimeout(() => {
-      const answer = getAiResponse(q);
-      const aiMsg = {
-        sender: 'ai' as const,
-        text: answer,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setChatMessages((prev) => [...prev, aiMsg]);
-      setIsAiTyping(false);
-    }, 600);
-  };
-
-  const handleResetChat = () => {
-    setChatMessages([
-      {
-        sender: 'ai',
-        text: lang === 'vi' 
-          ? "Cuộc trò chuyện đã được làm mới. Bạn có câu hỏi nào khác dành cho mình không?"
-          : "Conversation refreshed. What else would you like to explore together?",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }
-    ]);
-  };
-
-  const handleCopyChat = (idx: number, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedChatIdx(idx);
-    setTimeout(() => setCopiedChatIdx(null), 2000);
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] font-sans antialiased selection:bg-purple-500/25 selection:text-purple-600 dark:selection:text-purple-300 transition-colors duration-300">
       
@@ -343,14 +246,13 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               VNTEZ Edge
             </a>
             <a href="#ecosystem" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
-              Hệ sinh thái
+              {t.nav.projects}
+            </a>
+            <a href="#credentials" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+              {t.nav.credentials}
             </a>
             <a href="#skills" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
-              Kỹ năng &amp; AI
-            </a>
-            <a href="#ai-assistant" className="text-purple-700 dark:text-purple-400 font-medium hover:underline flex items-center gap-1.5">
-              <Bot size={14} />
-              <span>Trò chuyện AI</span>
+              {t.nav.skills}
             </a>
             <a href="/blog" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
               {t.nav.blog}
@@ -401,63 +303,76 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
           <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 my-auto">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
               
-              {/* Left Column: Personal Narrative & CTAs */}
+              {/* Left Column: Direct Results & Credentials */}
               <div className="lg:col-span-7 space-y-6">
                 
                 {/* Status Pill */}
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-purple-700 dark:text-purple-400 text-xs font-mono font-medium shadow-2xs">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Edge Computing · Zero-Trust IAM · AI-Augmented FE</span>
-                </div>
-
-                {/* Inspirational Quote */}
-                <div className="space-y-1">
-                  <p className="font-mono text-sm sm:text-base text-purple-700 dark:text-purple-300 font-semibold tracking-wide">
-                    {t.hero.quote_zh}
-                  </p>
-                  <p className="text-xs sm:text-sm text-[var(--dim)] italic">
-                    {t.hero.quote_trans}
-                  </p>
+                  <span>{t.hero.badge}</span>
                 </div>
 
                 {/* Main Heading */}
-                <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[var(--text)] leading-[1.08]">
-                  {t.hero.greeting}{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-300">
-                    {t.hero.name}
-                  </span>.
-                </h1>
+                <div className="space-y-2">
+                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[var(--text)] leading-[1.08]">
+                    {t.hero.greeting}{' '}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-300">
+                      {t.hero.name}
+                    </span>.
+                  </h1>
+                  <p className="text-xs sm:text-sm font-mono font-semibold text-purple-700 dark:text-purple-400">
+                    {t.hero.role}
+                  </p>
+                </div>
 
-                {/* Bio */}
-                <p className="text-base sm:text-xl text-[var(--muted)] leading-relaxed font-normal max-w-3xl">
+                {/* Bio: Direct, Honest, Result-driven */}
+                <p className="text-base sm:text-lg text-[var(--muted)] leading-relaxed font-normal max-w-2xl">
                   {t.hero.bio(currentAge)}
                 </p>
 
+                {/* Proof Pills: International Credentials right upfront */}
+                <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                  {t.hero.proofBadges.map((badge, idx) => (
+                    <a
+                      key={idx}
+                      href="#credentials"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-400/50 hover:bg-purple-500/5 transition-all text-xs font-mono shadow-2xs group cursor-pointer"
+                    >
+                      <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                      <span className="font-bold text-[var(--text)]">{badge.label}</span>
+                      <span className="text-[var(--dim)] text-[11px]">#{badge.code}</span>
+                    </a>
+                  ))}
+                </div>
+
                 {/* Call-to-Action Buttons */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                <div className="flex flex-wrap items-center gap-3.5 pt-2">
                   <a 
                     href="#flagship" 
-                    className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all flex items-center gap-2.5 shadow-md shadow-purple-500/25 cursor-pointer"
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all flex items-center gap-2 shadow-md shadow-purple-500/25 cursor-pointer"
                   >
                     <span>{t.hero.ctaFlagship}</span>
-                    <ArrowRight size={16} />
+                    <ArrowRight size={15} />
                   </a>
 
                   <a 
-                    href="#ai-assistant" 
-                    className="px-6 py-3.5 rounded-2xl border border-purple-500/30 bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-purple-700 dark:text-purple-400 font-semibold text-sm hover:border-purple-500 transition-all flex items-center gap-2 shadow-xs"
+                    href="https://github.com/hnamhocit" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="px-5 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500/40 transition-all flex items-center gap-2 shadow-xs cursor-pointer"
                   >
-                    <Bot size={16} />
-                    <span>Hỏi đáp cùng AI</span>
+                    <FaGithub size={15} />
+                    <span>GitHub @hnamhocit</span>
+                    <ArrowUpRight size={13} className="text-[var(--dim)]" />
                   </a>
 
                   <a 
                     href="mailto:hnamhocit@gmail.com" 
-                    className="px-6 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500 transition-all flex items-center gap-2 shadow-xs"
+                    className="px-5 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500/40 transition-all flex items-center gap-2 shadow-xs cursor-pointer"
                   >
-                    <Mail size={16} className="text-purple-600 dark:text-purple-400" />
+                    <Mail size={15} className="text-purple-600 dark:text-purple-400" />
                     <span>{t.hero.ctaEmail}</span>
                   </a>
 
@@ -465,7 +380,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     href="https://t.me/hnamhocit" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-sky-500 hover:border-sky-500/40 transition-colors shadow-xs"
+                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-sky-500 hover:border-sky-500/40 transition-colors shadow-xs cursor-pointer"
                     title="Telegram @hnamhocit"
                   >
                     <FaTelegramPlane size={16} />
@@ -474,105 +389,101 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
               </div>
 
-              {/* Right Column: Visual Edge Mesh Preview */}
+              {/* Right Column: Live Production System Artifact Card */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-8 shadow-[var(--card-shadow)] overflow-hidden group">
+                <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] overflow-hidden space-y-5">
                   
-                  {/* Subtle corner badge */}
-                  <div className="flex items-center justify-between pb-6 border-b border-[var(--border)]">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
-                      <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
-                        VNTEZ Edge Mesh Active
+                  {/* Card Header: Live Edge Indicator */}
+                  <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                      </span>
+                      <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                        {t.hero.livePreview.status}
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-400 font-semibold">
-                      p95 &lt; 35ms
+                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-400 font-semibold">
+                      Cloudflare Edge
                     </span>
                   </div>
 
-                  {/* Visual Node Cluster Map */}
-                  <div className="py-6 space-y-4">
-                    
-                    {/* Node 1: Hanoi PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center font-mono text-xs font-bold">
-                          HAN
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-[var(--text)]">Hanoi Edge PoP (AS13335)</div>
-                          <div className="text-[11px] text-[var(--muted)] font-mono">iam.vntez.cloud · OAuth Worker</div>
-                        </div>
-                      </div>
-                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
-                        18ms
-                      </div>
-                    </div>
-
-                    {/* Node 2: Ho Chi Minh City PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-700 dark:text-sky-400 flex items-center justify-center font-mono text-xs font-bold">
-                          SGN
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-[var(--text)]">Saigon Edge PoP (AS13335)</div>
-                          <div className="text-[11px] text-[var(--muted)] font-mono">telebot &amp; upload worker</div>
-                        </div>
-                      </div>
-                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
-                        22ms
-                      </div>
-                    </div>
-
-                    {/* Node 3: Danang PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
-                          DAD
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-[var(--text)]">Danang Edge PoP (AS13335)</div>
-                          <div className="text-[11px] text-[var(--muted)] font-mono">Cloudflare D1 &amp; R2 S3 Gate</div>
-                        </div>
-                      </div>
-                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
-                        24ms
-                      </div>
-                    </div>
-
+                  {/* Title & Subtitle */}
+                  <div className="space-y-1">
+                    <h3 className="font-display font-extrabold text-lg text-[var(--text)] tracking-tight">
+                      {t.hero.livePreview.title}
+                    </h3>
+                    <p className="text-xs text-[var(--muted)] leading-relaxed">
+                      {t.hero.livePreview.subtitle}
+                    </p>
                   </div>
 
-                  {/* Architecture Mini Specs */}
-                  <div className="pt-4 border-t border-[var(--border)] grid grid-cols-2 gap-4 text-xs font-mono">
-                    <div>
-                      <span className="text-[10px] text-[var(--dim)] block uppercase">Cryptographic Engine</span>
-                      <strong className="text-[var(--text)] text-xs block mt-0.5">Ed25519 + S256 PKCE</strong>
+                  {/* Production Live Endpoints */}
+                  <div className="space-y-1.5">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--dim)] block font-semibold">
+                      Phân hệ đang chạy trực tiếp (Live Endpoints)
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {t.hero.livePreview.subdomains.map((sub, idx) => (
+                        <a
+                          key={idx}
+                          href={sub.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-400/60 hover:bg-purple-500/5 transition-all block group"
+                        >
+                          <div className="font-mono text-xs font-bold text-purple-700 dark:text-purple-400 group-hover:underline flex items-center justify-between">
+                            <span>{sub.label}</span>
+                          </div>
+                          <div className="text-[10px] text-[var(--muted)] truncate mt-0.5">
+                            {sub.desc}
+                          </div>
+                        </a>
+                      ))}
                     </div>
-                    <div>
-                      <span className="text-[10px] text-[var(--dim)] block uppercase">Zero Cold-Start</span>
-                      <strong className="text-emerald-700 dark:text-emerald-400 text-xs block mt-0.5">V8 Micro-Isolates</strong>
+                  </div>
+
+                  {/* Verified Technical Specifications */}
+                  <div className="space-y-1.5 pt-2 border-t border-[var(--border)]">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--dim)] block font-semibold">
+                      Thông số kỹ thuật kiểm chứng (Specs)
+                    </span>
+                    <div className="space-y-1.5">
+                      {t.hero.livePreview.specs.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between text-xs font-mono p-2 rounded-lg bg-[var(--surface-subtle)]/70">
+                          <span className="text-[var(--muted)] text-[11px]">{item.label}</span>
+                          <span className="font-bold text-[var(--text)] text-[11px] text-right">{item.val}</span>
+                        </div>
+                      ))}
                     </div>
+                  </div>
+
+                  {/* Card Action Buttons */}
+                  <div className="pt-2 flex items-center gap-2.5">
+                    <a
+                      href="https://vntez.cloud"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 py-2.5 px-3 rounded-xl bg-purple-700 dark:bg-purple-600 text-white font-medium text-xs text-center hover:brightness-110 transition-all flex items-center justify-center gap-1.5 shadow-xs"
+                    >
+                      <span>Mở VNTEZ Portal</span>
+                      <ExternalLink size={12} />
+                    </a>
+                    <a
+                      href="https://vntez-docs.vercel.app/docs/vntez-iam"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 py-2.5 px-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-subtle)] text-[var(--text)] font-medium text-xs text-center hover:border-purple-400 transition-all flex items-center justify-center gap-1.5 shadow-2xs"
+                    >
+                      <span>OpenAPI Specs</span>
+                      <ExternalLink size={12} />
+                    </a>
                   </div>
 
                 </div>
               </div>
 
-            </div>
-
-            {/* Bottom Wide Status Bar Ticker */}
-            <div className="mt-14 pt-8 border-t border-[var(--border)] grid grid-cols-2 md:grid-cols-4 gap-6">
-              {t.hero.statusBadges?.map((badge, idx) => (
-                <div key={idx} className="space-y-1">
-                  <span className="font-display font-black text-2xl sm:text-3xl text-purple-700 dark:text-purple-400 block tracking-tight">
-                    {badge.val}
-                  </span>
-                  <span className="text-xs font-medium text-[var(--muted)] block font-mono">
-                    {badge.label}
-                  </span>
-                </div>
-              ))}
             </div>
 
           </div>
@@ -1665,206 +1576,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         </section>
 
         {/* ============================================================ */}
-        {/* 06 · INTERACTIVE AI COMPANION (TRÒ CHUYỆN CÙNG AI CỦA NAM) */}
-        {/* ============================================================ */}
-        <section id="ai-assistant" className="py-24 border-b border-[var(--border)]">
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
-            
-            {/* Header */}
-            <div className="mb-12">
-              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
-                <Bot size={15} />
-                <span>{t.aiAssistant.badge}</span>
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text)] mt-1.5">
-                {t.aiAssistant.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-[var(--muted)] mt-1 max-w-2xl font-normal">
-                {t.aiAssistant.subtitle}
-              </p>
-            </div>
-
-            {/* Main Interactive AI Console Grid (2 Columns) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              
-              {/* Left Column (5 Cols): Human Manifesto & Suggested Questions */}
-              <div className="lg:col-span-5 space-y-6">
-                
-                {/* Warm Human Manifesto Card */}
-                <div className="rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] space-y-4">
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src="/avatar.png" 
-                      alt="Hoàng Nam" 
-                      className="w-12 h-12 rounded-full object-cover border-2 border-purple-500/50 shadow-xs"
-                      onError={(e) => { e.currentTarget.src = "/favicon.svg"; }}
-                    />
-                    <div>
-                      <h4 className="font-display font-bold text-sm text-[var(--text)]">
-                        Nguyễn Hoàng Nam
-                      </h4>
-                      <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-400 font-mono">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>{t.aiAssistant.statusOnline}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)] space-y-1.5">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
-                      {t.aiAssistant.humanNoteTag}
-                    </span>
-                    <p className="text-xs text-[var(--muted)] italic leading-relaxed">
-                      {t.aiAssistant.humanNote}
-                    </p>
-                  </div>
-
-                  <p className="text-xs text-[var(--dim)] font-mono leading-relaxed">
-                    ✦ Trợ lý này được cung cấp bối cảnh toàn diện về hệ thống VNTEZ Edge, BMAN POS, kinh nghiệm DevOps và quan điểm hợp tác của Nam.
-                  </p>
-                </div>
-
-                {/* Suggested Quick Question Chips */}
-                <div className="space-y-2.5">
-                  <span className="text-xs font-mono font-bold text-[var(--muted)] uppercase tracking-wider block">
-                    {t.aiAssistant.suggestedLabel}
-                  </span>
-                  <div className="space-y-2">
-                    {t.aiAssistant.quickPrompts.map((item, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleSendQuery(item.q)}
-                        className="w-full text-left p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-purple-500/10 hover:border-purple-400 transition-all text-xs text-[var(--text)] font-medium flex items-center justify-between group shadow-2xs cursor-pointer"
-                      >
-                        <span className="line-clamp-1">{item.q}</span>
-                        <ArrowRight size={13} className="text-purple-600 opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0 ml-2" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Right Column (7 Cols): Chat Window Console */}
-              <div className="lg:col-span-7">
-                <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--card-shadow)] flex flex-col h-[560px] overflow-hidden">
-                  
-                  {/* Chat Top Bar */}
-                  <div className="px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-subtle)]/70 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-purple-700 text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                        AI
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-[var(--text)]">Nam Virtual Co-pilot</div>
-                        <div className="text-[10px] text-[var(--muted)] font-mono">Edge-speed responses · Human voice</div>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={handleResetChat}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] hover:border-purple-300 text-xs font-mono transition-colors cursor-pointer"
-                    >
-                      <RefreshCw size={12} />
-                      <span>{t.aiAssistant.resetBtn}</span>
-                    </button>
-                  </div>
-
-                  {/* Messages Scroll Area */}
-                  <div className="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
-                    {chatMessages.map((msg, i) => (
-                      <div
-                        key={i}
-                        className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        {msg.sender === 'ai' && (
-                          <div className="w-7 h-7 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 mt-1 shadow-2xs">
-                            <Bot size={14} />
-                          </div>
-                        )}
-
-                        <div className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
-                          msg.sender === 'user'
-                            ? 'bg-purple-700 text-white rounded-tr-xs shadow-xs'
-                            : 'bg-[var(--surface-subtle)] text-[var(--text)] border border-[var(--border)] rounded-tl-xs shadow-2xs'
-                        }`}>
-                          <p className="whitespace-pre-wrap">{msg.text}</p>
-                          
-                          <div className="mt-2 pt-1.5 border-t border-[var(--border)]/40 flex items-center justify-between text-[10px] opacity-70 font-mono">
-                            <span>{msg.time}</span>
-                            {msg.sender === 'ai' && (
-                              <button
-                                onClick={() => handleCopyChat(i, msg.text)}
-                                className="inline-flex items-center gap-1 hover:opacity-100 transition-opacity cursor-pointer ml-3"
-                              >
-                                {copiedChatIdx === i ? <Check size={10} className="text-emerald-500" /> : <Copy size={10} />}
-                                <span>{copiedChatIdx === i ? t.aiAssistant.copied : t.aiAssistant.copyAnswer}</span>
-                              </button>
-                            )}
-                          </div>
-                        </div>
-
-                        {msg.sender === 'user' && (
-                          <div className="w-7 h-7 rounded-xl bg-stone-700 text-white flex items-center justify-center shrink-0 mt-1 shadow-2xs text-xs font-bold">
-                            You
-                          </div>
-                        )}
-                      </div>
-                    ))}
-
-                    {isAiTyping && (
-                      <div className="flex gap-3 justify-start items-center">
-                        <div className="w-7 h-7 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
-                          <Bot size={14} />
-                        </div>
-                        <div className="p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)] flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce" />
-                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce [animation-delay:0.2s]" />
-                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce [animation-delay:0.4s]" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div ref={chatBottomRef} />
-                  </div>
-
-                  {/* Input Box Bottom Bar */}
-                  <div className="p-4 border-t border-[var(--border)] bg-[var(--surface)]">
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSendQuery();
-                      }}
-                      className="flex items-center gap-2"
-                    >
-                      <input
-                        type="text"
-                        value={inputQuery}
-                        onChange={(e) => setInputQuery(e.target.value)}
-                        placeholder={t.aiAssistant.inputPlaceholder}
-                        className="flex-1 px-4 py-3 rounded-2xl border border-[var(--border)] bg-[var(--surface-subtle)]/70 text-xs sm:text-sm text-[var(--text)] focus:outline-none focus:border-purple-600 transition-colors shadow-inner"
-                      />
-                      <button
-                        type="submit"
-                        disabled={!inputQuery.trim() || isAiTyping}
-                        className="px-5 py-3 rounded-2xl bg-purple-700 text-white font-bold text-xs sm:text-sm hover:brightness-110 active:scale-98 disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer shrink-0"
-                      >
-                        <Send size={14} />
-                        <span className="hidden sm:inline">{t.aiAssistant.sendBtn}</span>
-                      </button>
-                    </form>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-
-        {/* ============================================================ */}
-        {/* 07 · LIÊN HỆ & KẾT NỐI */}
+        {/* 06 · LIÊN HỆ & KẾT NỐI */}
         {/* ============================================================ */}
         <section id="contact" className="py-24">
           <div className="w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">

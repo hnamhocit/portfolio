@@ -12,10 +12,13 @@ export const translations = {
       selectLanguage: "Chọn ngôn ngữ",
     },
     hero: {
-      badge: "SYSTEMS · EDGE COMPUTING · OFFLINE-FIRST",
+      greeting: "Hello, I'm",
       name: "Hoàng Nam",
-      role: "Kỹ sư Phần mềm · Backend, Edge Systems & Mobile",
+      role: "Software Engineer",
+      subline: "Tác giả kiến trúc VNTEZ IAM & BMAN POS",
+      badge: "SYSTEMS · EDGE COMPUTING · OFFLINE-FIRST",
       bio: (age: number) => `Tác giả kiến trúc VNTEZ IAM (OAuth 2.0 PKCE trên Cloudflare Edge) và BMAN POS (Bán lẻ Offline-First với SQLite). Sở hữu chứng chỉ quốc tế AWS Solutions Architect (SAA-C03), Kubernetes Administrator (CKA) và IELTS 7.5 Academic.`,
+      ctaResume: "My Resume",
       ctaProjects: "Xem các dự án thực tế",
       ctaEmail: "Gửi Email trực tiếp",
       proofBadges: [
@@ -318,10 +321,13 @@ export const translations = {
       selectLanguage: "Select language",
     },
     hero: {
-      badge: "SYSTEMS · EDGE COMPUTING · OFFLINE-FIRST",
+      greeting: "Hello, I'm",
       name: "Hoang Nam",
-      role: "Software Engineer · Backend, Edge Systems & Mobile",
+      role: "Software Engineer",
+      subline: "Architect behind VNTEZ IAM & BMAN POS",
+      badge: "SYSTEMS · EDGE COMPUTING · OFFLINE-FIRST",
       bio: (age: number) => `Architect of VNTEZ IAM (OAuth 2.0 PKCE on Cloudflare Edge) and BMAN POS (Offline-First retail with embedded SQLite). AWS Certified Solutions Architect (SAA-C03), Certified Kubernetes Administrator (CKA), and IELTS 7.5 Academic.`,
+      ctaResume: "My Resume",
       ctaProjects: "Explore Live Projects",
       ctaEmail: "Email: hnamhocit@gmail.com",
       proofBadges: [
@@ -624,10 +630,13 @@ export const translations = {
       selectLanguage: "选择语言",
     },
     hero: {
-      badge: "系统架构 · 边缘计算 · 离线优先",
+      greeting: "你好，我是",
       name: "黄男 (Hoàng Nam)",
-      role: "软件工程师 · 后端、边缘系统与移动端",
+      role: "软件工程师",
+      subline: "VNTEZ IAM 与 BMAN POS 的核心架构师",
+      badge: "系统架构 · 边缘计算 · 离线优先",
       bio: (age: number) => `VNTEZ IAM（基于 Cloudflare Edge 的 OAuth 2.0 PKCE 认证平台）与 BMAN POS（嵌入式 SQLite 离线收银系统）的核心架构师。持有 AWS SAA-C03 架构师认证、CKA 生产级 Kubernetes 管理员认证与雅思 7.5 学术类证书。`,
+      ctaResume: "个人简历",
       ctaProjects: "查看生产级项目",
       ctaEmail: "发送邮件：hnamhocit@gmail.com",
       proofBadges: [
@@ -930,10 +939,13 @@ export const translations = {
       selectLanguage: "言語を選択",
     },
     hero: {
-      badge: "分散システム · エッジ計算 · OFFLINE-FIRST",
+      greeting: "こんにちは、",
       name: "ホアン・ナム (Hoàng Nam)",
-      role: "ソフトウェアエンジニア · バックエンド、エッジ基盤＆モバイル",
+      role: "ソフトウェアエンジニア",
+      subline: "VNTEZ IAM および BMAN POS の開発者",
+      badge: "分散システム · エッジ計算 · OFFLINE-FIRST",
       bio: (age: number) => `Cloudflare Edge 上で稼働する VNTEZ IAM（OAuth 2.0 PKCE）および BMAN POS（組み込み SQLite オフライン POS）の設計開発者。AWS SAA-C03、Kubernetes CKA、および IELTS 7.5 Academic 認定。`,
+      ctaResume: "履歴書を見る",
       ctaProjects: "実際のプロジェクトを見る",
       ctaEmail: "メール送信：hnamhocit@gmail.com",
       proofBadges: [

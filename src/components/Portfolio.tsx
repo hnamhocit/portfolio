@@ -213,272 +213,129 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       {/* ============================================================ */}
       {/* HEADER: Rộng rãi, thoáng đạt, tương phản chuẩn chỉnh */}
       {/* ============================================================ */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-white/95 dark:bg-[#10141E]/95 backdrop-blur-lg transition-colors">
-        <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 h-16 flex items-center justify-between">
+      {/* HEADER: Tối giản, thanh lịch, nhiều khoảng trống */}
+      {/* ============================================================ */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg)]/90 backdrop-blur-md transition-colors">
+        <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
           
-          {/* Brand & Avatar */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="relative">
-              <img 
-                src="/avatar.png" 
-                alt="Hoàng Nam" 
-                className="w-9 h-9 rounded-full object-cover border border-purple-500/40 group-hover:border-purple-500 transition-all duration-300 shadow-xs"
-                onError={(e) => { e.currentTarget.src = "/favicon.svg"; }}
-              />
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-[var(--bg)]" />
+          {/* Minimalist Logo Mark (inspired by KYKY.dev) */}
+          <a href="#" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-lg border border-slate-400/80 dark:border-slate-600 flex items-center justify-center font-mono font-bold text-xs text-slate-800 dark:text-slate-200 group-hover:border-slate-800 dark:group-hover:border-slate-300 transition-colors">
+              hn
             </div>
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-sm tracking-tight text-[var(--text)] group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                Hoàng Nam
-              </span>
-              <span className="text-[11px] text-[var(--muted)] font-mono leading-none">
-                hnamhocit
-              </span>
-            </div>
+            <span className="font-mono text-sm font-semibold tracking-tight text-slate-800 dark:text-slate-200">
+              hnamhocit<span className="text-slate-400">.dev</span>
+            </span>
           </a>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-8 text-xs sm:text-sm font-medium">
-            <a href="#" className="text-purple-700 dark:text-purple-400 font-semibold hover:opacity-80 transition-opacity">
-              {t.nav.home}
-            </a>
-            <a href="#flagship" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
-              VNTEZ Edge
-            </a>
-            <a href="#ecosystem" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-600 dark:text-slate-400">
+            <a href="#flagship" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               {t.nav.projects}
             </a>
-            <a href="#credentials" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+            <a href="#credentials" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               {t.nav.credentials}
             </a>
-            <a href="#skills" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+            <a href="#skills" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               {t.nav.skills}
             </a>
-            <a href="/blog" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+            <a href="/blog" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               {t.nav.blog}
             </a>
           </nav>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-2.5">
+          {/* Right Actions: Minimal pill buttons */}
+          <div className="flex items-center gap-3">
             <LanguageSelector />
-
-            <a 
-              href="https://github.com/hnamhocit" 
-              target="_blank" 
-              rel="noreferrer"
-              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-500/40 transition-colors shadow-xs"
-              title="GitHub Profile"
-            >
-              <FaGithub size={15} />
-            </a>
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer shadow-xs"
+              className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-[var(--surface)] text-slate-700 dark:text-slate-300 text-xs font-mono flex items-center gap-1.5 hover:border-slate-400 transition-colors cursor-pointer shadow-xs"
               aria-label={t.nav.themeToggle}
               title={t.nav.themeToggle}
             >
-              {isDark ? <Sun size={15} className="text-purple-300" /> : <Moon size={15} className="text-stone-700" />}
+              {isDark ? <Sun size={13} className="text-amber-400" /> : <Moon size={13} className="text-slate-600" />}
+              <span className="hidden sm:inline">{isDark ? "Light" : "Dark"}</span>
             </button>
           </div>
 
         </div>
       </header>
 
-      <main className="flex-grow pt-16">
+      <main className="flex-grow pt-20">
         
         {/* ============================================================ */}
-        {/* 01 · EXPANSIVE HERO SECTION (FULL SCREEN & WIDE LAYOUT) */}
+        {/* 01 · CLEAN & MINIMALIST HERO (INSPIRED BY KYKY.DEV) */}
         {/* ============================================================ */}
-        <section id="about" className="min-h-[92vh] flex flex-col justify-center relative overflow-hidden border-b border-[var(--border)] py-16">
+        <section id="about" className="min-h-[85vh] flex flex-col justify-between relative py-12 sm:py-20">
           
-          {/* Subtle Organic Aurora Background Glowing Blobs */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
-            <div className="aurora-blob-1 absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[550px] rounded-full bg-purple-500/12 dark:bg-purple-600/15 blur-[140px] opacity-80" />
-            <div className="aurora-blob-2 absolute top-1/2 right-1/4 w-[700px] h-[500px] rounded-full bg-indigo-500/12 dark:bg-indigo-600/15 blur-[150px] opacity-70" />
-            <div className="aurora-blob-3 absolute bottom-10 left-1/2 w-[600px] h-[450px] rounded-full bg-amber-500/10 dark:bg-fuchsia-600/10 blur-[130px] opacity-60" />
-            <div className="absolute inset-0 bg-grid-tech opacity-20 dark:opacity-15 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_50%,#000_75%,transparent_100%)]" />
-          </div>
-
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 my-auto">
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 my-auto">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 items-center">
               
-              {/* Left Column: Direct Results & Credentials */}
-              <div className="lg:col-span-7 space-y-6">
+              {/* Left Column: Understated & Calm Introduction */}
+              <div className="md:col-span-7 space-y-7 text-center md:text-left">
                 
-                {/* Status Pill */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-purple-700 dark:text-purple-400 text-xs font-mono font-medium shadow-2xs">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>{t.hero.badge}</span>
-                </div>
-
-                {/* Main Heading */}
-                <div className="space-y-2">
-                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[var(--text)] leading-[1.08]">
+                <div className="space-y-3">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]">
                     {t.hero.greeting}{' '}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-300">
+                    <span className="text-[#1E3A5F] dark:text-[#93C5FD]">
                       {t.hero.name}
-                    </span>.
+                    </span>
                   </h1>
-                  <p className="text-xs sm:text-sm font-mono font-semibold text-purple-700 dark:text-purple-400">
-                    {t.hero.role}
-                  </p>
+
+                  <div className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-sans space-y-1">
+                    <p className="font-medium text-slate-800 dark:text-slate-200">
+                      {t.hero.role}
+                    </p>
+                    <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">
+                      {t.hero.subline}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Bio: Direct, Honest, Result-driven */}
-                <p className="text-base sm:text-lg text-[var(--muted)] leading-relaxed font-normal max-w-2xl">
-                  {t.hero.bio(currentAge)}
-                </p>
-
-                {/* Proof Pills: International Credentials right upfront */}
-                <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                  {t.hero.proofBadges.map((badge, idx) => (
-                    <a
-                      key={idx}
-                      href="#credentials"
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-400/50 hover:bg-purple-500/5 transition-all text-xs font-mono shadow-2xs group cursor-pointer"
-                    >
-                      <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
-                      <span className="font-bold text-[var(--text)]">{badge.label}</span>
-                      <span className="text-[var(--dim)] text-[11px]">#{badge.code}</span>
-                    </a>
-                  ))}
-                </div>
-
-                {/* Call-to-Action Buttons */}
-                <div className="flex flex-wrap items-center gap-3.5 pt-2">
+                {/* Single or Two Clean Minimalist Pill Buttons */}
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 pt-2">
                   <a 
                     href="#flagship" 
-                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all flex items-center gap-2 shadow-md shadow-purple-500/25 cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white text-sm font-medium transition-all shadow-sm cursor-pointer"
                   >
-                    <span>{t.hero.ctaFlagship}</span>
-                    <ArrowRight size={15} />
+                    <span>{t.hero.ctaProjects || "Xem dự án"}</span>
+                    <ArrowRight size={14} />
                   </a>
 
                   <a 
                     href="https://github.com/hnamhocit" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="px-5 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500/40 transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 text-sm font-medium transition-colors"
                   >
-                    <FaGithub size={15} />
-                    <span>GitHub @hnamhocit</span>
-                    <ArrowUpRight size={13} className="text-[var(--dim)]" />
-                  </a>
-
-                  <a 
-                    href="mailto:hnamhocit@gmail.com" 
-                    className="px-5 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500/40 transition-all flex items-center gap-2 shadow-xs cursor-pointer"
-                  >
-                    <Mail size={15} className="text-purple-600 dark:text-purple-400" />
-                    <span>{t.hero.ctaEmail}</span>
-                  </a>
-
-                  <a 
-                    href="https://t.me/hnamhocit" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-sky-500 hover:border-sky-500/40 transition-colors shadow-xs cursor-pointer"
-                    title="Telegram @hnamhocit"
-                  >
-                    <FaTelegramPlane size={16} />
+                    <FaGithub size={14} />
+                    <span>GitHub</span>
+                    <ArrowUpRight size={12} className="opacity-60" />
                   </a>
                 </div>
 
               </div>
 
-              {/* Right Column: Live Production System Artifact Card */}
-              <div className="lg:col-span-5">
-                <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] overflow-hidden space-y-5">
+              {/* Right Column: Layered Card Character Portrait (KyKy.dev Signature Style) */}
+              <div className="md:col-span-5 flex justify-center">
+                <div className="relative w-64 h-72 sm:w-72 sm:h-84 md:w-80 md:h-96 select-none group">
                   
-                  {/* Card Header: Live Edge Indicator */}
-                  <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                      </span>
-                      <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                        {t.hero.livePreview.status}
-                      </span>
-                    </div>
-                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-400 font-semibold">
-                      Cloudflare Edge
-                    </span>
-                  </div>
+                  {/* Layer 1: Dark Navy Card (Bottom-Left Offset) */}
+                  <div className="absolute -bottom-4 -left-4 w-full h-full rounded-[28px] bg-[#15263F] dark:bg-[#0A1626] transition-transform duration-500 group-hover:-translate-x-2 group-hover:translate-y-2 shadow-sm" />
 
-                  {/* Title & Subtitle */}
-                  <div className="space-y-1">
-                    <h3 className="font-display font-extrabold text-lg text-[var(--text)] tracking-tight">
-                      {t.hero.livePreview.title}
-                    </h3>
-                    <p className="text-xs text-[var(--muted)] leading-relaxed">
-                      {t.hero.livePreview.subtitle}
-                    </p>
-                  </div>
+                  {/* Layer 2: Medium Navy Card (Top-Right Offset) */}
+                  <div className="absolute -top-4 -right-4 w-full h-full rounded-[28px] bg-[#2E4A6F] dark:bg-[#182F4D] opacity-90 transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 shadow-sm" />
 
-                  {/* Production Live Endpoints */}
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--dim)] block font-semibold">
-                      Phân hệ đang chạy trực tiếp (Live Endpoints)
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {t.hero.livePreview.subdomains.map((sub, idx) => (
-                        <a
-                          key={idx}
-                          href={sub.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] hover:border-purple-400/60 hover:bg-purple-500/5 transition-all block group"
-                        >
-                          <div className="font-mono text-xs font-bold text-purple-700 dark:text-purple-400 group-hover:underline flex items-center justify-between">
-                            <span>{sub.label}</span>
-                          </div>
-                          <div className="text-[10px] text-[var(--muted)] truncate mt-0.5">
-                            {sub.desc}
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Verified Technical Specifications */}
-                  <div className="space-y-1.5 pt-2 border-t border-[var(--border)]">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--dim)] block font-semibold">
-                      Thông số kỹ thuật kiểm chứng (Specs)
-                    </span>
-                    <div className="space-y-1.5">
-                      {t.hero.livePreview.specs.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between text-xs font-mono p-2 rounded-lg bg-[var(--surface-subtle)]/70">
-                          <span className="text-[var(--muted)] text-[11px]">{item.label}</span>
-                          <span className="font-bold text-[var(--text)] text-[11px] text-right">{item.val}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Card Action Buttons */}
-                  <div className="pt-2 flex items-center gap-2.5">
-                    <a
-                      href="https://vntez.cloud"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 py-2.5 px-3 rounded-xl bg-purple-700 dark:bg-purple-600 text-white font-medium text-xs text-center hover:brightness-110 transition-all flex items-center justify-center gap-1.5 shadow-xs"
-                    >
-                      <span>Mở VNTEZ Portal</span>
-                      <ExternalLink size={12} />
-                    </a>
-                    <a
-                      href="https://vntez-docs.vercel.app/docs/vntez-iam"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 py-2.5 px-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-subtle)] text-[var(--text)] font-medium text-xs text-center hover:border-purple-400 transition-all flex items-center justify-center gap-1.5 shadow-2xs"
-                    >
-                      <span>OpenAPI Specs</span>
-                      <ExternalLink size={12} />
-                    </a>
+                  {/* Layer 3: Main Foreground Card with Character Avatar */}
+                  <div className="relative w-full h-full rounded-[28px] bg-[#1E3A5F] dark:bg-[#112338] overflow-hidden flex items-end justify-center shadow-lg border border-white/10">
+                    <img 
+                      src="/avatar.png" 
+                      alt="Hoàng Nam" 
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      onError={(e) => { e.currentTarget.src = "/favicon.svg"; }}
+                    />
                   </div>
 
                 </div>
@@ -488,10 +345,52 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
           </div>
 
-          {/* Cuộn xuống hint */}
-          <div className="mt-auto pt-8 flex flex-col items-center gap-1 text-[var(--dim)] text-xs font-mono">
-            <span>{t.hero.scrollHint}</span>
-            <ChevronDown size={15} className="animate-bounce text-purple-600 dark:text-purple-400" />
+          {/* Bottom Bar: Minimalist Icons on the Left, Subtle Scroll Hint on the Right */}
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 mt-auto pt-8 flex items-center justify-between">
+            <div className="flex items-center gap-5 text-slate-500 dark:text-slate-400">
+              <a 
+                href="https://github.com/hnamhocit" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                title="GitHub"
+              >
+                <FaGithub size={18} />
+              </a>
+              <a 
+                href="https://linkedin.com/in/hnamhocit" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="hover:text-sky-600 transition-colors"
+                title="LinkedIn"
+              >
+                <FaLinkedin size={18} />
+              </a>
+              <a 
+                href="mailto:hnamhocit@gmail.com" 
+                className="hover:text-slate-900 dark:hover:text-white transition-colors"
+                title="Email"
+              >
+                <Mail size={18} />
+              </a>
+              <a 
+                href="https://t.me/hnamhocit" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="hover:text-sky-500 transition-colors"
+                title="Telegram"
+              >
+                <FaTelegramPlane size={18} />
+              </a>
+            </div>
+
+            <a 
+              href="#flagship" 
+              className="text-xs font-mono text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1.5 transition-colors"
+            >
+              <span>{t.hero.scrollHint || "Cuộn xuống"}</span>
+              <ChevronDown size={14} className="animate-bounce" />
+            </a>
           </div>
 
         </section>
@@ -499,52 +398,51 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 02 · FLAGSHIP PROJECT: VNTEZ EDGE CLOUD PLATFORM */}
         {/* ============================================================ */}
-        <section id="flagship" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/40">
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
+        <section id="flagship" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
             
             {/* Top Bar Section Header */}
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-              <div className="space-y-2">
-                <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
-                  <Sparkles size={15} />
-                  <span>{t.flagship.badge}</span>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+              <div className="space-y-1.5">
+                <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">
+                  {t.flagship.badge}
                 </span>
-                <h2 className="text-3xl sm:text-5xl font-display font-black text-[var(--text)] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 dark:text-slate-100 tracking-tight">
                   {t.flagship.title}
                 </h2>
-                <p className="text-sm sm:text-base text-[var(--muted)] max-w-2xl font-normal">
+                <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xl font-normal">
                   {t.flagship.tagline}
                 </p>
               </div>
 
               {/* Direct Live Action Subdomain Links */}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <a 
                   href="https://vntez.cloud" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 to-indigo-600 text-white hover:brightness-110 transition-all shadow-sm"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white transition-colors shadow-xs"
                 >
                   <span>vntez.cloud</span>
-                  <ExternalLink size={13} />
+                  <ExternalLink size={12} />
                 </a>
                 <a 
                   href="https://vntez-docs.vercel.app" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-[var(--surface)] text-slate-700 dark:text-slate-300 hover:border-slate-400 transition-colors"
                 >
                   <span>vntez-docs</span>
-                  <ExternalLink size={13} />
+                  <ExternalLink size={12} />
                 </a>
                 <a 
                   href="https://github.com/hnamhocit" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-[var(--surface)] text-slate-700 dark:text-slate-300 hover:border-slate-400 transition-colors"
                 >
-                  <FaGithub size={14} />
-                  <span>Mã nguồn</span>
+                  <FaGithub size={13} />
+                  <span>GitHub</span>
                 </a>
               </div>
             </div>
@@ -634,7 +532,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           onClick={() => setActiveTab('pkce')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'pkce' 
-                              ? 'bg-purple-700 text-white shadow-xs' 
+                              ? 'bg-[#1E3A5F] text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -644,7 +542,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           onClick={() => setActiveTab('rbac')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'rbac' 
-                              ? 'bg-purple-700 text-white shadow-xs' 
+                              ? 'bg-[#1E3A5F] text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -654,7 +552,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           onClick={() => setActiveTab('code')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'code' 
-                              ? 'bg-purple-700 text-white shadow-xs' 
+                              ? 'bg-[#1E3A5F] text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -707,10 +605,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                         </div>
 
                         {/* Current Step Interactive Description Card */}
-                        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--surface)] border border-purple-500/25 shadow-xs space-y-3">
+                        <div className="p-4 sm:p-5 rounded-2xl bg-[var(--surface)] border border-slate-300 dark:border-slate-700 shadow-xs space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="font-mono text-xs font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-purple-700 text-white text-[11px] flex items-center justify-center font-bold">
+                            <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-5 h-5 rounded-full bg-[#1E3A5F] text-white text-[11px] flex items-center justify-center font-bold">
                                 {pkceSteps[pkceStep].num}
                               </span>
                               <span>{pkceSteps[pkceStep].name}</span>
@@ -729,7 +627,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                             <div><strong className="text-[var(--text)]">Đến:</strong> {pkceSteps[pkceStep].receiver}</div>
                           </div>
 
-                          <div className="p-2.5 rounded-xl bg-[var(--surface-subtle)] font-mono text-[11px] text-purple-700 dark:text-purple-400 break-all border border-[var(--border)]">
+                          <div className="p-2.5 rounded-xl bg-[var(--surface-subtle)] font-mono text-[11px] text-[#1E3A5F] dark:text-[#93C5FD] break-all border border-[var(--border)]">
                             📦 Payload: {pkceSteps[pkceStep].payload}
                           </div>
                         </div>
@@ -738,7 +636,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                         <div className="flex items-center justify-between pt-1">
                           <button
                             onClick={() => setPkceStep((prev) => (prev > 0 ? prev - 1 : 3))}
-                            className="px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-xs font-mono font-medium hover:border-purple-400 transition-colors cursor-pointer"
+                            className="px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-xs font-mono font-medium hover:border-slate-400 transition-colors cursor-pointer"
                           >
                             ← Quay lại
                           </button>
@@ -748,8 +646,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                               <button
                                 key={stepIdx}
                                 onClick={() => setPkceStep(stepIdx)}
-                                className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
-                                  pkceStep === stepIdx ? 'bg-purple-700 w-6' : 'bg-[var(--border)] hover:bg-purple-300'
+                                className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
+                                  pkceStep === stepIdx ? 'bg-[#1E3A5F] w-5' : 'bg-[var(--border)] hover:bg-slate-400'
                                 }`}
                                 aria-label={`Step ${stepIdx + 1}`}
                               />
@@ -758,7 +656,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                           <button
                             onClick={() => setPkceStep((prev) => (prev < 3 ? prev + 1 : 0))}
-                            className="px-4 py-2 rounded-xl bg-purple-700 text-white text-xs font-mono font-bold hover:brightness-110 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                            className="px-4 py-2 rounded-xl bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white text-xs font-mono font-medium transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
                           >
                             <span>{pkceStep === 3 ? "Lặp lại từ đầu" : "Bước tiếp theo"}</span>
                             <ArrowRight size={13} />
@@ -877,7 +775,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                                 onClick={() => setCodeLang(l)}
                                 className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
                                   codeLang === l 
-                                    ? 'bg-purple-700 text-white font-bold' 
+                                    ? 'bg-[#1E3A5F] text-white font-bold' 
                                     : 'bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--border)]'
                                 }`}
                               >
@@ -1037,18 +935,18 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* 03 · EXPANSIVE ECOSYSTEM BENTO GRID */}
         {/* ============================================================ */}
         <section id="ecosystem" className="py-24 border-b border-[var(--border)]">
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
             
             {/* Header */}
-            <div className="mb-14">
-              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
-                <Layers size={14} />
+            <div className="mb-12">
+              <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium flex items-center gap-1.5">
+                <Layers size={13} />
                 <span>{t.ecosystem.badge}</span>
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text)] mt-1.5">
+              <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 dark:text-slate-100 mt-1 tracking-tight">
                 {t.ecosystem.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[var(--muted)] mt-1 max-w-2xl font-normal">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-xl font-normal">
                 {t.ecosystem.subtitle}
               </p>
             </div>
@@ -1164,17 +1062,17 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* 04 · CHỨNG CHỈ NĂNG LỰC QUỐC TẾ */}
         {/* ============================================================ */}
         <section id="credentials" className="py-24 border-b border-[var(--border)]">
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
             
-            <div className="text-center mb-14">
-              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5">
-                <Award size={15} />
+            <div className="text-center mb-12">
+              <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium flex items-center justify-center gap-1.5">
+                <Award size={14} />
                 <span>{t.credentials.badge}</span>
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text)] mt-1.5">
+              <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 dark:text-slate-100 mt-1 tracking-tight">
                 {t.credentials.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[var(--muted)] mt-2 max-w-xl mx-auto leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1.5 max-w-lg mx-auto leading-relaxed">
                 {t.credentials.desc}
               </p>
             </div>
@@ -1358,16 +1256,16 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         </section>
 
         {/* ============================================================ */}
-        {/* 05 · KỸ NĂNG CỐT LÕI & AI ENGINEERING (4 CỘT RỘNG MỞ) */}
+        {/* 05 · KỸ NĂNG CỐT LÕI & AI ENGINEERING */}
         {/* ============================================================ */}
-        <section id="skills" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/40">
-          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
+        <section id="skills" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
             
-            <div className="text-center mb-14">
-              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold">
+            <div className="text-center mb-12">
+              <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">
                 {t.skills.badge}
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text)] mt-1">
+              <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 dark:text-slate-100 mt-1 tracking-tight">
                 {t.skills.title}
               </h2>
             </div>
@@ -1579,26 +1477,22 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* 06 · LIÊN HỆ & KẾT NỐI */}
         {/* ============================================================ */}
         <section id="contact" className="py-24">
-          <div className="w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
+          <div className="w-full max-w-2xl mx-auto px-6 text-center flex flex-col items-center">
             
-            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-5 shadow-xs">
-              <Sparkles size={26} />
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text)] mb-3">
+            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 dark:text-slate-100 mb-2 tracking-tight">
               {t.contact.title}
             </h2>
 
-            <p className="text-sm sm:text-base text-[var(--muted)] max-w-2xl mb-8 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
               {t.contact.desc}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mb-8">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center mb-8">
               <a
                 href="mailto:hnamhocit@gmail.com"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all shadow-md shadow-purple-500/25 flex items-center justify-center gap-2.5 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white font-medium text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Mail size={16} />
+                <Mail size={15} />
                 <span>{t.contact.emailBtn}</span>
               </a>
 
@@ -1606,18 +1500,18 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://github.com/hnamhocit"
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] font-semibold text-sm hover:border-purple-500 transition-colors flex items-center justify-center gap-2.5 shadow-xs"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-[var(--surface)] text-slate-700 dark:text-slate-300 font-medium text-sm hover:border-slate-400 transition-colors flex items-center justify-center gap-2"
               >
-                <FaGithub size={16} />
+                <FaGithub size={15} />
                 <span>{t.contact.githubBtn}</span>
               </a>
             </div>
 
             {/* Social Links */}
-            <div className="flex items-center gap-6 text-[var(--muted)] text-xs font-mono">
+            <div className="flex items-center gap-6 text-slate-500 dark:text-slate-400 text-xs font-mono">
               <a 
                 href="mailto:hnamhocit@gmail.com" 
-                className="hover:text-purple-700 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <Mail size={14} />
                 <span>{t.contact.directEmail}</span>
@@ -1626,7 +1520,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://github.com/hnamhocit" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:text-[var(--text)] transition-colors flex items-center gap-1.5"
+                className="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <FaGithub size={14} />
                 <span>GitHub</span>
@@ -1635,7 +1529,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://t.me/hnamhocit" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:text-sky-600 transition-colors flex items-center gap-1.5"
+                className="hover:text-sky-500 transition-colors flex items-center gap-1.5"
               >
                 <FaTelegramPlane size={14} />
                 <span>Telegram</span>
@@ -1644,7 +1538,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://facebook.com/hnamhocit" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:text-purple-700 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <FaFacebook size={14} />
                 <span>Facebook</span>
@@ -1659,10 +1553,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       {/* ============================================================ */}
       {/* FOOTER */}
       {/* ============================================================ */}
-      <footer className="border-t border-[var(--border)] bg-white dark:bg-[#10141E] py-8 text-center text-xs text-[var(--dim)] font-mono transition-colors">
-        <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="border-t border-[var(--border)] bg-transparent py-8 text-center text-xs text-slate-400 font-mono transition-colors">
+        <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>© {new Date().getFullYear()} Nguyễn Hoàng Nam (hnamhocit).</span>
-          <span className="flex items-center gap-1 text-[var(--muted)]">
+          <span className="flex items-center gap-1 text-slate-400">
             {t.footer.quote}
           </span>
         </div>

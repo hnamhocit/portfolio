@@ -213,10 +213,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       {/* ============================================================ */}
       {/* HEADER: Rộng rãi, thoáng đạt, tương phản chuẩn chỉnh */}
       {/* ============================================================ */}
-      {/* HEADER: Tối giản, thanh lịch, nhiều khoảng trống */}
+      {/* HEADER: Rộng mở, thoáng đạt, không gò bó */}
       {/* ============================================================ */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg)]/90 backdrop-blur-md transition-colors">
-        <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg)]/90 backdrop-blur-md transition-colors border-b border-[var(--border)]">
+        <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20 h-20 flex items-center justify-between">
           
           {/* Minimalist Logo Mark (inspired by KYKY.dev) */}
           <a href="#" className="flex items-center gap-2.5 group">
@@ -262,16 +262,15 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         </div>
       </header>
 
-      <main className="flex-grow pt-20">
+      <main className="flex-grow">
         
         {/* ============================================================ */}
-        {/* 01 · CLEAN & MINIMALIST HERO (INSPIRED BY KYKY.DEV) */}
+        {/* 01 · FULL-SCREEN HERO (EXACT h-screen 100vh, KHÔNG DÍNH BG SECTION KHÁC) */}
         {/* ============================================================ */}
-        <section id="about" className="min-h-[85vh] flex flex-col justify-between relative py-12 sm:py-20">
+        <section id="about" className="h-screen w-full flex flex-col justify-between pt-24 pb-8 px-6 sm:px-12 lg:px-16 xl:px-20 box-border relative overflow-hidden bg-[var(--bg)]">
           
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 my-auto">
-            
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="w-full my-auto">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20 items-center">
               
               {/* Left Column: Understated & Calm Introduction */}
               <div className="md:col-span-7 space-y-7 text-center md:text-left">
@@ -300,7 +299,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     href="#flagship" 
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1E3A5F] hover:bg-[#152843] dark:bg-[#25466F] dark:hover:bg-[#1B3558] text-white text-sm font-medium transition-all shadow-sm cursor-pointer"
                   >
-                    <span>{t.hero.ctaProjects || "Xem dự án"}</span>
+                    <span>{t.hero.ctaProjects || "Xem các dự án thực tế"}</span>
                     <ArrowRight size={14} />
                   </a>
 
@@ -318,8 +317,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
               </div>
 
-              {/* Right Column: Layered Card Character Portrait (KyKy.dev Signature Style) */}
-              <div className="md:col-span-5 flex justify-center">
+              {/* Right Column: Layered Card Character Portrait (Signature Style) */}
+              <div className="md:col-span-5 flex justify-center md:justify-end">
                 <div className="relative w-64 h-72 sm:w-72 sm:h-84 md:w-80 md:h-96 select-none group">
                   
                   {/* Layer 1: Dark Navy Card (Bottom-Left Offset) */}
@@ -342,11 +341,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
             </div>
-
           </div>
 
           {/* Bottom Bar: Minimalist Icons on the Left, Subtle Scroll Hint on the Right */}
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 mt-auto pt-8 flex items-center justify-between">
+          <div className="w-full mt-auto pt-4 flex items-center justify-between">
             <div className="flex items-center gap-5 text-slate-500 dark:text-slate-400">
               <a 
                 href="https://github.com/hnamhocit" 
@@ -398,8 +396,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 02 · FLAGSHIP PROJECT: VNTEZ EDGE CLOUD PLATFORM */}
         {/* ============================================================ */}
-        <section id="flagship" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
+        <section id="flagship" className="py-28 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+          <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20">
             
             {/* Top Bar Section Header */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
@@ -934,8 +932,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 03 · EXPANSIVE ECOSYSTEM BENTO GRID */}
         {/* ============================================================ */}
-        <section id="ecosystem" className="py-24 border-b border-[var(--border)]">
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
+        <section id="ecosystem" className="py-28 border-b border-[var(--border)]">
+          <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20">
             
             {/* Header */}
             <div className="mb-12">
@@ -1061,8 +1059,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 04 · CHỨNG CHỈ NĂNG LỰC QUỐC TẾ */}
         {/* ============================================================ */}
-        <section id="credentials" className="py-24 border-b border-[var(--border)]">
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
+        <section id="credentials" className="py-28 border-b border-[var(--border)]">
+          <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20">
             
             <div className="text-center mb-12">
               <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium flex items-center justify-center gap-1.5">
@@ -1258,8 +1256,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 05 · KỸ NĂNG CỐT LÕI & AI ENGINEERING */}
         {/* ============================================================ */}
-        <section id="skills" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
-          <div className="w-full max-w-5xl mx-auto px-6 sm:px-10">
+        <section id="skills" className="py-28 border-b border-[var(--border)] bg-[var(--surface-subtle)]/30">
+          <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20">
             
             <div className="text-center mb-12">
               <span className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">
@@ -1554,7 +1552,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       {/* FOOTER */}
       {/* ============================================================ */}
       <footer className="border-t border-[var(--border)] bg-transparent py-8 text-center text-xs text-slate-400 font-mono transition-colors">
-        <div className="w-full max-w-5xl mx-auto px-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="w-full px-6 sm:px-12 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>© {new Date().getFullYear()} Nguyễn Hoàng Nam (hnamhocit).</span>
           <span className="flex items-center gap-1 text-slate-400">
             {t.footer.quote}

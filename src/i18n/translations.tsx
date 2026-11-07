@@ -194,8 +194,8 @@ export const translations = {
     hero: {
       greeting: "Hello, I'm",
       name: "Hoàng Nam",
-      role: "Software Engineer & Systems Architect",
-      tagline: "Tác giả kiến trúc nền tảng VNTEZ — High-performance Edge & Distributed Systems.",
+      role: "Fullstack AI Engineering",
+      tagline: "Điều gì tồi tệ hơn: một con sói khóc trước khi ăn thịt cừu, hay một con sói không khóc?",
       ctaResume: "My Resume",
       ctaVntez: "vntez",
       ctaBlog: "Blog",
@@ -240,8 +240,8 @@ export const translations = {
     hero: {
       greeting: "Hello, I'm",
       name: "Hoàng Nam",
-      role: "Software Engineer & Systems Architect",
-      tagline: "Author & Architect of VNTEZ Platform — High-performance Edge & Distributed Systems.",
+      role: "Fullstack AI Engineering",
+      tagline: "What is worse: a wolf that weeps before devouring the sheep, or a wolf that doesn't weep at all?",
       ctaResume: "My Resume",
       ctaVntez: "vntez",
       ctaBlog: "Blog",
@@ -286,8 +286,8 @@ export const translations = {
     hero: {
       greeting: "你好，我是",
       name: "黄南 (Hoàng Nam)",
-      role: "软件工程师 & 系统架构师",
-      tagline: "VNTEZ 平台架构作者 — 高性能边缘计算与分布式系统。",
+      role: "Fullstack AI Engineering",
+      tagline: "哪一个更可悲：是一只在吞噬羊群前流泪的狼，还是一只从不流泪的狼？",
       ctaResume: "个人简历",
       ctaVntez: "vntez",
       ctaBlog: "博客",
@@ -332,8 +332,8 @@ export const translations = {
     hero: {
       greeting: "こんにちは、",
       name: "ホアン・ナム (Hoàng Nam)",
-      role: "ソフトウェアエンジニア & システムアーキテクト",
-      tagline: "VNTEZプラットフォーム設計者 — 高性能エッジ＆分散システム。",
+      role: "Fullstack AI Engineering",
+      tagline: "より残酷なのはどちらだろうか。羊を喰らう前に涙を流す狼か、それとも決して涙を流さない狼か。",
       ctaResume: "履歴書 (CV)",
       ctaVntez: "vntez",
       ctaBlog: "ブログ",

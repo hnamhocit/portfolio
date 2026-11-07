@@ -137,8 +137,8 @@ export default function Portfolio() {
                   {t.hero.role}
                 </p>
 
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md leading-relaxed">
-                  {t.hero.tagline}
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic max-w-md leading-relaxed border-l-2 border-slate-300 dark:border-slate-700 pl-3 py-0.5">
+                  &ldquo;{t.hero.tagline}&rdquo;
                 </p>
               </div>
 
@@ -198,28 +198,28 @@ export default function Portfolio() {
 
             </div>
 
-            {/* Right Column: Layered Card Character Portrait */}
+            {/* Right Column: Layered Card Character Portrait (Exact Kyky.dev Offset Geometry) */}
             <div className="md:col-span-5 flex justify-center md:justify-center">
-              <div className="relative w-56 h-68 sm:w-64 sm:h-76 md:w-72 md:h-84 select-none group transition-transform duration-500 hover:scale-[1.02]">
+              <div className="relative w-60 h-68 sm:w-68 sm:h-76 md:w-76 md:h-84 select-none group transition-transform duration-500 hover:scale-[1.02]">
                 
-                {/* Layer 1: Dark Navy Card */}
+                {/* Layer 1: Bottom-Left Dark Navy Card (#1c4473) */}
                 <div 
-                  className="absolute inset-0 rounded-[2.2rem] bg-[#1E3A5F] dark:bg-[#152843] translate-x-3 translate-y-3 transition-transform duration-300 group-hover:translate-x-3.5 group-hover:translate-y-3.5"
+                  className="absolute inset-0 rounded-[2.5rem] bg-[#1c4473] dark:bg-[#122b4a] -translate-x-5 translate-y-5 sm:-translate-x-7 sm:translate-y-7 transition-transform duration-500 ease-out group-hover:-translate-x-7 group-hover:translate-y-7 sm:group-hover:-translate-x-9 sm:group-hover:translate-y-9 shadow-md"
                   aria-hidden="true"
                 />
 
-                {/* Layer 2: Slate Blue Card */}
+                {/* Layer 2: Top-Right Slate Blue Card (#49698f) */}
                 <div 
-                  className="absolute inset-0 rounded-[2.2rem] bg-[#3B628B] dark:bg-[#25466F] translate-x-1.5 translate-y-1.5 opacity-90 transition-transform duration-300 group-hover:translate-x-2 group-hover:translate-y-2"
+                  className="absolute inset-0 rounded-[2.5rem] bg-[#49698f] dark:bg-[#2d4664] translate-x-5 -translate-y-5 sm:translate-x-7 sm:-translate-y-7 transition-transform duration-500 ease-out group-hover:translate-x-7 group-hover:-translate-y-7 sm:group-hover:translate-x-9 sm:group-hover:-translate-y-9 shadow-md"
                   aria-hidden="true"
                 />
 
-                {/* Layer 3: Character Portrait Card */}
-                <div className="relative h-full w-full rounded-[2.2rem] bg-[var(--surface)] border border-slate-200/60 dark:border-slate-700/60 overflow-hidden shadow-md flex items-center justify-center">
+                {/* Layer 3: Front Character Portrait Card (Centered, rounded-[2.5rem], shadow-2xl) */}
+                <div className="relative h-full w-full rounded-[2.5rem] bg-[#1c4473] border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
                   <img 
                     src="/avatar.png" 
                     alt="Hoàng Nam" 
-                    className="w-full h-full object-cover select-none"
+                    className="w-full h-full object-cover select-none transition-transform duration-500 group-hover:scale-105"
                     loading="eager"
                     onError={(e) => { e.currentTarget.src = "/favicon.svg"; }}
                   />

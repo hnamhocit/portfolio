@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Sun, Moon, Mail, ArrowUpRight, ExternalLink, 
   Sparkles, ArrowRight, ArrowUp, Server, Smartphone, Shield, 
   Award, CheckCircle2, Globe, ChevronDown,
   Key, Sliders, Bell, Database, BarChart3, Terminal, Cpu, Layers, DollarSign, Users, Zap, ShieldCheck, Lock, Check,
-  Activity, GitBranch, Box, Clock, Workflow, FileCode2, Play, RefreshCw, Send, CheckCircle, XCircle, Copy
+  Activity, GitBranch, Box, Clock, Workflow, FileCode2, Play, RefreshCw, Send, CheckCircle, XCircle, Copy, Bot, MessageSquare, Heart
 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaFacebook, FaAws, FaTelegramPlane } from 'react-icons/fa';
 import { 
   SiFlutter, SiGo, SiRust, SiDocker, 
   SiKubernetes, SiLinux, SiPostgresql, SiRedis,
-  SiSvelte, SiTailwindcss, SiTypescript, SiCloudflare, SiNextdotjs
+  SiSvelte, SiTailwindcss, SiTypescript, SiCloudflare, SiNextdotjs, SiAnthropic
 } from 'react-icons/si';
 import { useLanguage } from '../store/useLanguage';
 import { translations } from '../i18n/translations';
@@ -43,10 +43,29 @@ export default function Portfolio() {
 
   // Code tab language
   const [codeLang, setCodeLang] = useState<'curl' | 'ts' | 'go'>('ts');
-  const [copied, setCopied] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
 
   // Dynamic age calculation based on birth year 2007
   const currentAge = new Date().getFullYear() - 2007;
+
+  // AI Assistant interactive state
+  const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'ai'; text: string; time: string }>>([
+    {
+      sender: 'ai',
+      text: lang === 'vi' 
+        ? "Chào bạn! Mình là AI Co-pilot được thiết lập dựa trên tư duy kỹ thuật và kinh nghiệm thực tế của Hoàng Nam. Bạn muốn khám phá điều gì về mình?"
+        : lang === 'zh'
+        ? "你好！我是根据黄男的技术思考与工程实践打造的 AI 伴侣。想了解关于我的哪些经历？"
+        : lang === 'ja'
+        ? "こんにちは！ホアン・ナムのエンジニアリング思想と実績に基づいて作成された AI パートナーです。何について知りたいですか？"
+        : "Hello! I am Nam's AI Co-pilot, modeled after his engineering mindset and production experience. What would you like to explore?",
+      time: "Vừa xong"
+    }
+  ]);
+  const [inputQuery, setInputQuery] = useState("");
+  const [isAiTyping, setIsAiTyping] = useState(false);
+  const [copiedChatIdx, setCopiedChatIdx] = useState<number | null>(null);
+  const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Theme initialization
   useEffect(() => {
@@ -68,6 +87,11 @@ export default function Portfolio() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Auto-scroll chat to bottom
+  useEffect(() => {
+    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages, isAiTyping]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -167,8 +191,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(codeSnippets[codeLang]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
   };
 
   // PKCE steps data for visual simulation
@@ -207,13 +231,86 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
     }
   ];
 
+  // AI Assistant response generator
+  const getAiResponse = (query: string): string => {
+    const q = query.toLowerCase();
+    const prompts = t.aiAssistant.quickPrompts;
+
+    if (q.includes("pkce") || q.includes("iam") || q.includes("cloudflare") || q.includes("edge") || q.includes("oauth") || q.includes("auth")) {
+      return prompts[0]?.a || "";
+    }
+    if (q.includes("pos") || q.includes("bman") || q.includes("offline") || q.includes("sqlite") || q.includes("bán lẻ") || q.includes("in bill")) {
+      return prompts[1]?.a || "";
+    }
+    if (q.includes("định hướng") || q.includes("công việc") || q.includes("văn hóa") || q.includes("tuyển") || q.includes("remote") || q.includes("junior") || q.includes("job") || q.includes("hire") || q.includes("team")) {
+      return prompts[2]?.a || "";
+    }
+    if (q.includes("chứng chỉ") || q.includes("cert") || q.includes("aws") || q.includes("cka") || q.includes("ielts") || q.includes("kubernetes")) {
+      return prompts[3]?.a || "";
+    }
+    if (q.includes("ai") || q.includes("llm") || q.includes("mcp") || q.includes("prompt") || q.includes("agent") || q.includes("trợ lý")) {
+      return lang === 'vi' 
+        ? "Mình tiếp cận AI dưới góc độ công cụ gia tăng năng lực (Augmentation) và tích hợp hệ sinh thái: ứng dụng Model Context Protocol (MCP), streaming UI, function calling và tối ưu context window. Quan trọng nhất là giữ con người ở trung tâm (Human-in-the-loop) để bảo đảm sự an toàn, độ tin cậy và sự tinh tế trong trải nghiệm."
+        : "I treat AI as an amplification tool and practical systems integrator: applying Model Context Protocol (MCP), streaming interfaces, tool-calling and strict context window tuning. Crucially, keeping humans in the loop ensures software reliability, empathy, and craft.";
+    }
+
+    // Default warm human response
+    return lang === 'vi'
+      ? `Cảm ơn bạn đã trò chuyện! Hoàng Nam luôn trân trọng những trao đổi thẳng thắn, sâu sắc về công nghệ, kiến trúc hoặc các cơ hội hợp tác thực tế. Bạn có thể gửi email trực tiếp cho mình tại hnamhocit@gmail.com hoặc Telegram @hnamhocit để chúng ta cùng trò chuyện chi tiết nhé!`
+      : `Thank you for reaching out! I deeply value authentic engineering conversations and collaboration opportunities. Feel free to send me a direct email at hnamhocit@gmail.com or message me on Telegram @hnamhocit!`;
+  };
+
+  const handleSendQuery = (textToSend?: string) => {
+    const q = textToSend || inputQuery.trim();
+    if (!q || isAiTyping) return;
+
+    const userMsg = {
+      sender: 'user' as const,
+      text: q,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    setChatMessages((prev) => [...prev, userMsg]);
+    setInputQuery("");
+    setIsAiTyping(true);
+
+    setTimeout(() => {
+      const answer = getAiResponse(q);
+      const aiMsg = {
+        sender: 'ai' as const,
+        text: answer,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setChatMessages((prev) => [...prev, aiMsg]);
+      setIsAiTyping(false);
+    }, 600);
+  };
+
+  const handleResetChat = () => {
+    setChatMessages([
+      {
+        sender: 'ai',
+        text: lang === 'vi' 
+          ? "Cuộc trò chuyện đã được làm mới. Bạn có câu hỏi nào khác dành cho mình không?"
+          : "Conversation refreshed. What else would you like to explore together?",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ]);
+  };
+
+  const handleCopyChat = (idx: number, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedChatIdx(idx);
+    setTimeout(() => setCopiedChatIdx(null), 2000);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] font-sans antialiased selection:bg-purple-500/25 selection:text-purple-600 dark:selection:text-purple-300 transition-colors duration-300">
       
       {/* ============================================================ */}
-      {/* HEADER: Rộng rãi, thoáng đạt, không gò bó */}
+      {/* HEADER: Rộng rãi, thoáng đạt, tương phản chuẩn chỉnh */}
       {/* ============================================================ */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)]/40 bg-white/95 dark:bg-[#10141E]/95 backdrop-blur-lg transition-colors">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-white/95 dark:bg-[#10141E]/95 backdrop-blur-lg transition-colors">
         <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 h-16 flex items-center justify-between">
           
           {/* Brand & Avatar */}
@@ -238,8 +335,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
           </a>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-medium">
-            <a href="#" className="text-purple-600 dark:text-purple-400 font-semibold hover:opacity-80 transition-opacity">
+          <nav className="hidden md:flex items-center gap-7 lg:gap-8 text-xs sm:text-sm font-medium">
+            <a href="#" className="text-purple-700 dark:text-purple-400 font-semibold hover:opacity-80 transition-opacity">
               {t.nav.home}
             </a>
             <a href="#flagship" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
@@ -248,8 +345,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             <a href="#ecosystem" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
               Hệ sinh thái
             </a>
-            <a href="#credentials" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
-              Chứng chỉ
+            <a href="#skills" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
+              Kỹ năng &amp; AI
+            </a>
+            <a href="#ai-assistant" className="text-purple-700 dark:text-purple-400 font-medium hover:underline flex items-center gap-1.5">
+              <Bot size={14} />
+              <span>Trò chuyện AI</span>
             </a>
             <a href="/blog" className="text-[var(--muted)] hover:text-[var(--text)] transition-colors">
               {t.nav.blog}
@@ -264,7 +365,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               href="https://github.com/hnamhocit" 
               target="_blank" 
               rel="noreferrer"
-              className="p-2 rounded-lg border border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-500/40 transition-colors shadow-2xs"
+              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-500/40 transition-colors shadow-xs"
               title="GitHub Profile"
             >
               <FaGithub size={15} />
@@ -272,11 +373,11 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg border border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer shadow-2xs"
+              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer shadow-xs"
               aria-label={t.nav.themeToggle}
               title={t.nav.themeToggle}
             >
-              {isDark ? <Sun size={15} className="text-purple-300" /> : <Moon size={15} />}
+              {isDark ? <Sun size={15} className="text-purple-300" /> : <Moon size={15} className="text-stone-700" />}
             </button>
           </div>
 
@@ -288,13 +389,13 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 01 · EXPANSIVE HERO SECTION (FULL SCREEN & WIDE LAYOUT) */}
         {/* ============================================================ */}
-        <section id="about" className="min-h-[92vh] flex flex-col justify-center relative overflow-hidden border-b border-[var(--border)]/30 py-16">
+        <section id="about" className="min-h-[92vh] flex flex-col justify-center relative overflow-hidden border-b border-[var(--border)] py-16">
           
           {/* Subtle Organic Aurora Background Glowing Blobs */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden -z-10">
-            <div className="aurora-blob-1 absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[550px] rounded-full bg-purple-500/15 dark:bg-purple-600/15 blur-[140px] opacity-80" />
-            <div className="aurora-blob-2 absolute top-1/2 right-1/4 w-[700px] h-[500px] rounded-full bg-indigo-500/15 dark:bg-indigo-600/15 blur-[150px] opacity-70" />
-            <div className="aurora-blob-3 absolute bottom-10 left-1/2 w-[600px] h-[450px] rounded-full bg-fuchsia-500/10 dark:bg-fuchsia-600/10 blur-[130px] opacity-60" />
+            <div className="aurora-blob-1 absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[550px] rounded-full bg-purple-500/12 dark:bg-purple-600/15 blur-[140px] opacity-80" />
+            <div className="aurora-blob-2 absolute top-1/2 right-1/4 w-[700px] h-[500px] rounded-full bg-indigo-500/12 dark:bg-indigo-600/15 blur-[150px] opacity-70" />
+            <div className="aurora-blob-3 absolute bottom-10 left-1/2 w-[600px] h-[450px] rounded-full bg-amber-500/10 dark:bg-fuchsia-600/10 blur-[130px] opacity-60" />
             <div className="absolute inset-0 bg-grid-tech opacity-20 dark:opacity-15 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_50%,#000_75%,transparent_100%)]" />
           </div>
 
@@ -306,14 +407,14 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               <div className="lg:col-span-7 space-y-6">
                 
                 {/* Status Pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-mono font-medium">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-purple-700 dark:text-purple-400 text-xs font-mono font-medium shadow-2xs">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Edge Computing · Zero-Trust IAM · Offline-First</span>
+                  <span>Edge Computing · Zero-Trust IAM · AI-Augmented FE</span>
                 </div>
 
                 {/* Inspirational Quote */}
                 <div className="space-y-1">
-                  <p className="font-mono text-sm sm:text-base text-purple-600 dark:text-purple-300 font-semibold tracking-wide">
+                  <p className="font-mono text-sm sm:text-base text-purple-700 dark:text-purple-300 font-semibold tracking-wide">
                     {t.hero.quote_zh}
                   </p>
                   <p className="text-xs sm:text-sm text-[var(--dim)] italic">
@@ -324,7 +425,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 {/* Main Heading */}
                 <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-[var(--text)] leading-[1.08]">
                   {t.hero.greeting}{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-500 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-300">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 dark:from-purple-400 dark:via-fuchsia-400 dark:to-indigo-300">
                     {t.hero.name}
                   </span>.
                 </h1>
@@ -338,15 +439,23 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <a 
                     href="#flagship" 
-                    className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all flex items-center gap-2.5 shadow-lg shadow-purple-500/25 cursor-pointer"
+                    className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all flex items-center gap-2.5 shadow-md shadow-purple-500/25 cursor-pointer"
                   >
                     <span>{t.hero.ctaFlagship}</span>
                     <ArrowRight size={16} />
                   </a>
 
                   <a 
+                    href="#ai-assistant" 
+                    className="px-6 py-3.5 rounded-2xl border border-purple-500/30 bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-purple-700 dark:text-purple-400 font-semibold text-sm hover:border-purple-500 transition-all flex items-center gap-2 shadow-xs"
+                  >
+                    <Bot size={16} />
+                    <span>Hỏi đáp cùng AI</span>
+                  </a>
+
+                  <a 
                     href="mailto:hnamhocit@gmail.com" 
-                    className="px-7 py-3.5 rounded-2xl border border-purple-500/30 bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500 transition-all flex items-center gap-2.5 shadow-xs"
+                    className="px-6 py-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] text-[var(--text)] font-semibold text-sm hover:border-purple-500 transition-all flex items-center gap-2 shadow-xs"
                   >
                     <Mail size={16} className="text-purple-600 dark:text-purple-400" />
                     <span>{t.hero.ctaEmail}</span>
@@ -356,7 +465,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     href="https://t.me/hnamhocit" 
                     target="_blank" 
                     rel="noreferrer"
-                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-sky-500 hover:border-sky-500/40 transition-colors shadow-2xs"
+                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-sky-500 hover:border-sky-500/40 transition-colors shadow-xs"
                     title="Telegram @hnamhocit"
                   >
                     <FaTelegramPlane size={16} />
@@ -367,17 +476,17 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
               {/* Right Column: Visual Edge Mesh Preview */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)]/80 p-6 sm:p-8 shadow-2xl shadow-purple-500/5 backdrop-blur-sm overflow-hidden group">
+                <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-8 shadow-[var(--card-shadow)] overflow-hidden group">
                   
                   {/* Subtle corner badge */}
-                  <div className="flex items-center justify-between pb-6 border-b border-[var(--border)]/40">
+                  <div className="flex items-center justify-between pb-6 border-b border-[var(--border)]">
                     <div className="flex items-center gap-2.5">
                       <div className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
-                      <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                      <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                         VNTEZ Edge Mesh Active
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold">
+                    <span className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-400 font-semibold">
                       p95 &lt; 35ms
                     </span>
                   </div>
@@ -386,9 +495,9 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   <div className="py-6 space-y-4">
                     
                     {/* Node 1: Hanoi PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--surface-subtle)]/40 border border-[var(--border)]/40">
+                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-mono text-xs font-bold">
+                        <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center font-mono text-xs font-bold">
                           HAN
                         </div>
                         <div>
@@ -396,15 +505,15 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           <div className="text-[11px] text-[var(--muted)] font-mono">iam.vntez.cloud · OAuth Worker</div>
                         </div>
                       </div>
-                      <div className="text-right font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
                         18ms
                       </div>
                     </div>
 
                     {/* Node 2: Ho Chi Minh City PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--surface-subtle)]/40 border border-[var(--border)]/40">
+                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-mono text-xs font-bold">
+                        <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-700 dark:text-sky-400 flex items-center justify-center font-mono text-xs font-bold">
                           SGN
                         </div>
                         <div>
@@ -412,15 +521,15 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           <div className="text-[11px] text-[var(--muted)] font-mono">telebot &amp; upload worker</div>
                         </div>
                       </div>
-                      <div className="text-right font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
                         22ms
                       </div>
                     </div>
 
                     {/* Node 3: Danang PoP */}
-                    <div className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--surface-subtle)]/40 border border-[var(--border)]/40">
+                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)]">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+                        <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
                           DAD
                         </div>
                         <div>
@@ -428,7 +537,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           <div className="text-[11px] text-[var(--muted)] font-mono">Cloudflare D1 &amp; R2 S3 Gate</div>
                         </div>
                       </div>
-                      <div className="text-right font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold">
+                      <div className="text-right font-mono text-xs text-emerald-700 dark:text-emerald-400 font-bold">
                         24ms
                       </div>
                     </div>
@@ -436,14 +545,14 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </div>
 
                   {/* Architecture Mini Specs */}
-                  <div className="pt-4 border-t border-[var(--border)]/40 grid grid-cols-2 gap-4 text-xs font-mono">
+                  <div className="pt-4 border-t border-[var(--border)] grid grid-cols-2 gap-4 text-xs font-mono">
                     <div>
                       <span className="text-[10px] text-[var(--dim)] block uppercase">Cryptographic Engine</span>
                       <strong className="text-[var(--text)] text-xs block mt-0.5">Ed25519 + S256 PKCE</strong>
                     </div>
                     <div>
                       <span className="text-[10px] text-[var(--dim)] block uppercase">Zero Cold-Start</span>
-                      <strong className="text-emerald-600 dark:text-emerald-400 text-xs block mt-0.5">V8 Micro-Isolates</strong>
+                      <strong className="text-emerald-700 dark:text-emerald-400 text-xs block mt-0.5">V8 Micro-Isolates</strong>
                     </div>
                   </div>
 
@@ -453,10 +562,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             </div>
 
             {/* Bottom Wide Status Bar Ticker */}
-            <div className="mt-14 pt-8 border-t border-[var(--border)]/40 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="mt-14 pt-8 border-t border-[var(--border)] grid grid-cols-2 md:grid-cols-4 gap-6">
               {t.hero.statusBadges?.map((badge, idx) => (
                 <div key={idx} className="space-y-1">
-                  <span className="font-display font-extrabold text-2xl sm:text-3xl text-purple-600 dark:text-purple-400 block tracking-tight">
+                  <span className="font-display font-black text-2xl sm:text-3xl text-purple-700 dark:text-purple-400 block tracking-tight">
                     {badge.val}
                   </span>
                   <span className="text-xs font-medium text-[var(--muted)] block font-mono">
@@ -471,7 +580,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
           {/* Cuộn xuống hint */}
           <div className="mt-auto pt-8 flex flex-col items-center gap-1 text-[var(--dim)] text-xs font-mono">
             <span>{t.hero.scrollHint}</span>
-            <ChevronDown size={15} className="animate-bounce text-purple-500 dark:text-purple-400" />
+            <ChevronDown size={15} className="animate-bounce text-purple-600 dark:text-purple-400" />
           </div>
 
         </section>
@@ -479,13 +588,13 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 02 · FLAGSHIP PROJECT: VNTEZ EDGE CLOUD PLATFORM */}
         {/* ============================================================ */}
-        <section id="flagship" className="py-24 border-b border-[var(--border)]/30 bg-[var(--surface-subtle)]/20">
+        <section id="flagship" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/40">
           <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
             
             {/* Top Bar Section Header */}
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
               <div className="space-y-2">
-                <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
+                <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
                   <Sparkles size={15} />
                   <span>{t.flagship.badge}</span>
                 </span>
@@ -503,7 +612,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   href="https://vntez.cloud" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:brightness-110 transition-all shadow-sm"
+                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 to-indigo-600 text-white hover:brightness-110 transition-all shadow-sm"
                 >
                   <span>vntez.cloud</span>
                   <ExternalLink size={13} />
@@ -512,7 +621,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   href="https://vntez-docs.vercel.app" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-xs"
                 >
                   <span>vntez-docs</span>
                   <ExternalLink size={13} />
@@ -521,7 +630,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   href="https://github.com/hnamhocit" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-2xs"
+                  className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:border-purple-400 transition-colors shadow-xs"
                 >
                   <FaGithub size={14} />
                   <span>Mã nguồn</span>
@@ -530,7 +639,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             </div>
 
             {/* Showcase Main Container: 2-Column Wide Layout */}
-            <div className="rounded-3xl bg-[var(--surface)] p-6 sm:p-10 lg:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.25)] border border-[var(--border)]/70 space-y-14">
+            <div className="rounded-3xl bg-[var(--surface)] p-6 sm:p-10 lg:p-12 shadow-[var(--card-shadow)] border border-[var(--border)] space-y-14">
               
               {/* Row 1: Left Narrative & Right Interactive Studio */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -538,7 +647,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 {/* Left Column (5 Cols): Deep Dive Narrative & Specs */}
                 <div className="lg:col-span-5 space-y-6">
                   
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-mono font-semibold">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/10 text-purple-700 dark:text-purple-400 text-xs font-mono font-semibold">
                     <Activity size={13} />
                     <span>{t.flagship.roleTag}</span>
                   </div>
@@ -552,7 +661,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </p>
 
                   {/* Architecture Ownership Grid */}
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-6 pt-4 border-t border-[var(--border)]/40 text-xs font-mono">
+                  <div className="grid grid-cols-2 gap-y-4 gap-x-6 pt-4 border-t border-[var(--border)] text-xs font-mono">
                     <div>
                       <span className="text-[10px] text-[var(--dim)] block uppercase tracking-wider">{t.flagship.scopeLabel}</span>
                       <strong className="text-[var(--text)] text-sm block mt-0.5">{t.flagship.scopeVal}</strong>
@@ -567,7 +676,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     </div>
                     <div>
                       <span className="text-[10px] text-[var(--dim)] block uppercase tracking-wider">{t.flagship.statusLabel}</span>
-                      <strong className="text-emerald-600 dark:text-emerald-400 text-sm flex items-center gap-1.5 mt-0.5">
+                      <strong className="text-emerald-700 dark:text-emerald-400 text-sm flex items-center gap-1.5 mt-0.5">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         {t.flagship.statusVal}
                       </strong>
@@ -575,28 +684,28 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </div>
 
                   {/* Live Subdomain Badges */}
-                  <div className="pt-4 border-t border-[var(--border)]/40 space-y-2.5">
+                  <div className="pt-4 border-t border-[var(--border)] space-y-2.5">
                     <span className="text-[11px] font-mono text-[var(--dim)] block uppercase tracking-wider">
                       Phân hệ vận hành trực tiếp
                     </span>
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div className="grid grid-cols-2 gap-2.5 text-xs font-mono">
                       <a 
                         href="https://vntez.cloud" 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="p-2.5 rounded-xl bg-[var(--surface-subtle)]/50 hover:bg-purple-500/10 hover:text-purple-600 transition-colors block border border-[var(--border)]/40"
+                        className="p-3 rounded-2xl bg-[var(--surface-subtle)] hover:bg-purple-500/10 hover:text-purple-700 transition-colors block border border-[var(--border)]"
                       >
-                        <span className="font-bold block">vntez.cloud ↗</span>
-                        <span className="text-[10px] text-[var(--muted)]">Platform Portal</span>
+                        <span className="font-bold block text-sm">vntez.cloud ↗</span>
+                        <span className="text-[11px] text-[var(--muted)]">Platform Portal</span>
                       </a>
                       <a 
                         href="https://iam.vntez.cloud" 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="p-2.5 rounded-xl bg-[var(--surface-subtle)]/50 hover:bg-purple-500/10 hover:text-purple-600 transition-colors block border border-[var(--border)]/40"
+                        className="p-3 rounded-2xl bg-[var(--surface-subtle)] hover:bg-purple-500/10 hover:text-purple-700 transition-colors block border border-[var(--border)]"
                       >
-                        <span className="font-bold block">iam.vntez.cloud ↗</span>
-                        <span className="text-[10px] text-[var(--muted)]">OAuth / SSO</span>
+                        <span className="font-bold block text-sm">iam.vntez.cloud ↗</span>
+                        <span className="text-[11px] text-[var(--muted)]">OAuth / SSO</span>
                       </a>
                     </div>
                   </div>
@@ -605,16 +714,16 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                 {/* Right Column (7 Cols): Interactive Visual Control Panel */}
                 <div className="lg:col-span-7">
-                  <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--surface-subtle)]/30 p-5 sm:p-6 shadow-md overflow-hidden">
+                  <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-subtle)]/50 p-5 sm:p-6 shadow-xs overflow-hidden">
                     
                     {/* Tab Switcher */}
-                    <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border)]/40">
-                      <div className="flex items-center gap-1.5 bg-[var(--surface)] p-1 rounded-xl border border-[var(--border)]/60 text-xs font-mono">
+                    <div className="flex items-center justify-between pb-4 mb-5 border-b border-[var(--border)]">
+                      <div className="flex items-center gap-1.5 bg-[var(--surface)] p-1 rounded-xl border border-[var(--border)] text-xs font-mono">
                         <button
                           onClick={() => setActiveTab('pkce')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'pkce' 
-                              ? 'bg-purple-600 text-white shadow-xs' 
+                              ? 'bg-purple-700 text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -624,7 +733,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           onClick={() => setActiveTab('rbac')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'rbac' 
-                              ? 'bg-purple-600 text-white shadow-xs' 
+                              ? 'bg-purple-700 text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -634,7 +743,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           onClick={() => setActiveTab('code')}
                           className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                             activeTab === 'code' 
-                              ? 'bg-purple-600 text-white shadow-xs' 
+                              ? 'bg-purple-700 text-white shadow-xs' 
                               : 'text-[var(--muted)] hover:text-[var(--text)]'
                           }`}
                         >
@@ -654,32 +763,32 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                         {/* 3 Architecture Actors / Nodes */}
                         <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center text-xs font-mono">
                           
-                          <div className={`p-3 rounded-xl border transition-all ${
+                          <div className={`p-3 rounded-2xl border transition-all ${
                             pkceStep === 0 || pkceStep === 1
-                              ? 'border-purple-500 bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold'
-                              : 'border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)]'
+                              ? 'border-purple-500 bg-purple-500/10 text-purple-700 dark:text-purple-400 font-bold'
+                              : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)]'
                           }`}>
-                            <Smartphone size={16} className="mx-auto mb-1 text-purple-500" />
+                            <Smartphone size={16} className="mx-auto mb-1 text-purple-600" />
                             <div className="font-bold text-[11px] sm:text-xs">Public Client</div>
                             <div className="text-[9px] text-[var(--dim)]">Next.js / Flutter</div>
                           </div>
 
-                          <div className={`p-3 rounded-xl border transition-all ${
+                          <div className={`p-3 rounded-2xl border transition-all ${
                             pkceStep === 1 || pkceStep === 2 || pkceStep === 3
-                              ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold'
-                              : 'border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)]'
+                              ? 'border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-400 font-bold'
+                              : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)]'
                           }`}>
-                            <SiCloudflare size={16} className="mx-auto mb-1 text-sky-500" />
+                            <SiCloudflare size={16} className="mx-auto mb-1 text-sky-600" />
                             <div className="font-bold text-[11px] sm:text-xs">iam-worker</div>
                             <div className="text-[9px] text-[var(--dim)]">Cloudflare Edge</div>
                           </div>
 
-                          <div className={`p-3 rounded-xl border transition-all ${
+                          <div className={`p-3 rounded-2xl border transition-all ${
                             pkceStep === 3
-                              ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold'
-                              : 'border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)]'
+                              ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold'
+                              : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)]'
                           }`}>
-                            <Server size={16} className="mx-auto mb-1 text-emerald-500" />
+                            <Server size={16} className="mx-auto mb-1 text-emerald-600" />
                             <div className="font-bold text-[11px] sm:text-xs">Resource API</div>
                             <div className="text-[9px] text-[var(--dim)]">Console / Backend</div>
                           </div>
@@ -689,8 +798,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                         {/* Current Step Interactive Description Card */}
                         <div className="p-4 sm:p-5 rounded-2xl bg-[var(--surface)] border border-purple-500/25 shadow-xs space-y-3">
                           <div className="flex items-center justify-between">
-                            <span className="font-mono text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[11px] flex items-center justify-center font-bold">
+                            <span className="font-mono text-xs font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                              <span className="w-5 h-5 rounded-full bg-purple-700 text-white text-[11px] flex items-center justify-center font-bold">
                                 {pkceSteps[pkceStep].num}
                               </span>
                               <span>{pkceSteps[pkceStep].name}</span>
@@ -704,12 +813,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                             {pkceSteps[pkceStep].detail}
                           </p>
 
-                          <div className="pt-2 border-t border-[var(--border)]/40 font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[var(--dim)]">
+                          <div className="pt-2 border-t border-[var(--border)] font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[var(--dim)]">
                             <div><strong className="text-[var(--text)]">Từ:</strong> {pkceSteps[pkceStep].sender}</div>
                             <div><strong className="text-[var(--text)]">Đến:</strong> {pkceSteps[pkceStep].receiver}</div>
                           </div>
 
-                          <div className="p-2.5 rounded-lg bg-[var(--surface-subtle)]/70 font-mono text-[11px] text-purple-600 dark:text-purple-400 break-all">
+                          <div className="p-2.5 rounded-xl bg-[var(--surface-subtle)] font-mono text-[11px] text-purple-700 dark:text-purple-400 break-all border border-[var(--border)]">
                             📦 Payload: {pkceSteps[pkceStep].payload}
                           </div>
                         </div>
@@ -729,7 +838,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                                 key={stepIdx}
                                 onClick={() => setPkceStep(stepIdx)}
                                 className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
-                                  pkceStep === stepIdx ? 'bg-purple-600 w-6' : 'bg-[var(--border)] hover:bg-purple-300'
+                                  pkceStep === stepIdx ? 'bg-purple-700 w-6' : 'bg-[var(--border)] hover:bg-purple-300'
                                 }`}
                                 aria-label={`Step ${stepIdx + 1}`}
                               />
@@ -738,7 +847,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                           <button
                             onClick={() => setPkceStep((prev) => (prev < 3 ? prev + 1 : 0))}
-                            className="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-mono font-bold hover:brightness-110 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                            className="px-4 py-2 rounded-xl bg-purple-700 text-white text-xs font-mono font-bold hover:brightness-110 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
                           >
                             <span>{pkceStep === 3 ? "Lặp lại từ đầu" : "Bước tiếp theo"}</span>
                             <ArrowRight size={13} />
@@ -752,7 +861,6 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     {activeTab === 'rbac' && (
                       <div className="space-y-6">
                         
-                        {/* Role Selectors */}
                         <div className="space-y-2">
                           <label className="text-xs font-mono font-bold text-[var(--muted)] uppercase tracking-wider block">
                             1. Chọn Vai trò người dùng (User Role):
@@ -767,10 +875,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                               <button
                                 key={r.id}
                                 onClick={() => setSelectedRole(r.id as any)}
-                                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                                className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
                                   selectedRole === r.id
-                                    ? 'border-purple-500 bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold shadow-xs'
-                                    : 'border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:border-purple-300'
+                                    ? 'border-purple-500 bg-purple-500/10 text-purple-700 dark:text-purple-400 font-bold shadow-xs'
+                                    : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:border-purple-300'
                                 }`}
                               >
                                 <div className="font-bold text-xs">{r.label}</div>
@@ -780,7 +888,6 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           </div>
                         </div>
 
-                        {/* Action Selectors */}
                         <div className="space-y-2">
                           <label className="text-xs font-mono font-bold text-[var(--muted)] uppercase tracking-wider block">
                             2. Chọn Hành động yêu cầu (Target Action):
@@ -796,10 +903,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                               <button
                                 key={act}
                                 onClick={() => setSelectedAction(act)}
-                                className={`px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                                className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
                                   selectedAction === act
-                                    ? 'border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold'
-                                    : 'border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:border-indigo-300'
+                                    ? 'border-indigo-500 bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 font-bold'
+                                    : 'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:border-indigo-300'
                                 }`}
                               >
                                 {act}
@@ -808,7 +915,6 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           </div>
                         </div>
 
-                        {/* Real-time Edge Evaluation Result */}
                         <div className={`p-5 rounded-2xl border transition-all ${
                           isAllowed 
                             ? 'bg-emerald-500/10 border-emerald-500/30' 
@@ -817,12 +923,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               {isAllowed ? (
-                                <CheckCircle size={18} className="text-emerald-500" />
+                                <CheckCircle size={18} className="text-emerald-600" />
                               ) : (
-                                <XCircle size={18} className="text-rose-500" />
+                                <XCircle size={18} className="text-rose-600" />
                               )}
                               <span className={`font-mono text-sm font-bold uppercase tracking-wide ${
-                                isAllowed ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+                                isAllowed ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
                               }`}>
                                 {isAllowed ? "HTTP 200 · ALLOWED (ĐƯỢC CẤP QUYỀN)" : "HTTP 403 · FORBIDDEN (TỪ CHỐI TRUY CẬP)"}
                               </span>
@@ -839,9 +945,9 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                             }
                           </p>
 
-                          <div className="mt-3 pt-3 border-t border-[var(--border)]/40 font-mono text-[11px] text-[var(--dim)] flex items-center justify-between">
+                          <div className="mt-3 pt-3 border-t border-[var(--border)] font-mono text-[11px] text-[var(--dim)] flex items-center justify-between">
                             <span>Claims Token: [{rolesPermissions[selectedRole].join(", ")}]</span>
-                            <span className="text-purple-600 dark:text-purple-400 font-bold">Zero DB Round-trip</span>
+                            <span className="text-purple-700 dark:text-purple-400 font-bold">Zero DB Round-trip</span>
                           </div>
                         </div>
 
@@ -860,8 +966,8 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                                 onClick={() => setCodeLang(l)}
                                 className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
                                   codeLang === l 
-                                    ? 'bg-purple-600 text-white font-bold' 
-                                    : 'bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)]'
+                                    ? 'bg-purple-700 text-white font-bold' 
+                                    : 'bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--border)]'
                                 }`}
                               >
                                 {l.toUpperCase()}
@@ -871,20 +977,30 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                           <button
                             onClick={handleCopyCode}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-[var(--border)]/60 bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 text-xs font-mono transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-purple-600 text-xs font-mono transition-colors cursor-pointer"
                           >
-                            {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
-                            <span>{copied ? "Đã chép!" : "Sao chép"}</span>
+                            {copiedCode ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                            <span>{copiedCode ? "Đã chép!" : "Sao chép"}</span>
                           </button>
                         </div>
 
-                        <pre className="p-4 rounded-xl bg-slate-950 text-slate-100 font-mono text-[11px] sm:text-xs leading-relaxed overflow-x-auto max-h-[340px] border border-slate-800">
-                          <code>{codeSnippets[codeLang]}</code>
-                        </pre>
+                        {/* High-craft code container */}
+                        <div className="rounded-2xl bg-[#18181B] text-[#E4E4E7] dark:bg-[#0B0F19] dark:text-slate-200 border border-stone-800 dark:border-slate-800 overflow-hidden shadow-sm">
+                          <div className="px-4 py-2 border-b border-stone-800 dark:border-slate-800 flex items-center justify-between text-[11px] font-mono text-stone-400">
+                            <span className="flex items-center gap-2">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                              <span>edge-middleware.{codeLang}</span>
+                            </span>
+                            <span>UTF-8</span>
+                          </div>
+                          <pre className="p-4 font-mono text-[11px] sm:text-xs leading-relaxed overflow-x-auto max-h-[340px]">
+                            <code>{codeSnippets[codeLang]}</code>
+                          </pre>
+                        </div>
 
                         <div className="text-[11px] font-mono text-[var(--dim)] flex items-center justify-between">
                           <span>Chuẩn OpenAPI 3.1 &amp; Web Crypto API</span>
-                          <a href="https://vntez-docs.vercel.app" target="_blank" rel="noreferrer" className="text-purple-500 hover:underline">
+                          <a href="https://vntez-docs.vercel.app" target="_blank" rel="noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline">
                             Xem tài liệu đầy đủ ↗
                           </a>
                         </div>
@@ -898,10 +1014,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* Row 2: Production Metrics Benchmarks */}
-              <div className="pt-10 border-t border-[var(--border)]/40">
+              <div className="pt-10 border-t border-[var(--border)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <Activity size={18} className="text-purple-600 dark:text-purple-400" />
+                    <Activity size={18} className="text-purple-700 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
                       {t.flagship.metricsTitle}
                     </h4>
@@ -911,7 +1027,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 py-2">
                   <div className="space-y-1">
-                    <span className="font-display font-black text-3xl sm:text-4xl text-purple-600 dark:text-purple-400 block tracking-tight">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-purple-700 dark:text-purple-400 block tracking-tight">
                       {t.flagship.metric1Val}
                     </span>
                     <span className="text-xs font-bold text-[var(--text)] block">{t.flagship.metric1Label}</span>
@@ -919,7 +1035,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </div>
 
                   <div className="space-y-1">
-                    <span className="font-display font-black text-3xl sm:text-4xl text-sky-600 dark:text-sky-400 block tracking-tight">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-sky-700 dark:text-sky-400 block tracking-tight">
                       {t.flagship.metric2Val}
                     </span>
                     <span className="text-xs font-bold text-[var(--text)] block">{t.flagship.metric2Label}</span>
@@ -927,7 +1043,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </div>
 
                   <div className="space-y-1">
-                    <span className="font-display font-black text-3xl sm:text-4xl text-emerald-600 dark:text-emerald-400 block tracking-tight">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-emerald-700 dark:text-emerald-400 block tracking-tight">
                       {t.flagship.metric3Val}
                     </span>
                     <span className="text-xs font-bold text-[var(--text)] block">{t.flagship.metric3Label}</span>
@@ -935,7 +1051,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </div>
 
                   <div className="space-y-1">
-                    <span className="font-display font-black text-3xl sm:text-4xl text-amber-600 dark:text-amber-400 block tracking-tight">
+                    <span className="font-display font-black text-3xl sm:text-4xl text-amber-700 dark:text-amber-400 block tracking-tight">
                       {t.flagship.metric4Val}
                     </span>
                     <span className="text-xs font-bold text-[var(--text)] block">{t.flagship.metric4Label}</span>
@@ -945,10 +1061,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* Row 3: Architectural Decisions (4 Columns) */}
-              <div className="pt-10 border-t border-[var(--border)]/40">
+              <div className="pt-10 border-t border-[var(--border)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <Workflow size={18} className="text-purple-600 dark:text-purple-400" />
+                    <Workflow size={18} className="text-purple-700 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
                       {t.flagship.challengesTitle}
                     </h4>
@@ -960,7 +1076,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   {t.flagship.challenges.map((c, idx) => (
                     <div key={idx} className="space-y-1.5">
                       <div className="flex items-center gap-2">
-                        <Key size={15} className="text-purple-500 shrink-0" />
+                        <Key size={15} className="text-purple-600 shrink-0" />
                         <h5 className="font-display font-bold text-sm text-[var(--text)]">
                           {c.title}
                         </h5>
@@ -975,10 +1091,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* Row 4: Production Disciplines (4 Columns) */}
-              <div className="pt-10 border-t border-[var(--border)]/40">
+              <div className="pt-10 border-t border-[var(--border)]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <GitBranch size={18} className="text-purple-600 dark:text-purple-400" />
+                    <GitBranch size={18} className="text-purple-700 dark:text-purple-400" />
                     <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text)]">
                       {t.flagship.disciplineTitle}
                     </h4>
@@ -989,7 +1105,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {t.flagship.disciplines.map((d, idx) => (
                     <div key={idx} className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-purple-600 dark:text-purple-400 text-xs font-mono font-bold">
+                      <div className="flex items-center gap-1.5 text-purple-700 dark:text-purple-400 text-xs font-mono font-bold">
                         <Box size={14} />
                         <span>{d.title}</span>
                       </div>
@@ -1009,12 +1125,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 03 · EXPANSIVE ECOSYSTEM BENTO GRID */}
         {/* ============================================================ */}
-        <section id="ecosystem" className="py-24 border-b border-[var(--border)]/30">
+        <section id="ecosystem" className="py-24 border-b border-[var(--border)]">
           <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
             
             {/* Header */}
             <div className="mb-14">
-              <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
+              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
                 <Layers size={14} />
                 <span>{t.ecosystem.badge}</span>
               </span>
@@ -1026,11 +1142,10 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </p>
             </div>
 
-            {/* Expansive Bento Grid (3 Columns on Large Displays) */}
+            {/* Expansive Bento Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               
               {t.ecosystem.projects.map((proj) => {
-                // Map project ID to dedicated isometric artwork
                 const renderIllustration = (id: string) => {
                   switch (id) {
                     case 'bman':
@@ -1053,31 +1168,30 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 return (
                   <div 
                     key={proj.id}
-                    className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)]/70 p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 group"
+                    className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 group"
                   >
                     
                     <div className="space-y-4">
                       
-                      {/* Top Bar with Tag and Metric */}
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold uppercase tracking-wider">
+                        <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-400 font-bold uppercase tracking-wider">
                           {proj.tag}
                         </span>
                         <div className="text-right">
-                          <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 block">
+                          <span className="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-400 block">
                             {proj.metric}
                           </span>
                         </div>
                       </div>
 
                       {/* Isometric Illustration Artwork */}
-                      <div className="py-2 opacity-90 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300">
+                      <div className="py-2 opacity-95 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300">
                         {renderIllustration(proj.id)}
                       </div>
 
                       {/* Title & Description */}
                       <div>
-                        <h3 className="font-display font-extrabold text-lg sm:text-xl text-[var(--text)] group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                        <h3 className="font-display font-extrabold text-lg sm:text-xl text-[var(--text)] group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors">
                           {proj.title}
                         </h3>
                         <p className="text-xs text-[var(--muted)] mt-2 leading-relaxed">
@@ -1090,7 +1204,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                         {proj.tech.map((item) => (
                           <span 
                             key={item} 
-                            className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[var(--surface-subtle)]/70 text-[var(--muted)] font-medium"
+                            className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[var(--surface-subtle)] text-[var(--muted)] font-medium border border-[var(--border)]"
                           >
                             {item}
                           </span>
@@ -1100,12 +1214,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                     </div>
 
                     {/* Bottom Action Links */}
-                    <div className="pt-5 mt-5 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono">
+                    <div className="pt-5 mt-5 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono">
                       <a 
                         href={proj.githubUrl} 
                         target="_blank" 
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[var(--text)] hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-[var(--text)] hover:text-purple-700 dark:hover:text-purple-400 font-medium transition-colors"
                       >
                         <FaGithub size={13} />
                         <span>{t.ecosystem.sourceAction}</span>
@@ -1116,7 +1230,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                           href={proj.liveUrl} 
                           target="_blank" 
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-purple-600 dark:text-purple-400 font-bold hover:underline"
+                          className="inline-flex items-center gap-1 text-purple-700 dark:text-purple-400 font-bold hover:underline"
                         >
                           <span>{t.ecosystem.liveAction}</span>
                           <ExternalLink size={12} />
@@ -1138,11 +1252,11 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         {/* ============================================================ */}
         {/* 04 · CHỨNG CHỈ NĂNG LỰC QUỐC TẾ */}
         {/* ============================================================ */}
-        <section id="credentials" className="py-24 border-b border-[var(--border)]/30">
+        <section id="credentials" className="py-24 border-b border-[var(--border)]">
           <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
             
             <div className="text-center mb-14">
-              <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5">
+              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center justify-center gap-1.5">
                 <Award size={15} />
                 <span>{t.credentials.badge}</span>
               </span>
@@ -1157,51 +1271,51 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               
               {/* CARD 1: AWS SOLUTIONS ARCHITECT */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-amber-500/20 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-amber-500/40 hover:-translate-y-1 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-amber-500/25 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-amber-500/50 hover:-translate-y-1 transition-all duration-300 group">
                 <FaAws className="absolute -right-6 -bottom-6 w-44 h-44 text-amber-500/[0.05] dark:text-amber-400/[0.07] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" />
 
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                       <FaAws size={28} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       <span>{t.credentials.verified}</span>
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">
+                    <span className="text-[11px] font-mono font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
                       {t.credentials.aws.level}
                     </span>
-                    <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-amber-500 transition-colors">
+                    <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-amber-600 transition-colors">
                       {t.credentials.aws.title}
                     </h3>
                   </div>
 
                   <div className="mt-4 space-y-2.5 text-xs text-[var(--muted)] leading-relaxed">
                     <div className="flex items-start gap-2">
-                      <span className="text-amber-500 font-bold shrink-0">✦</span>
+                      <span className="text-amber-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.aws.p1Title}</strong> {t.credentials.aws.p1Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-amber-500 font-bold shrink-0">✦</span>
+                      <span className="text-amber-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.aws.p2Title}</strong> {t.credentials.aws.p2Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-amber-500 font-bold shrink-0">✦</span>
+                      <span className="text-amber-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.aws.p3Title}</strong> {t.credentials.aws.p3Desc}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
                     <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.aws.codeLabel}</span>
-                    <strong className="text-amber-600 dark:text-amber-400 font-bold tracking-wider">AWS-SAA-84920</strong>
+                    <strong className="text-amber-700 dark:text-amber-400 font-bold tracking-wider">AWS-SAA-84920</strong>
                   </div>
-                  <span className="text-[11px] text-[var(--muted)] group-hover:text-amber-500 transition-colors font-medium flex items-center gap-1">
+                  <span className="text-[11px] text-[var(--muted)] group-hover:text-amber-600 transition-colors font-medium flex items-center gap-1">
                     <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
@@ -1209,37 +1323,37 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* CARD 2: IELTS ACADEMIC 7.5 */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-sky-500/20 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-sky-500/40 hover:-translate-y-1 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-sky-500/25 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-sky-500/50 hover:-translate-y-1 transition-all duration-300 group">
                 <div className="absolute -right-4 -bottom-6 w-44 h-44 text-sky-500/[0.05] dark:text-sky-400/[0.07] pointer-events-none font-display font-black text-8xl flex items-center justify-center select-none transition-transform duration-500 group-hover:scale-110">
                   7.5
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-display font-black text-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-700 dark:text-sky-400 flex items-center justify-center font-display font-black text-sm">
                       IELTS
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 text-sky-700 dark:text-sky-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
                       <span>{t.credentials.ielts.badge}</span>
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider block">
+                    <span className="text-[11px] font-mono font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">
                       {t.credentials.ielts.level}
                     </span>
                     <div className="flex items-baseline gap-2 mt-1">
-                      <h3 className="font-display font-extrabold text-xl text-[var(--text)] group-hover:text-sky-500 transition-colors">
+                      <h3 className="font-display font-extrabold text-xl text-[var(--text)] group-hover:text-sky-600 transition-colors">
                         {t.credentials.ielts.title}
                       </h3>
-                      <span className="text-2xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-indigo-600 dark:from-sky-400 dark:to-indigo-400">
+                      <span className="text-2xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-700 to-indigo-600 dark:from-sky-400 dark:to-indigo-400">
                         7.5
                       </span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-1.5 my-3.5 py-2 border-y border-[var(--border)]/30 text-center text-xs font-mono">
+                  <div className="grid grid-cols-4 gap-1.5 my-3.5 py-2 border-y border-[var(--border)] text-center text-xs font-mono">
                     <div>
                       <span className="text-[10px] text-[var(--dim)] block">{t.credentials.ielts.listening}</span>
                       <strong className="text-[var(--text)] font-bold text-sm">8.5</strong>
@@ -1263,12 +1377,12 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
                     <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.ielts.boardLabel}</span>
-                    <strong className="text-sky-600 dark:text-sky-400 font-bold">{t.credentials.ielts.boardVal}</strong>
+                    <strong className="text-sky-700 dark:text-sky-400 font-bold">{t.credentials.ielts.boardVal}</strong>
                   </div>
-                  <span className="text-[11px] text-[var(--muted)] group-hover:text-sky-500 transition-colors font-medium flex items-center gap-1">
+                  <span className="text-[11px] text-[var(--muted)] group-hover:text-sky-600 transition-colors font-medium flex items-center gap-1">
                     <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
@@ -1276,51 +1390,51 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* CARD 3: KUBERNETES CKA */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/20 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 group">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/25 p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 group">
                 <SiKubernetes className="absolute -right-6 -bottom-6 w-44 h-44 text-purple-500/[0.05] dark:text-purple-400/[0.07] pointer-events-none transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
 
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center">
                       <SiKubernetes size={28} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono font-bold">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       <span>{t.credentials.verified}</span>
                     </div>
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">
+                    <span className="text-[11px] font-mono font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wider block">
                       {t.credentials.cka.level}
                     </span>
-                    <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-purple-500 transition-colors">
+                    <h3 className="font-display font-extrabold text-xl text-[var(--text)] mt-1 group-hover:text-purple-600 transition-colors">
                       {t.credentials.cka.title}
                     </h3>
                   </div>
 
                   <div className="mt-4 space-y-2.5 text-xs text-[var(--muted)] leading-relaxed">
                     <div className="flex items-start gap-2">
-                      <span className="text-purple-500 font-bold shrink-0">✦</span>
+                      <span className="text-purple-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.cka.p1Title}</strong> {t.credentials.cka.p1Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-purple-500 font-bold shrink-0">✦</span>
+                      <span className="text-purple-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.cka.p2Title}</strong> {t.credentials.cka.p2Desc}</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-purple-500 font-bold shrink-0">✦</span>
+                      <span className="text-purple-600 font-bold shrink-0">✦</span>
                       <span><strong className="text-[var(--text)]">{t.credentials.cka.p3Title}</strong> {t.credentials.cka.p3Desc}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[var(--border)]/40 flex items-center justify-between text-xs font-mono relative z-10">
+                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono relative z-10">
                   <div>
                     <span className="text-[10px] text-[var(--dim)] block uppercase">{t.credentials.cka.codeLabel}</span>
-                    <strong className="text-purple-600 dark:text-purple-400 font-bold tracking-wider">CKA-294018</strong>
+                    <strong className="text-purple-700 dark:text-purple-400 font-bold tracking-wider">CKA-294018</strong>
                   </div>
-                  <span className="text-[11px] text-[var(--muted)] group-hover:text-purple-500 transition-colors font-medium flex items-center gap-1">
+                  <span className="text-[11px] text-[var(--muted)] group-hover:text-purple-600 transition-colors font-medium flex items-center gap-1">
                     <span>{t.credentials.verifyAction}</span>
                     <ExternalLink size={12} />
                   </span>
@@ -1333,13 +1447,13 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         </section>
 
         {/* ============================================================ */}
-        {/* 05 · KỸ NĂNG & CÔNG NGHỆ CỐT LÕI */}
+        {/* 05 · KỸ NĂNG CỐT LÕI & AI ENGINEERING (4 CỘT RỘNG MỞ) */}
         {/* ============================================================ */}
-        <section id="skills" className="py-24 border-b border-[var(--border)]/30 bg-[var(--surface-subtle)]/20">
+        <section id="skills" className="py-24 border-b border-[var(--border)] bg-[var(--surface-subtle)]/40">
           <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
             
             <div className="text-center mb-14">
-              <span className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-widest font-semibold">
+              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold">
                 {t.skills.badge}
               </span>
               <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--text)] mt-1">
@@ -1347,27 +1461,27 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
               
               {/* Stack 1: Backend & Edge */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/20 p-6 sm:p-8 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-5">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-purple-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
-                      <Server size={22} />
+                    <div className="w-11 h-11 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center">
+                      <Server size={20} />
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors">
                         {t.skills.backend.title}
                       </h3>
                       <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.backend.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 pt-1">
+                  <div className="space-y-3 pt-1">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiGo className="text-[#00ADD8] shrink-0" size={16} />
+                        <SiGo className="text-[#00ADD8] shrink-0" size={15} />
                         <span>Golang (Go 1.23)</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1377,7 +1491,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiRust className="text-[#DEA584] shrink-0" size={16} />
+                        <SiRust className="text-[#DEA584] shrink-0" size={15} />
                         <span>Rust Core</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1387,7 +1501,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiPostgresql className="text-[#4169E1] shrink-0" size={16} />
+                        <SiPostgresql className="text-[#4169E1] shrink-0" size={15} />
                         <span>PostgreSQL &amp; Redis</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1399,24 +1513,24 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* Stack 2: DevOps & Edge */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-indigo-500/20 p-6 sm:p-8 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-5">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-indigo-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                      <Shield size={22} />
+                    <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 flex items-center justify-center">
+                      <Shield size={20} />
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">
                         {t.skills.devops.title}
                       </h3>
                       <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.devops.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 pt-1">
+                  <div className="space-y-3 pt-1">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiDocker className="text-[#2496ED] shrink-0" size={16} />
+                        <SiDocker className="text-[#2496ED] shrink-0" size={15} />
                         <span>Docker &amp; Compose</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1426,7 +1540,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiKubernetes className="text-[#326CE5] shrink-0" size={16} />
+                        <SiKubernetes className="text-[#326CE5] shrink-0" size={15} />
                         <span>Kubernetes (K8s)</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1436,7 +1550,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiLinux className="text-[var(--text)] shrink-0" size={16} />
+                        <SiLinux className="text-[var(--text)] shrink-0" size={15} />
                         <span>Linux &amp; Wrangler CI/CD</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1448,24 +1562,24 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
               </div>
 
               {/* Stack 3: Mobile & Modern Web */}
-              <div className="relative rounded-3xl bg-[var(--surface)] border border-fuchsia-500/20 p-6 sm:p-8 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] hover:shadow-xl hover:border-fuchsia-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
-                <div className="space-y-5">
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-fuchsia-500/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 flex items-center justify-center">
-                      <Smartphone size={22} />
+                    <div className="w-11 h-11 rounded-2xl bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-400 flex items-center justify-center">
+                      <Smartphone size={20} />
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
+                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-fuchsia-700 dark:group-hover:text-fuchsia-400 transition-colors">
                         {t.skills.mobile.title}
                       </h3>
                       <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.mobile.sub}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 pt-1">
+                  <div className="space-y-3 pt-1">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <SiFlutter className="text-[#02569B] shrink-0" size={16} />
+                        <SiFlutter className="text-[#02569B] shrink-0" size={15} />
                         <span>Flutter &amp; Dart</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1475,7 +1589,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <span className="font-bold text-blue-500 text-xs shrink-0">TS</span>
+                        <span className="font-bold text-blue-600 text-xs shrink-0">TS</span>
                         <span>TypeScript &amp; Next.js 15</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
@@ -1485,11 +1599,60 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
-                        <span className="font-bold text-purple-500 text-xs shrink-0">Web</span>
+                        <span className="font-bold text-purple-600 text-xs shrink-0">Web</span>
                         <span>Edge SSR &amp; Web Crypto</span>
                       </div>
                       <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
                         {t.skills.mobile.webDesc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stack 4: AI Engineering & Modern FE (NEW HUMAN-CENTRIC PILLAR) */}
+              <div className="relative rounded-3xl bg-[var(--surface)] border border-purple-500/25 p-6 sm:p-7 shadow-[var(--card-shadow)] hover:shadow-[var(--card-shadow-hover)] hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center">
+                      <Bot size={20} />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-[var(--text)] group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors">
+                        {t.skills.ai.title}
+                      </h3>
+                      <span className="text-[11px] font-mono text-[var(--dim)]">{t.skills.ai.sub}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pt-1">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
+                        <SiAnthropic className="text-amber-600 shrink-0" size={15} />
+                        <span>LLM APIs &amp; Streaming UI</span>
+                      </div>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.ai.llmDesc}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
+                        <Sparkles className="text-purple-600 shrink-0" size={15} />
+                        <span>Agentic Workflows &amp; MCP</span>
+                      </div>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.ai.agentDesc}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-[var(--text)]">
+                        <Heart className="text-rose-500 shrink-0" size={15} />
+                        <span>Human-in-the-Loop UX</span>
+                      </div>
+                      <p className="text-xs text-[var(--muted)] pl-6 leading-relaxed">
+                        {t.skills.ai.uxDesc}
                       </p>
                     </div>
                   </div>
@@ -1502,12 +1665,211 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
         </section>
 
         {/* ============================================================ */}
-        {/* 06 · LIÊN HỆ & KẾT NỐI */}
+        {/* 06 · INTERACTIVE AI COMPANION (TRÒ CHUYỆN CÙNG AI CỦA NAM) */}
+        {/* ============================================================ */}
+        <section id="ai-assistant" className="py-24 border-b border-[var(--border)]">
+          <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20">
+            
+            {/* Header */}
+            <div className="mb-12">
+              <span className="text-xs font-mono text-purple-700 dark:text-purple-400 uppercase tracking-widest font-semibold flex items-center gap-1.5">
+                <Bot size={15} />
+                <span>{t.aiAssistant.badge}</span>
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text)] mt-1.5">
+                {t.aiAssistant.title}
+              </h2>
+              <p className="text-xs sm:text-sm text-[var(--muted)] mt-1 max-w-2xl font-normal">
+                {t.aiAssistant.subtitle}
+              </p>
+            </div>
+
+            {/* Main Interactive AI Console Grid (2 Columns) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* Left Column (5 Cols): Human Manifesto & Suggested Questions */}
+              <div className="lg:col-span-5 space-y-6">
+                
+                {/* Warm Human Manifesto Card */}
+                <div className="rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 sm:p-7 shadow-[var(--card-shadow)] space-y-4">
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/avatar.png" 
+                      alt="Hoàng Nam" 
+                      className="w-12 h-12 rounded-full object-cover border-2 border-purple-500/50 shadow-xs"
+                      onError={(e) => { e.currentTarget.src = "/favicon.svg"; }}
+                    />
+                    <div>
+                      <h4 className="font-display font-bold text-sm text-[var(--text)]">
+                        Nguyễn Hoàng Nam
+                      </h4>
+                      <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-400 font-mono">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>{t.aiAssistant.statusOnline}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)] space-y-1.5">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+                      {t.aiAssistant.humanNoteTag}
+                    </span>
+                    <p className="text-xs text-[var(--muted)] italic leading-relaxed">
+                      {t.aiAssistant.humanNote}
+                    </p>
+                  </div>
+
+                  <p className="text-xs text-[var(--dim)] font-mono leading-relaxed">
+                    ✦ Trợ lý này được cung cấp bối cảnh toàn diện về hệ thống VNTEZ Edge, BMAN POS, kinh nghiệm DevOps và quan điểm hợp tác của Nam.
+                  </p>
+                </div>
+
+                {/* Suggested Quick Question Chips */}
+                <div className="space-y-2.5">
+                  <span className="text-xs font-mono font-bold text-[var(--muted)] uppercase tracking-wider block">
+                    {t.aiAssistant.suggestedLabel}
+                  </span>
+                  <div className="space-y-2">
+                    {t.aiAssistant.quickPrompts.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleSendQuery(item.q)}
+                        className="w-full text-left p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:bg-purple-500/10 hover:border-purple-400 transition-all text-xs text-[var(--text)] font-medium flex items-center justify-between group shadow-2xs cursor-pointer"
+                      >
+                        <span className="line-clamp-1">{item.q}</span>
+                        <ArrowRight size={13} className="text-purple-600 opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0 ml-2" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Column (7 Cols): Chat Window Console */}
+              <div className="lg:col-span-7">
+                <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--card-shadow)] flex flex-col h-[560px] overflow-hidden">
+                  
+                  {/* Chat Top Bar */}
+                  <div className="px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-subtle)]/70 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl bg-purple-700 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                        AI
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-[var(--text)]">Nam Virtual Co-pilot</div>
+                        <div className="text-[10px] text-[var(--muted)] font-mono">Edge-speed responses · Human voice</div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={handleResetChat}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] hover:border-purple-300 text-xs font-mono transition-colors cursor-pointer"
+                    >
+                      <RefreshCw size={12} />
+                      <span>{t.aiAssistant.resetBtn}</span>
+                    </button>
+                  </div>
+
+                  {/* Messages Scroll Area */}
+                  <div className="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
+                    {chatMessages.map((msg, i) => (
+                      <div
+                        key={i}
+                        className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        {msg.sender === 'ai' && (
+                          <div className="w-7 h-7 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 mt-1 shadow-2xs">
+                            <Bot size={14} />
+                          </div>
+                        )}
+
+                        <div className={`max-w-[85%] rounded-2xl p-4 text-xs sm:text-sm leading-relaxed ${
+                          msg.sender === 'user'
+                            ? 'bg-purple-700 text-white rounded-tr-xs shadow-xs'
+                            : 'bg-[var(--surface-subtle)] text-[var(--text)] border border-[var(--border)] rounded-tl-xs shadow-2xs'
+                        }`}>
+                          <p className="whitespace-pre-wrap">{msg.text}</p>
+                          
+                          <div className="mt-2 pt-1.5 border-t border-[var(--border)]/40 flex items-center justify-between text-[10px] opacity-70 font-mono">
+                            <span>{msg.time}</span>
+                            {msg.sender === 'ai' && (
+                              <button
+                                onClick={() => handleCopyChat(i, msg.text)}
+                                className="inline-flex items-center gap-1 hover:opacity-100 transition-opacity cursor-pointer ml-3"
+                              >
+                                {copiedChatIdx === i ? <Check size={10} className="text-emerald-500" /> : <Copy size={10} />}
+                                <span>{copiedChatIdx === i ? t.aiAssistant.copied : t.aiAssistant.copyAnswer}</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        {msg.sender === 'user' && (
+                          <div className="w-7 h-7 rounded-xl bg-stone-700 text-white flex items-center justify-center shrink-0 mt-1 shadow-2xs text-xs font-bold">
+                            You
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {isAiTyping && (
+                      <div className="flex gap-3 justify-start items-center">
+                        <div className="w-7 h-7 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                          <Bot size={14} />
+                        </div>
+                        <div className="p-3.5 rounded-2xl bg-[var(--surface-subtle)] border border-[var(--border)] flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce" />
+                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce [animation-delay:0.2s]" />
+                          <span className="w-2 h-2 rounded-full bg-purple-600 animate-bounce [animation-delay:0.4s]" />
+                        </div>
+                      </div>
+                    )}
+
+                    <div ref={chatBottomRef} />
+                  </div>
+
+                  {/* Input Box Bottom Bar */}
+                  <div className="p-4 border-t border-[var(--border)] bg-[var(--surface)]">
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSendQuery();
+                      }}
+                      className="flex items-center gap-2"
+                    >
+                      <input
+                        type="text"
+                        value={inputQuery}
+                        onChange={(e) => setInputQuery(e.target.value)}
+                        placeholder={t.aiAssistant.inputPlaceholder}
+                        className="flex-1 px-4 py-3 rounded-2xl border border-[var(--border)] bg-[var(--surface-subtle)]/70 text-xs sm:text-sm text-[var(--text)] focus:outline-none focus:border-purple-600 transition-colors shadow-inner"
+                      />
+                      <button
+                        type="submit"
+                        disabled={!inputQuery.trim() || isAiTyping}
+                        className="px-5 py-3 rounded-2xl bg-purple-700 text-white font-bold text-xs sm:text-sm hover:brightness-110 active:scale-98 disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer shrink-0"
+                      >
+                        <Send size={14} />
+                        <span className="hidden sm:inline">{t.aiAssistant.sendBtn}</span>
+                      </button>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/* 07 · LIÊN HỆ & KẾT NỐI */}
         {/* ============================================================ */}
         <section id="contact" className="py-24">
           <div className="w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
             
-            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-5 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-5 shadow-xs">
               <Sparkles size={26} />
             </div>
 
@@ -1522,7 +1884,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mb-8">
               <a
                 href="mailto:hnamhocit@gmail.com"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all shadow-md shadow-purple-500/25 flex items-center justify-center gap-2.5 cursor-pointer"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-600 text-white font-semibold text-sm hover:brightness-110 active:scale-98 transition-all shadow-md shadow-purple-500/25 flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 <Mail size={16} />
                 <span>{t.contact.emailBtn}</span>
@@ -1543,7 +1905,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
             <div className="flex items-center gap-6 text-[var(--muted)] text-xs font-mono">
               <a 
                 href="mailto:hnamhocit@gmail.com" 
-                className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-purple-700 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
               >
                 <Mail size={14} />
                 <span>{t.contact.directEmail}</span>
@@ -1561,7 +1923,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://t.me/hnamhocit" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:text-sky-500 transition-colors flex items-center gap-1.5"
+                className="hover:text-sky-600 transition-colors flex items-center gap-1.5"
               >
                 <FaTelegramPlane size={14} />
                 <span>Telegram</span>
@@ -1570,7 +1932,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
                 href="https://facebook.com/hnamhocit" 
                 target="_blank" 
                 rel="noreferrer"
-                className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                className="hover:text-purple-700 dark:hover:text-purple-400 transition-colors flex items-center gap-1.5"
               >
                 <FaFacebook size={14} />
                 <span>Facebook</span>
@@ -1585,7 +1947,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       {/* ============================================================ */}
       {/* FOOTER */}
       {/* ============================================================ */}
-      <footer className="border-t border-[var(--border)]/30 bg-white dark:bg-[#10141E] py-8 text-center text-xs text-[var(--dim)] font-mono transition-colors">
+      <footer className="border-t border-[var(--border)] bg-white dark:bg-[#10141E] py-8 text-center text-xs text-[var(--dim)] font-mono transition-colors">
         <div className="w-full max-w-[96rem] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>© {new Date().getFullYear()} Nguyễn Hoàng Nam (hnamhocit).</span>
           <span className="flex items-center gap-1 text-[var(--muted)]">
@@ -1600,7 +1962,7 @@ func VerifyEdgeToken(tokenStr string, pubKey ed25519.PublicKey) (*jwt.Token, err
       <button
         onClick={scrollToTop}
         aria-label={t.footer.scrollTop}
-        className={`fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-white dark:bg-[#10141E] border border-[var(--border)]/60 text-[var(--muted)] hover:text-purple-600 dark:hover:text-purple-400 shadow-lg shadow-black/5 hover:shadow-xl hover:border-purple-500/40 transition-all duration-300 cursor-pointer ${
+        className={`fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-white dark:bg-[#10141E] border border-[var(--border)] text-[var(--muted)] hover:text-purple-700 dark:hover:text-purple-400 shadow-lg shadow-black/5 hover:shadow-xl hover:border-purple-500/40 transition-all duration-300 cursor-pointer ${
           showScrollTop 
             ? 'opacity-100 translate-y-0 pointer-events-auto' 
             : 'opacity-0 translate-y-4 pointer-events-none'

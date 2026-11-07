@@ -230,9 +230,10 @@ export const translations = {
         codeLabel: "Chứng chỉ số",
       },
     },
+
     skills: {
       badge: "CORE STACK & CAPABILITIES",
-      title: "Kỹ Năng & Công Nghệ Sử Dụng",
+      title: "Kỹ Năng & Công Nghệ Cốt Lõi",
       backend: {
         title: "Backend & Edge Systems",
         sub: "High-Throughput Services",
@@ -254,7 +255,48 @@ export const translations = {
         tsDesc: "Giao diện phản ứng tốc độ cao, Next.js 15, Tailwind CSS, Svelte",
         webDesc: "SSR/SSG Edge execution, Web Crypto API, DOM performance tuning",
       },
+      ai: {
+        title: "AI Engineering & Modern FE",
+        sub: "Hệ thống AI lấy con người làm trung tâm",
+        llmDesc: "Tích hợp LLM APIs, Streaming UI phản hồi tức thời, Function Calling & Structured JSON",
+        agentDesc: "MCP (Model Context Protocol), Agentic Pair Programming, Context-aware workflows",
+        uxDesc: "Giao diện vị nhân sinh (Human-in-the-loop), tìm kiếm ngữ nghĩa cục bộ & sub-frame latency",
+      },
     },
+
+    aiAssistant: {
+      badge: "HUMAN & AI CO-PILOT · TRỢ LÝ TƯƠNG TÁC",
+      title: "Trò Chuyện Cùng AI Của Nam",
+      subtitle: "Hỏi đáp tự nhiên về tư duy hệ thống, quyết định kiến trúc VNTEZ, dự án Offline-First hoặc định hướng nghề nghiệp.",
+      humanNoteTag: "Triết lý vị nhân sinh",
+      humanNote: "“Đối với mình, công nghệ không phải là việc chạy theo những từ khóa thời thượng, mà là tạo ra những hệ thống thực sự hữu ích, bền bỉ và tôn trọng người dùng.”",
+      statusOnline: "Nam's Digital Twin Active",
+      inputPlaceholder: "Nhập câu hỏi của bạn (ví dụ: 'Tại sao Nam lại tự viết IAM trên Edge?')...",
+      sendBtn: "Gửi câu hỏi",
+      resetBtn: "Làm mới",
+      copyAnswer: "Sao chép câu trả lời",
+      copied: "Đã chép!",
+      suggestedLabel: "Câu hỏi gợi ý nhanh:",
+      quickPrompts: [
+        {
+          q: "Tại sao Nam chọn OAuth PKCE trên Edge?",
+          a: "Keycloak ngốn nhiều GB RAM và khởi động rất nặng, còn Auth0 thì server đặt ở US/EU tạo độ trễ 200–500ms đối với người dùng Việt Nam kèm chi phí tăng vọt theo MAU. Đưa toàn bộ OAuth 2.0 PKCE và Ed25519 signing lên Cloudflare Workers Edge giúp mình đạt cold-start tiệm cận 0ms và phản hồi sub-35ms ngay tại các PoP nội địa."
+        },
+        {
+          q: "BMAN POS Offline-First giải quyết bài toán gì?",
+          a: "Ở các cửa hàng bán lẻ, chỉ cần mạng chập chờn 5 giây là trải nghiệm thanh toán bị nghẽn tắc. BMAN POS đưa SQLite nhúng trực tiếp vào client, quét mã vạch 0ms, in bill LAN độc lập với internet. Khi mạng trở lại, hệ thống tự động đồng bộ 2 chiều giải quyết xung đột mà không làm thất thoát dữ liệu bán lẻ."
+        },
+        {
+          q: "Định hướng và văn hóa làm việc Nam hướng tới?",
+          a: "Mình sẵn sàng cho các vị trí Junior / Remote / Fullstack Software Engineer. Mình mong muốn làm việc cùng những đội ngũ kỹ thuật có kỷ luật cao, trân trọng clean code, type-safety và thích giải quyết các bài toán hạ tầng thực chiến. Mình luôn giữ thái độ khiêm tốn, lắng nghe phản biện và kiên trì hoàn thiện."
+        },
+        {
+          q: "Giá trị thực tế của chứng chỉ AWS SAA, CKA và IELTS 7.5?",
+          a: "Chứng chỉ với mình là thước đo kỷ luật học tập. AWS SAA-C03 giúp mình nắm chắc kiến trúc Well-Architected và VPC security. CKA rèn luyện phản xạ debug cụm K8s thực tế dưới áp lực thời gian. Còn IELTS 7.5 C1 giúp mình đọc RFC tự nhiên, viết technical docs chuẩn chỉ và tự tin làm việc với đối tác quốc tế."
+        }
+      ]
+    },
+
     contact: {
       title: "Cùng Tạo Nên Những Điều Ý Nghĩa",
       desc: "Tôi luôn trân trọng mọi cơ hội học hỏi, thử thách và đồng hành cùng các đội ngũ kỹ thuật. Dù bạn có một vị trí công việc (Junior / Remote Fullstack) hay chỉ đơn giản là muốn trò chuyện về hệ thống phân tán, tôi luôn sẵn lòng phản hồi nhanh nhất có thể.",
@@ -511,6 +553,7 @@ export const translations = {
         codeLabel: "Certificate ID",
       },
     },
+
     skills: {
       badge: "CORE STACK & CAPABILITIES",
       title: "Core Stack & Technologies",
@@ -535,7 +578,48 @@ export const translations = {
         tsDesc: "Ultra-fast reactive UI, Next.js 15, Tailwind CSS, Svelte",
         webDesc: "SSR/SSG Edge execution, Web Crypto API, DOM performance tuning",
       },
+      ai: {
+        title: "AI Engineering & Modern FE",
+        sub: "Human-Centric Agentic Systems",
+        llmDesc: "LLM API Integrations, Streaming UI, Function Calling & Structured JSON",
+        agentDesc: "MCP Tools, Agentic Pair Programming, Context Management",
+        uxDesc: "Human-in-the-loop UX, local semantic search, sub-frame reactivity",
+      },
     },
+
+    aiAssistant: {
+      badge: "HUMAN & AI CO-PILOT · VIRTUAL ASSISTANT",
+      title: "Talk with Nam's AI Co-pilot",
+      subtitle: "Ask anything about system design decisions, VNTEZ Edge architecture, engineering philosophy, or work opportunities.",
+      humanNoteTag: "Human-Centric Mindset",
+      humanNote: "“To me, software engineering is not about chasing flashy buzzwords, but building genuinely resilient, thoughtful systems that respect and empower human users.”",
+      statusOnline: "Nam's Digital Twin Active",
+      inputPlaceholder: "Ask Nam's AI anything (e.g. 'Why did you choose Cloudflare Workers?')...",
+      sendBtn: "Ask AI",
+      resetBtn: "Reset Chat",
+      copyAnswer: "Copy Answer",
+      copied: "Copied!",
+      suggestedLabel: "Suggested questions:",
+      quickPrompts: [
+        {
+          q: "Why OAuth 2.0 PKCE on Edge for VNTEZ?",
+          a: "Traditional IdPs like Keycloak consume gigabytes of RAM with slow cold-starts, while managed Auth0 routes auth requests through US/EU servers with 200–500ms latency and exponential MAU pricing. Running OAuth 2.0 PKCE with Ed25519 signing directly on Cloudflare Workers Edge brings cold-starts to 0ms and sub-35ms p95 latency at local PoPs."
+        },
+        {
+          q: "How does BMAN POS operate Offline-First?",
+          a: "In retail checkout, even a 5-second network drop creates friction for customers. BMAN POS embeds SQLite locally in the client, enabling 0ms barcode scans and instant LAN receipt printing completely independent of internet availability. When connectivity returns, it automatically syncs with bi-directional conflict resolution."
+        },
+        {
+          q: "What kind of engineering team are you looking for?",
+          a: "I am actively seeking Junior / Remote / Fullstack Software Engineer roles. I thrive in teams that prioritize engineering discipline, clean code, type safety, and real-world infrastructure challenges. I maintain a humble, curious mindset, welcoming rigorous code reviews and continuous growth."
+        },
+        {
+          q: "Real-world value of AWS SAA, CKA & IELTS 7.5?",
+          a: "To me, certifications reflect learning discipline. AWS SAA-C03 solidified my Well-Architected and VPC security skills. CKA honed my reflexes to debug production Kubernetes clusters under time pressure. And IELTS 7.5 C1 empowers me to read RFCs fluently, author technical documentation, and collaborate seamlessly across global teams."
+        }
+      ]
+    },
+
     contact: {
       title: "Let's Build Meaningful Systems Together",
       desc: "I deeply value opportunities to learn, solve complex engineering challenges, and collaborate with high-caliber teams. Whether you have an open position or simply want to talk distributed systems, I'd love to connect.",
@@ -792,6 +876,7 @@ export const translations = {
         codeLabel: "电子凭据证书号",
       },
     },
+
     skills: {
       badge: "CORE STACK & CAPABILITIES",
       title: "核心技术栈与专业能力",
@@ -816,7 +901,48 @@ export const translations = {
         tsDesc: "高性能响应式交互、Next.js 15、Tailwind CSS、Svelte",
         webDesc: "SSR/SSG 边缘服务端渲染、Web Crypto API、DOM 渲染性能极致优化",
       },
+      ai: {
+        title: "AI 工程化与现代前端",
+        sub: "以人为本的智能体系统",
+        llmDesc: "LLM API 流式集成、Function Calling 工具调用与结构化 JSON 输出",
+        agentDesc: "MCP 协议支持、智能体结对编程与上下文管理",
+        uxDesc: "人机协同体验、本地语义检索与亚帧级即时交互",
+      },
     },
+
+    aiAssistant: {
+      badge: "HUMAN & AI CO-PILOT · 智能伴侣",
+      title: "与黄男的 AI 伴侣互动交流",
+      subtitle: "探讨系统架构决策、VNTEZ 边缘计算、工程价值观或团队协作意向。",
+      humanNoteTag: "以人为本的工程哲学",
+      humanNote: "“对我而言，软件工程并非盲目追逐时髦词汇，而是脚踏实地打造真正有用、坚固耐用且尊重用户的系统。”",
+      statusOnline: "Nam's Digital Twin Active",
+      inputPlaceholder: "向 AI 提问（例如：'为什么选择 Cloudflare Workers？'）...",
+      sendBtn: "提问",
+      resetBtn: "重置",
+      copyAnswer: "复制回答",
+      copied: "已复制！",
+      suggestedLabel: "精选快捷提问：",
+      quickPrompts: [
+        {
+          q: "为什么在边缘运行 OAuth 2.0 PKCE？",
+          a: "Keycloak 消耗数 GB 内存且启动迟缓，而 Auth0 在美欧服务器带来 200–500ms 跨国延迟且 MAU 阶梯费用极高。将 OAuth 2.0 PKCE 与 Ed25519 签名部署在 Cloudflare Workers Edge，实现了接近 0ms 的冷启动与本地 PoP 35ms 以内的极致响应。"
+        },
+        {
+          q: "BMAN POS 是如何实现全离线运作的？",
+          a: "零售收银场景下，网络中断 5 秒便会导致顾客排队受阻。BMAN POS 将 SQLite 嵌入客户端，实现 0ms 扫码与局域网热敏小票即时打印。网络恢复后系统自动进行双向无冲突增量同步，确保数据零丢失。"
+        },
+        {
+          q: "期望加入怎样的技术团队或远程岗位？",
+          a: "我积极寻找 Junior / Remote / Fullstack 工程师岗位。期望与注重代码质量、严谨工程纪律、热爱攻克高并发与底层系统难题的团队并肩协作。我保持谦逊好学的心态，珍视每一次技术审查与建设性反馈。"
+        },
+        {
+          q: "AWS、CKA 与雅思 7.5 认证的实战价值？",
+          a: "证书是我自我量化学习纪律的标尺。AWS SAA 帮助我扎实掌握云上高可用架构与 VPC 网络安全；CKA 强化了我在生产压力下排查 K8s 集群故障的肌肉记忆；而雅思 7.5（C1）让我能从容研读技术 RFC、编写严谨技术文档并与全球团队顺畅沟通。"
+        }
+      ]
+    },
+
     contact: {
       title: "携手创造有价值的系统",
       desc: "我始终珍视与优秀技术团队共同攻坚、学习和协作的机会。无论是 Junior/Remote 全栈工程师岗位机会，还是仅仅想探讨分布式系统架构，我都非常乐意尽快与您交流。",
@@ -1073,6 +1199,7 @@ export const translations = {
         codeLabel: "証明書番号",
       },
     },
+
     skills: {
       badge: "CORE STACK & CAPABILITIES",
       title: "コアスタック＆スキル",
@@ -1097,7 +1224,48 @@ export const translations = {
         tsDesc: "高速リアクティブUI、Next.js 15、Tailwind CSS、Svelte",
         webDesc: "エッジSSR/SSG、Web Crypto API、DOMパフォーマンス最適化",
       },
+      ai: {
+        title: "AI エンジニアリング＆モダンFE",
+        sub: "人間中心のインテリジェント基盤",
+        llmDesc: "LLM API ストリーミング連携、Function Calling、構造化 JSON 出力",
+        agentDesc: "MCP 連携、Agentic ペアプログラミング、コンテキスト管理",
+        uxDesc: "Human-in-the-loop UX、ローカル意味論検索、サブフレーム即時描画",
+      },
     },
+
+    aiAssistant: {
+      badge: "HUMAN & AI CO-PILOT · AIパートナー",
+      title: "ナムの AI コパイロットと対話する",
+      subtitle: "VNTEZ エッジ設計の意思決定、エンジニアリング哲学、または協業機会について気軽に質問してください。",
+      humanNoteTag: "人間中心の設計哲学",
+      humanNote: "「私にとってソフトウェア工学とは、流行語を追うことではなく、人を尊重し、真に役立つ堅牢なシステムを丁寧に築くことです。」",
+      statusOnline: "Nam's Digital Twin Active",
+      inputPlaceholder: "AI に質問する（例：「なぜ Cloudflare Workers を選んだのか？」）...",
+      sendBtn: "送信",
+      resetBtn: "リセット",
+      copyAnswer: "回答をコピー",
+      copied: "コピー完了！",
+      suggestedLabel: "おすすめの質問：",
+      quickPrompts: [
+        {
+          q: "なぜエッジで OAuth 2.0 PKCE を実装したのか？",
+          a: "Keycloak は巨大なメモリを消費し起動が重く、Auth0 は欧米サーバー経由で 200〜500ms の遅延が発生し MAU 課金が急騰します。Cloudflare Workers Edge で OAuth 2.0 PKCE と Ed25519 署名を直接実行することで、コールドスタート 0ms、国内 PoP 直結 35ms 未満の応答を達成しました。"
+        },
+        {
+          q: "BMAN POS はどのように完全オフライン稼働するのか？",
+          a: "店舗の現場では、わずか 5 秒の通信切断でも会計待ちのストレスが生じます。BMAN POS はクライアントに SQLite を直接組み込み、0ms 読み取りと LAN レシート即時印刷を実現。回線復旧時に競合回避アルゴリズムでクラウドと完全自動同期します。"
+        },
+        {
+          q: "どのようなチームやリモート環境を求めているか？",
+          a: "Junior / Remote / Fullstack ソフトウェアエンジニアとして貢献できる環境を求めています。コード品質や型安全性を尊重し、本番インフラの課題に誠実に向き合うチームで協業したいと考えています。謙虚さと学ぶ姿勢を常に大切にしています。"
+        },
+        {
+          q: "AWS、CKA、IELTS 7.5 資格の実践的価値とは？",
+          a: "資格は私自身の学習規律を客観的に証明するものです。AWS SAA は Well-Architected と VPC 設計の土台となり、CKA は本番障害に対処する即応力を養いました。そして IELTS 7.5（C1）により、英語 RFC の策定や技術議論を世界中の仲間と円滑に進めることができます。"
+        }
+      ]
+    },
+
     contact: {
       title: "共に意義あるものを創り出す",
       desc: "優れたエンジニアリングチームと共に学び、挑戦し、価値を生み出す機会を常に歓迎しています。採用のご相談（ジュニア / リモートフルスタック）から技術的なディスカッションまで、いつでもお気軽にご連絡ください。",

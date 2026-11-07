@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@fontsource-variable/outfit/index.css";
+@import "@fontsource-variable/plus-jakarta-sans/index.css";
 @import "@fontsource/be-vietnam-pro/400.css";
 @import "@fontsource/be-vietnam-pro/500.css";
 @import "@fontsource/be-vietnam-pro/600.css";
@@ -11,7 +11,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: 'Outfit Variable', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }

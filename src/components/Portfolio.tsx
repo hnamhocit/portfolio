@@ -516,7 +516,7 @@ export default function Portfolio() {
 
             {/* Modal Footer */}
             <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-xs text-slate-500">
-              <span className="font-mono text-[11px]">Press ESC or click outside to close</span>
+              <span className="font-mono text-[11px]">{t.credentialsModal.escHint}</span>
               <button
                 onClick={() => setShowCredentials(false)}
                 className="px-5 py-1.5 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-medium text-xs hover:opacity-90 transition-opacity cursor-pointer shadow-xs"

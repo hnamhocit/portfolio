@@ -192,11 +192,11 @@ export const translations = {
       selectLanguage: "Chọn ngôn ngữ",
     },
     hero: {
-      greeting: "Hello, I'm",
+      greeting: "Xin chào, tôi là",
       name: "Hoàng Nam",
       role: "Fullstack AI Engineering",
       tagline: "Điều gì tồi tệ hơn: một con sói khóc trước khi ăn thịt cừu, hay một con sói không khóc?",
-      ctaResume: "My Resume",
+      ctaResume: "Xem CV",
       ctaVntez: "vntez",
       ctaBlog: "Blog",
       credentialsBtn: "Chứng chỉ",
@@ -208,6 +208,7 @@ export const translations = {
       close: "Đóng",
       verified: "Đã xác thực",
       idLabel: "ID",
+      escHint: "Bấm ESC hoặc nhấn ra ngoài để đóng",
     },
     footer: {
       quote: "Tạo nên bằng sự kiên định và tình yêu với kỹ thuật.",
@@ -254,6 +255,7 @@ export const translations = {
       close: "Close",
       verified: "Verified",
       idLabel: "ID",
+      escHint: "Press ESC or click outside to close",
     },
     footer: {
       quote: "Built with persistence and engineering precision.",
@@ -300,6 +302,7 @@ export const translations = {
       close: "关闭",
       verified: "已验证",
       idLabel: "编号",
+      escHint: "按 ESC 或点击外部以关闭",
     },
     footer: {
       quote: "始于坚持，成于技术。",
@@ -346,6 +349,7 @@ export const translations = {
       close: "閉じる",
       verified: "認証済み",
       idLabel: "ID",
+      escHint: "ESCキーまたは外側クリックで閉じる",
     },
     footer: {
       quote: "技術への情熱と弛まぬ探求心によって構築。",

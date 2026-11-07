@@ -4,7 +4,7 @@ import {
   ShieldCheck, X, Award, CheckCircle2,
   Cpu, Workflow, Check, Copy, MapPin
 } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaTelegramPlane, FaAws } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaFacebook, FaTelegramPlane, FaAws } from 'react-icons/fa';
 import { Mail } from 'lucide-react';
 import { 
   SiFlutter, SiTypescript, SiCloudflare, SiNextdotjs,
@@ -259,6 +259,16 @@ export default function Portfolio() {
             title="LinkedIn"
           >
             <FaLinkedin size={16} />
+          </a>
+
+          <a 
+            href="https://facebook.com/hnamhocit" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+            title="Facebook"
+          >
+            <FaFacebook size={16} />
           </a>
 
           <a 
